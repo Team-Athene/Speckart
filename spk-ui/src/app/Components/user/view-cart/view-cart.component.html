@@ -1,0 +1,79 @@
+<div *ngIf="flag == 1">
+  <div class="container border border-dark" style="margin-top: 40px;">
+    <div class="row nav">
+      <div class="">
+        <h4>Cart<span class="glyph fas fa-shopping-cart"></span></h4>
+      </div>
+    </div>
+    <div class="container">
+      <table class="table border border-dark" style="margin-top: 30px;margin-bottom: 30px;">
+        <thead class="thead" style="background-color: #8b8e91;">
+          <tr>
+            <th>Item No</th>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items.productData; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{item.itemName}}</td>
+            <td>{{item.itemPrice}} SPC</td>
+            <td><button class="btn glyph1 fas fa-minus" (click)="subCount(i)" style="height: 20px;" name="button">
+              </button>
+              <input style="width: 25px;height: 20px;font-size: 14px" type="text" name="name" value="{{item.itemCount}}"
+                disabled>
+              <button class="btn glyph1 fas fa-plus" (click)="addCount(i)" style="height: 20px;" type="button"
+                name="button">
+              </button></td>
+            <td>{{item.itemTotal}} SPC</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="container border border-dark" style="margin-top: 10px;width: 46%;">
+    <div class="row nav">
+      <div class=" ">
+        <h4>Cart Total<span class="glyph fas fa-coins"></span></h4>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 20px;margin-bottom: 20px;">
+      <div class="container" style="margin-top: 20px;margin-bottom: 20px;">
+        <div class=" nav1">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>
+                  <h5>Total Amount :</h5>
+                </th>
+                <th>
+                  <h5>{{items.cartTotal}} SPC</h5>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="center" style="margin-top: 20px;margin-bottom: 20px;">
+          <button class="btn btn1" (click)="payment()">
+            <h5>Proceed Payment</h5>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="flag == 0">
+  <div class="container border border-dark" style="margin-top: 100px;">
+    <div class="row nav">
+      <div class="">
+        <h4>Cart<span class="glyph fas fa-shopping-cart"></span></h4>
+      </div>
+    </div>
+    <div class="container ">
+      <br>
+      <h3>No Item in the Cart!!!</h3>
+    </div>
+  </div>

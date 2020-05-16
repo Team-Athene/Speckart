@@ -1,0 +1,28 @@
+version: '2.0'
+
+services:
+  
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27017:27017'
+
+  spk-db:
+    container_name: spk-db
+    restart: always
+    build:
+      context: .
+      dockerfile: ./spk-db/Dockerfile
+    expose:
+      - 3000
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    volumes:
+      - '.:/project/spk'
+
+  

@@ -1,0 +1,94 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #cac2c2;
+  }
+  
+  /* Float four columns side by side */
+  .column {
+    float: left;
+    width: 33.33%;
+    padding: 0 10px;
+  }
+  
+  /* Remove extra left and right margins, due to padding */
+  .row {margin: -5px -5px;}
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Responsive columns */
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+  /* Style the counter cards */
+  .card {
+    height: 500px;;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #cac2c2;
+  }
+
+  .cardde{
+    padding: 40px 0px;
+    // display: flex;
+    // justify-content: center;
+  }
+  .image{
+    width:150px;
+    height:150px;
+  }
+
+  .center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  .text{
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-family: Courier New-bold;
+  }
+  .countStyleaqu{
+    background:  rgb(2, 10, 116);
+  }
+  .card-header {
+    padding: .75rem 1.25rem;
+    margin: 10px;
+    background-color: rgb(209, 205, 205);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+.glyph{
+    font-size: small;
+    margin-left: 10px
+}
+.btn1{
+    margin: 50px;
+    background-color: rgb(206, 201, 201);
+
+    color: rgb(0, 0, 0);
+    font-size: 18px;
+    text-align: center;
+font-family: Courier New-bold;
+    width: 200px
+}
+
+
+input[type="text"]::placeholder {  
+      
+    /* Firefox, Chrome, Opera */ 
+    text-align: center; 
+}

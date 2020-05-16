@@ -1,0 +1,41 @@
+<div class="page">
+  <div class="form-v5-content">
+    <form class="form-detail" [formGroup]="productForm">
+      <h2>Enter the Product Details</h2>
+      <div class="form-row">
+        <label for="name">Product Name</label>
+        <input type="text" name="name" id="name" formControlName="itemName" class="input-text"
+          placeholder="Product Name">
+      </div>
+      <div class="form-row">
+        <label for="type">Product Type</label>
+        <input type="text" name="type" id="type" formControlName="itemType" class="input-text"
+          placeholder="Product Type">
+      </div>
+      <div class="form-row">
+        <label for="price">Product Price</label>
+        <input type="number" name="price" id="price" formControlName="itemPrice" class="input-text"
+          placeholder="Product Price">
+      </div>
+      <div class="form-row">
+        <label for="details">Details</label>
+        <input type="textarea" name="details" id="details" formControlName="itemDetails" class="input-text"
+          placeholder="Product Details">
+      </div>
+
+      <div *ngFor="let img of uploaded let i = index">
+        <p for="details">{{img.name}}
+          <span (click)="removeImg(i)" class=" a fa fa-3x fa-trash-o"> </span>
+        </p>
+      </div>
+
+      <div class="form-row">
+        <input (change)="onFileChanged($event)" accept="image/*" type="file" enctype="multipart/form-data"
+          class="input-text" id="image" name="image">
+      </div>
+      <div class="form-row-last">
+        <button name="addProduct" (click)="addProduct($event)" class="register"> Add Product</button>
+      </div>
+    </form>
+  </div>
+</div>

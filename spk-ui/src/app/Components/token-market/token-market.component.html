@@ -1,0 +1,84 @@
+<div class="container" style="margin-top: 100px;"><br>
+    <div class="row">
+        <div class="column">
+            <div class="card text-center countStyleaqu">
+                <div class="text card-header" style="font-size: 18px;">
+                    <dt>BUY TOKEN</dt>
+                </div>
+                <br><br>
+                <div class="col text-center">
+                    <input type="number" min="0.01" pattern="^[0-9]" step="1" class="form-control form-control center"
+                        style="margin: 20px;width: 250px;" placeholder="Enter the Token Count to Buy"
+                        [(ngModel)]="buyCount">
+                    <br>
+                    <dt class="text" style="color: white; font-size: 20px;">{{buyCount*specToken.specTokenPrice}} ETH
+                    </dt>
+                    <button type="button" (click)="buy()" class="btn btn1">Buy Tokens <span
+                            class="glyph fas fa-coins"></span></button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="column">
+            <div class="card text-center countStyleaqu">
+                <div class="text card-header" style="font-size: 18px;">
+                    <dt>SELL TOKEN</dt>
+                </div>
+                <br><br>
+                <div class="col text-center">
+                    <input type="number" min="0.01" pattern="^[0-9]" step="1" class="form-control form-control center"
+                        style="margin: 20px;width: 250px;" placeholder="Enter the Token Count to Sell"
+                        [(ngModel)]="sellCount">
+                    <br>
+                    <dt class="text" style="color: white; font-size: 20px;"> {{sellCount*specToken.specTokenPrice}} ETH
+                    </dt>
+                    <button type="button" (click)="sell()" class="btn btn1">Sell Tokens <span
+                            class="glyph fas fa-coins"></span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card text-center countStyleaqu">
+                <div class="text card-header" style="font-size: 18px;">
+                    <dt>{{specToken.tokenName}}</dt>
+                </div>
+                <br>
+                <div class="col text-center">
+                    <h5>
+                        <p class="text" style="color: white; font-size: 20px;">Token Price :
+                            {{specToken.specTokenPrice}} ETH</p>
+                    </h5>
+                    <h5>
+                        <p class="text" style="color: white; font-size: 20px;">Total Supply :
+                            {{specToken.tokenTotalSupply}} {{specToken.tokenSymbol}}</p>
+                    </h5>
+
+                    <h5>
+                        <p class="text" style="color: white; font-size: 20px;">Ether Weight : {{specToken.etherBal}} ETH
+                        </p>
+                    </h5>
+                    <h5>
+                        <p class="text" style="color: white; font-size: 20px;">Token Weight : {{specToken.tokenBalance}}
+                            {{specToken.tokenSymbol}}
+                        </p>
+                    </h5>
+                    <br><br>
+                    <div class="text card-header" style="font-size: 18px;">
+                        <dt>USER DETAILS</dt>
+                    </div><br>
+                    <h5>
+                        <p class="text" style="color: white; font-size: 20px;">Token Balance : {{userBalance.tokenBal}}
+                            {{specToken.tokenSymbol}}</p>
+                    </h5>
+
+                    <h5>
+                        <p class="text" style="color: white; font-size: 20px;">Ether Balance : {{userBalance.etherBal}}
+                            ETH</p>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

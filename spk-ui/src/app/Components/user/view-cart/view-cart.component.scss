@@ -1,0 +1,83 @@
+
+.nav{
+    background-color: #020a74;
+    
+    height: 50px;
+  }
+  .nav1{
+    background-color: #4e4e52;
+    
+    // height: auto;
+  margin:15px;
+    height: 45px;
+  }
+  .block{
+    background-color: #bbbbc4;
+    color:black;
+    width: 45%;
+    margin:15px;
+  }
+  .block1{
+    width: 45%;
+      height: auto;
+      margin-left: 15px;
+      margin-right: 15px;
+  }
+  .center{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+
+    width: 50%;
+  }
+  .glyph{
+    font-size: 20px;
+    margin-left: 15px
+}
+.glyph1{
+    font-size: 10px;
+}
+  h4{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-family: Courier New-bold;
+    margin-left:40px;
+    margin-top: 10px;
+  }
+  h5{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-family: Courier New-bold;
+    margin: auto;
+  }
+  .btn1{
+    margin: 5px;
+    background-color: #020a74;
+  
+    color: rgb(0, 0, 0);
+    font-size: 14px;
+    text-align: center;
+  font-family: Courier New-bold;
+    width: 200px;
+    height:40px;
+  }
+  .minus-btn img {
+    margin-bottom: 3px;
+  }
+  .plus-btn img {
+    margin-top: 2px;
+  }
+  tr{
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+
+  }
+  td{
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+  }

@@ -1,0 +1,114 @@
+<nav id="navbar" class="push better-nav fixed-top">
+  <div class="container">
+    <div class="head">
+      <a routerLink="/" class="brand">
+        <div class="logo">
+          <img class="image" src="https://66.media.tumblr.com/avatar_2dcdc7cf5b47_64.png"
+            data2x="https://66.media.tumblr.com/avatar_2dcdc7cf5b47_128.png" alt="Branding" />
+        </div>
+        <div class="title">
+          <h3>SpecKart</h3>
+        </div>
+      </a>
+    </div>
+    <div class="body">
+      <ul id="user" *ngIf="UserType === 1">
+        <li [routerLink]="['/market']" class="home"><a>Home</a></li>
+        <li class="blog  dropdown"><a> Username <i class="fa fa-lg fa-caret-down"></i></a>
+          <ul>
+            <li [routerLink]="['/market/summary']" [state]="{isHome: false}"><a>Summary <i class="fa fa-lg fa-user"></i>
+              </a>
+            </li>
+            <li [routerLink]="['/market/cart']" [state]="{isHome: false}"><a>View Cart <i
+                  class="fa fa-lg fa-shopping-cart"></i></a></li>
+            <li (click)="logOut()"><a>Logout <i class="fa fa-lg fa-lock"></i></a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul id="admin" *ngIf="UserType === 2">
+        <li [routerLink]="['/admin']" class="home"><a>Home</a></li>
+        <li [routerLink]="['/admin/add-product']" class="home"><a>Add Products</a></li>
+        <li [routerLink]="['/admin/view-products']" class="home"><a>View Products</a></li>
+
+        <li class="blog  dropdown"><a> Order Details <i class="fa fa-lg fa-caret-down"></i></a>
+          <ul>
+            <li [routerLink]="['/admin/view-orders']" [state]="{isHome: false}"><a>View Order <i
+                  class="fa fa-lg fa-shopping-cart"></i></a></li>
+            <li [routerLink]="['/admin/order-details']" [state]="{isHome: false}"><a>Order History <i
+                  class="fa fa-lg fa-user"></i>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li (click)="logOut()" class="home"><a>Log Out</a></li>
+      </ul>
+      <ul id="market" *ngIf="UserType === 3">
+        <li routerLink="/" class="home"><a>Back</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div style="padding: 60px;">
+  <ng-content></ng-content>
+</div>
+
+<script>
+  /*
+  * BetterNav - Bootstrap Navbar + bigSlide (for mobile)
+  * ATTENTION: CSS does not use browser prefixes, modify if you decide to use in production!
+  */
+  $(document).ready(function () {
+    /* Navbar specifics */
+    $('.better-nav').each(function () {
+      /* Set max width of fixed navbar equal to parent element (ignore this it's project specific) */
+      $parentMaxWidth = $('dummy').css('max-width');
+      $('.container', this).css('max-width', $parentMaxWidth);
+      /* Add body padding if navbar is fixed on top or bottom */
+      if ($('.better-nav').hasClass('fixed-top')) {
+        var $navHeight = $(this).height();
+        $('body').css('padding-top', $navHeight + 'px');
+      } else if ($('.better-nav').hasClass('fixed-bottom')) {
+        var $navHeight = $(this).height();
+        $('body').css('padding-bottom', $navHeight + 'px');
+      }
+    });
+    /* Clone main navbar for mobile */
+    $('.better-nav .toggle').on('click touchstart', function () {
+      $('#navbar-slide').empty();
+      $(this).siblings('.body').clone().appendTo("#navbar-slide");
+      betterNavPillsInit('#navbar-slide li.dropdown .selector');
+    });
+    /* Navbar pills dropdown trigger */
+    function betterNavPillsInit($action) {
+      $($action).on('click tap', function () {
+        if ($(this).parent('li.dropdown').hasClass('opened')) {
+          $(this).parent('li.dropdown').removeClass('opened');
+        } else {
+          $(this).parent('li.dropdown').addClass('opened');
+        }
+      });
+    }
+    betterNavPillsInit('li.dropdown .selector');
+    /* Initialize bigSlide */
+    $('.better-nav .toggle').bigSlide({
+      'menu': '#navbar-slide',
+      'push': 'body',
+      'side': 'left',
+      'menuWidth': '80%',
+      'speed': 300,
+      'easyClose': true,
+      afterOpen: function () {
+        $('body').css('overflow', 'hidden');
+        $('#underlay').addClass('active');
+      },
+      afterClose: function () {
+        setTimeout(function () {
+          $('body').css('overflow', 'visible');
+        }, 300);
+        $('#underlay').removeClass('active');
+      }
+    });
+  });
+</script>

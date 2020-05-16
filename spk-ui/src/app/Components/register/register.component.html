@@ -1,0 +1,45 @@
+<body class="form-v5">
+  <div class="page-content">
+    <div class="form-v5-content">
+      <form class="form-detail" (ngSubmit)="onSubmit(myForm)" #myForm="ngForm">
+        <h2>Register Account Form</h2>
+        <div class="form-row">
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" class="input-text" placeholder="Your Name" required ngModel>
+          <!-- <i class="fas fa-user"></i> -->
+        </div>
+        <div class="form-row">
+          <label for="contact">Contact</label>
+          <input type="number" name="contact" id="contact" class="input-text" placeholder="Your Contact" required
+            ngModel>
+          <!-- <i class="fas fa-user"></i> -->
+        </div>
+        <div class="form-row">
+          <label for="gender">Gender</label>
+          <select class="input-text form-row form-control" name="gender" style="width: 95%;" ngModel>
+            <option selected>Choose Your Gender</option>
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+            <option value="3">Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="your-email">Your Email</label>
+          <input type="text" name="mail" id="mail" class="input-text" placeholder="Your Email" required ngModel
+            pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+          <!-- <i class="fas fa-envelope"></i> -->
+        </div>
+        <div class="form-row">
+          <label for="address">Address</label>
+          <input type="textarea" name="address" id="address" class="input-text" placeholder="Your Address" required
+            ngModel>
+          <!-- <i class="fas fa-lock"></i> -->
+        </div>
+        <div class="form-row-last">
+          <input type="submit" name="register" class="register" value="Register">
+          <input style="margin-left: 5px;" type="button" routerLink="/" class="register" value="Home">
+        </div>
+      </form>
+    </div>
+  </div>
+</body>

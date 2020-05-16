@@ -1,0 +1,111 @@
+.thread{
+    color: rgb(253, 253, 255);
+    background-color: rgb(5, 5, 141);
+}
+.btn1{
+    margin-right:20px;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.nav{
+  background-color: #020a74;
+  
+  height: 70px;
+}
+.nav1{
+  background-color: #bbbbc4d2;
+  
+  // height: auto;
+
+  height: auto;
+}
+.block{
+  background-color: #bbbbc4;
+  color:black;
+  width: 45%;
+  margin:15px;
+}
+.block1{
+  width: 45%;
+    height: auto;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.center{
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+h4{
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-family: Courier New-bold;
+  margin:3px;
+}
+h5{
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-family: Courier New-bold;
+  margin:3px;
+  display: inline-block; 
+  width:25%;
+}
+
+
+.h3{
+  margin:5px;
+  color: white;
+  font-size: 30px;
+  text-align: center;
+  font-family: Courier New-bold;
+}
+.txt {
+  margin-top: 0.5%;
+  margin-bottom: 0.5%;
+  color: white;
+  font-size: 30px;
+  text-align: center;
+  font-family: Courier New-bold;
+}
+.name {
+  font-size: 16px;
+  text-align: center;
+  font-family: Courier New-bold;
+}
+
+.glyph{
+  font-size: small;
+  margin-left: 10px
+}
+
+.box {
+  // position: absolute;
+  margin:10px;
+  // width: 30%;
+  border: 3px solid rgb(2, 10, 116);
+  padding: 10px;
+  text-align: center;
+}
+.nav2{
+  width: 100%;
+  margin-bottom: 20px;
+  height: 60px;
+  background-color: rgb(2, 10, 116);
+  
+}
+.btn2{
+  margin: 5px;
+  background-color: #020a74;
+
+  color: rgb(0, 0, 0);
+  font-size: 14px;
+  text-align: center;
+font-family: Courier New-bold;
+  width: 200px;
+  height:40px;
+}
+
+.product_view .modal-dialog{max-width: 1000px; width: 100%;}
+.space-ten{padding: 10px 0;}

@@ -1,0 +1,160 @@
+<div class="container cardde center" style="width: 1000px;">
+  <div class="card car text-center countStyleaqu">
+
+    <!-- Heading -->
+    <div class="card-body text">
+      <h4 class="card-title">Balance</h4>
+      <h4 class="card-subtitle">SPEC</h4>
+    </div>
+
+    <!-- Text Content -->
+    <div class="card-body text">
+      <h4 class="card-text "> 25 SPEC</h4>
+    </div>
+  </div>
+  <div class="card car text-center countStyleaqu">
+
+    <!-- Heading -->
+    <div class="card-body text">
+      <h4 class="card-title">Balance</h4>
+      <h4 class="card-subtitle">ETHER</h4>
+    </div>
+
+
+    <!-- Text Content -->
+    <div class="card-body text">
+      <h4 class="card-text "> 25 ETH</h4>
+    </div>
+  </div>
+  <div class="card car text-center countStyleaqu">
+
+    <!-- Heading -->
+    <div class="card-body text">
+      <h4 class="card-title">Balance</h4>
+      <h4 class="card-subtitle">ETHER</h4>
+    </div>
+
+
+    <!-- Text Content -->
+    <div class="card-body text">
+      <h4 class="card-text "> 25 ETH</h4>
+    </div>
+  </div>
+  <div class="card car text-center countStyleaqu">
+
+    <!-- Heading -->
+    <div class="card-body text">
+      <h4 class="card-title">Balance</h4>
+      <h4 class="card-subtitle">ETHER</h4>
+    </div>
+
+
+    <!-- Text Content -->
+    <div class="card-body text">
+      <h4 class="card-text "> 25 ETH</h4>
+    </div>
+  </div>
+</div>
+<div class="nav">
+  <div class="txt center">PRODUCTS</div>
+</div>
+<div class="row">
+  <div class="column" *ngFor="let product of products">
+    <div class="box">
+      <div id="myCarousel{{product.imageId}}" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          <br>
+          <!-- The slideshow -->
+          <div class="carousel-inner">
+            <div class="carousel-item" *ngFor="let img of product.imageData let i = index"
+              [ngClass]="{'active' : i === 0}">
+              <img src="{{imgurl + img.path}}" alt="1" class="center" style="width:60%;">
+            </div>
+          </div>
+          <!-- Left and right controls -->
+          <a class="carousel-control-prev" href="#myCarousel{{product.imageId}}" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </a>
+          <a class="carousel-control-next" href="#myCarousel{{product.imageId}}" data-slide="next">
+            <span class="carousel-control-next-icon" style="color: gray;"></span>
+          </a>
+        </div>
+      </div>
+      <br><br>
+      <div class="name font-weight-bold"> Name : {{product.itemName}}<br><br>
+        <h3 class="font-weight-bold">{{product.itemPrice}} SPC</h3>
+      </div>
+      <div class="text-center">
+        <button type="button" class="btn btn1" data-toggle="modal" (click)="detailView(product)"
+          data-target="#product_view">View Details <span class="glyph fas fa-list"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade product_view" id="product_view">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <a href="#" data-dismiss="modal" (click)="clearProduct()" class="class pull-right"><span
+              class="fa fa-remove"></span></a>
+          <h4 class="modal-title">
+            <dt>Product Details</dt>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6 product_img">
+              <br><br>
+              <div id="myCarouselMod" class="carousel slide" data-ride="carousel">
+
+                <!-- Wrapper for slides -->
+                <div id="myCarouselMod" class="carousel slide" data-ride="carousel">
+                  <br>
+
+                  <!-- The slideshow -->
+                  <div class="carousel-inner">
+                    <div class="carousel-item" *ngFor="let img of productDetail.imageData let i = index"
+                      [ngClass]="{'active' : i === 0}">
+                      <img src="{{imgurl + img.path}}" alt="1" class="center" style="width:60%;">
+                    </div>
+                  </div>
+
+                  <!-- Left and right controls -->
+                  <a class="carousel-control-prev" href="#myCarouselMod" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                  </a>
+                  <a class="carousel-control-next" href="#myCarouselMod" data-slide="next">
+                    <span class="carousel-control-next-icon" style="color: gray;"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 product_content">
+              <h6>
+                <dt>Product Id: </dt><span>{{productDetail.itemId}}</span>
+              </h6><br>
+              <h6>
+                <dt>Product Type: </dt><span>{{productDetail.itemType}}</span>
+              </h6><br>
+              <h6>
+                <dt>Product Name: </dt><span>{{productDetail.itemName}}</span>
+              </h6>
+              <br>
+              <h6>
+                <dt>Product Details: </dt><span>{{productDetail.itemDetails}}</span>
+              </h6><br>
+              <h3 class="cost"><span class="fa fa-coins"></span> {{productDetail.itemPrice}} SPC </h3>
+
+              <div class="space-ten"></div>
+              <!-- <div class="btn-ground">
+                <button type="button" class="btn btn1"><span class="fa fa-shopping-cart"></span> Add To Cart</button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

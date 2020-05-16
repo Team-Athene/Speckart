@@ -1,0 +1,145 @@
+<div class="container border border-dark" style="margin-top: 100px;">
+  <div class="row nav">
+    <div class="column block center">
+      <h4>Balance : {{userBalance.tokenBal}} SPC</h4>
+    </div>
+    <div class="column  block center">
+      <h4>Balance : {{userBalance.etherBal}} ETH</h4>
+    </div>
+  </div>
+  <div class="row nav1">
+    <div class="column block1 center " style="margin-top: 15px;height:auto;background-color:#020a74;">
+      <h4 style="color:white">User Details</h4>
+    </div>
+
+    <div class="column block1 center " style="margin-top: 15px;background-color:#020a74;">
+      <h4 style="color:white">Order Details</h4>
+    </div>
+  </div>
+  <div class="row nav1">
+    <div class="column block1 center " style="margin-bottom: 15px;background-color:white;">
+      <br>
+      <p><span>
+          <h5 style="color:black">Name</h5>
+        </span><span>
+          <h5 style="color:black">:</h5>
+        </span><span>
+          <h5 style="color:black"> {{name}}</h5>
+        </span></p>
+      <p><span>
+          <h5 style="color:black">Contact</h5>
+        </span><span>
+          <h5 style="color:black">:</h5>
+        </span><span>
+          <h5 style="color:black">{{contact}}</h5>
+        </span></p>
+      <p><span>
+          <h5 style="color:black">Gender</h5>
+        </span><span>
+          <h5 style="color:black">:</h5>
+        </span><span>
+          <h5 style="color:black">{{gender}}</h5>
+        </span></p>
+      <p><span>
+          <h5 style="color:black">Email</h5>
+        </span><span>
+          <h5 style="color:black">: </h5>
+        </span><span>
+          <h5 style="color:black">{{email}}</h5>
+        </span></p>
+      <p><span>
+          <h5 style="color:black">Address</h5>
+        </span><span>
+          <h5 style="color:black">: </h5>
+        </span><span>
+          <h5 style="color:black">{{address}}</h5>
+        </span></p>
+    </div>
+    <div class="column block1 center " style="margin-bottom: 15px;background-color:white;"><br>
+      <div *ngFor="let order of orderData; let i=index">
+        <button type="button" class="btn btn1" *ngIf="i>0" (click)="orderView(i)" data-toggle="modal"
+          data-target="#order_view">Order {{i}} </button>
+      </div>
+      <br>
+    </div>
+  </div>
+  <div class="modal fade product_view" id="order_view">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <a href="#" data-dismiss="modal" class="class pull-right"><span
+              class="fa fa-remove"></span></a>
+          <h4 class="modal-title">
+            <dt>Order Details</dt>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="container border border-dark" style="margin-top: 40px;">
+            <div class="row nav2">
+              <div class="column">
+                <h4 style="color: white;margin: 15px;">Order<span class="glyph fas fa-shopping-cart"></span></h4>
+              </div>
+              <div class="column" style="text-align: right;width:70%">
+                <h4 style="color: white;margin: 15px;">{{currentOrder.timeStamp}}</h4>
+              </div>
+            </div>
+            <div class="container">
+              <table class="table border border-dark" style="margin-top: 30px;margin-bottom: 30px;">
+                <thead class="thead" style="background-color: #8b8e91;">
+                  <tr>
+                    <th>Item No</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of currentOrder.orderDetails let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.itemName}}</td>
+                    <td>{{item.itemPrice}} SPC</td>
+                    <td>
+                      <input style="width: 25px;height: 20px;font-size: 14px" type="text" name="name"
+                        value="{{item.itemCount}}" disabled>
+                    </td>
+                    <td>{{item.itemTotal}} SPC</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="container border border-dark" style="margin-top: 10px;width: 46%;">
+            <div class="row nav2">
+              <div class=" ">
+                <h4 style="color: white;margin: 15px;">Cart Total<span
+                    class="glyph fas fa-coins"></span>{{currentOrder.totalPrice}} SPC</h4>
+              </div>
+            </div>
+            <div *ngIf="status == 0" class="container" style="margin-top: 20px;margin-bottom: 20px;">
+              <button data-dismiss="modal" class="btn btn2 center">
+                <h5 style="color: white; margin: auto;" (click)="cancelOrder(currentOrder.orderId)">Cancel</h5>
+              </button>
+            </div>
+            <div *ngIf="status != 0" class="container" style="margin-top: 20px;margin-bottom: 20px;">
+              <div class=" nav1">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <th>
+                        <h6>Order Status :</h6>
+                      </th>
+                      <th>
+                        <h6>{{currentOrder.status}} </h6>
+                      </th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
