@@ -17,6 +17,7 @@ import { LoginGuard } from './Guards/Login/login.guard'
 import { ViewOrdersComponent } from './Components/admin/view-orders/view-orders.component'
 import { ShopComponent } from './Components/user/shop/shop.component'
 import { TokenMarketComponent_User } from './Components/user/token-market-user/token-market.component'
+import { UserDetailsComponent } from './Components/user/user-details/user-details.component'
 
 
 const routes: Routes = [
@@ -52,6 +53,10 @@ const routes: Routes = [
       {
         path: 'exchange',
         component: TokenMarketComponent_User
+      },
+      {
+        path: 'userDetails',
+        component: UserDetailsComponent
       }
     ]
   },

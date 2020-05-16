@@ -22,7 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HttpClientModule } from '@angular/common/http';
 import { ViewOrdersComponent } from './Components/admin/view-orders/view-orders.component';
 import { ShopComponent } from './Components/user/shop/shop.component'
-import { TokenMarketComponent_User } from './Components/user/token-market-user/token-market.component'
+import { TokenMarketComponent_User } from './Components/user/token-market-user/token-market.component';
+import { UserDetailsComponent } from './Components/user/user-details/user-details.component'
 @NgModule( {
   declarations: [
     AppComponent,
@@ -42,7 +43,8 @@ import { TokenMarketComponent_User } from './Components/user/token-market-user/t
     ViewCartComponent,
     MarketRouterComponent,
     ViewOrdersComponent,
-    ShopComponent
+    ShopComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,

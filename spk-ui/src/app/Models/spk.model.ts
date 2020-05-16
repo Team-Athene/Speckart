@@ -32,6 +32,8 @@ export interface CartProduct {
   itemCount: number
   itemPrice: any
   itemTotal: any
+  imageId: any
+  imageData: ImageDataModel[]
 }
 export interface Cart {
   productData: CartProduct[]

@@ -64,13 +64,18 @@ export class ShopComponent implements OnInit {
       itemName: null,
       itemCount: null,
       itemPrice: null,
-      itemTotal: null
+      itemTotal: null,
+      imageId: null,
+      imageData: []
     }
     itemCart.itemId = product.itemId
     itemCart.itemName = product.itemName
     itemCart.itemCount++
     itemCart.itemPrice = product.itemPrice
     itemCart.itemTotal = itemCart.itemPrice * itemCart.itemCount
+    itemCart.imageId = product.imageId
+    itemCart.imageData = product.imageData
+    console.log("TCL: ShopComponent -> addToCart -> itemCart", itemCart)
 
     const len = this.cart.productData.length
 
@@ -86,6 +91,7 @@ export class ShopComponent implements OnInit {
       this.cart.productData.push(itemCart)
     }
     this.cart.cartTotal = this.cart.cartTotal + parseInt(product.itemPrice, 10)
+    alert('Your item is added to the cart')
     sessionStorage.setItem('cart', JSON.stringify(this.cart))
   }
   clearProduct = async () => {

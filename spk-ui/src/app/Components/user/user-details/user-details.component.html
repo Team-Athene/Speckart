@@ -52,14 +52,14 @@
                 </li>
 
                 <li [routerLink]="['/market/shop']"><a>Shop</a></li>
-                <li [routerLink]="['/market/exchange']" class="active" ><a>Token Market</a></li>
+                <li [routerLink]="['/market/exchange']"><a>Token Market</a></li>
                 <li  [routerLink]="['/market/chatRoom']"><a href="#">Chat Room</a></li>
                 <li [routerLink]="['/market/summary']"><a>My Orders</a></li>
               </ul>
             </nav>
           </div>
           <div class="icons">
-            <a [routerLink]="['/market/userDetails']" class="icons-btn d-inline-block"><span class="fa fa-user"></span></a>
+            <a [routerLink]="['/market/userDetails']" class="icons-btn d-inline-block" style="color: red;"><span class="fa fa-user"></span></a>
             <a [routerLink]="['/market/cart']" class="icons-btn d-inline-block bag">
               <span ><i class="fa fa-shopping-cart"></i></span>
             </a>
@@ -74,7 +74,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
-              class="text-black">Token Market</strong></div>
+              class="text-black">User Details</strong></div>
         </div>
       </div>
     </div>
@@ -83,98 +83,40 @@
     <div class="site-section">
       <div class="container">
         <div class="row ml-auto">
-          <div class="col-md-6 p-4 border mb-3" align="center">
-            <span class="d-block text-primary h4 text-uppercase">Token Details</span><div class="col text-center">
-              <br><h6>
-                <p class="text">Token Name :
-                    {{specToken.tokenName}}</p>
-            </h6>
-            <h6>
-                  <p class="text">Token Price :
-                      {{specToken.specTokenPrice}} ETH</p>
-              </h6>
-              <h6>
-                  <p class="text" >Total Supply :
-                      {{specToken.tokenTotalSupply}} {{specToken.tokenSymbol}}</p>
-              </h6>
-
-              <h6>
-                  <p class="text">Ether Weight : {{specToken.etherBal}} ETH
-                  </p>
-              </h6>
-              <h6>
-                  <p class="text" >Token Weight : {{specToken.tokenBalance}}
-                      {{specToken.tokenSymbol}}
-                  </p>
-              </h6>
-          </div>
-          </div>
-          <div class="col-md-6 p-4 border mb-3" align="center">
+          <div class="col-md-12 p-4 border mb-3" align="center">
             <span class="d-block text-primary h4 text-uppercase">USER DETAILS</span>
             <br> <br>
             <h6>
               <p class="text">Token Balance : {{userBalance.tokenBal}}
-                  {{specToken.tokenSymbol}}</p>
+                  SPEC</p>
           </h6>
-
           <h6>
               <p class="text">Ether Balance : {{userBalance.etherBal}}
                   ETH</p>
           </h6>
+          <h6>
+              <p class="text">Name : {{name}}
+                  </p>
+          </h6>
+          <h6>
+              <p class="text">Contact : {{contact}}
+                  </p>
+          </h6>
+          <h6>
+              <p class="text">Gender : {{gender}}
+                  </p>
+          </h6>
+          <h6>
+              <p class="text">Email : {{email}}
+                  </p>
+          </h6>
+          <h6>
+              <p class="text">Address : {{address}}
+                  </p>
+          </h6>
+
         </div>
         </div>
-        <div class="row ml-auto" align="center">
-          <div class="col-md-6 p-4 border mb-3" align="center">
-            <span class="d-block text-primary h4 text-uppercase">BUY TOKEN</span>
-            <br>
-            <div class="form-group row">
-              <div class="col-md-12">
-                <label for="c_subject" class="text-black">Token Count </label>
-                <input type="number" min="0.01" pattern="^[0-9]" step="1" class="form-control form-control center"
-                  style="margin: 20px;width: 250px;" placeholder="Enter the Token Count to Buy" [(ngModel)]="buyCount">
-              </div>
-            </div>
-            <!-- <div class="form-group row"> -->
-              <dt class="text" style="font-size: 20px;">{{buyCount*specToken.specTokenPrice}} ETH
-              </dt>
-            <!-- </div> -->
-
-            <br>
-            <div class="form-group row">
-              <div class="col-lg-12">
-                <button type="button" (click)="buy()" class="btn btn-primary btn-lg btn-block">Buy Tokens <span
-                    class="glyph fas fa-coins"></span></button>
-
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 p-4 border mb-3" align="center">
-            <span class="d-block text-primary h4 text-uppercase">SELL TOKEN</span>
-            <br>
-            <div class="form-group row">
-              <div class="col-md-12">
-                <label for="c_subject" class="text-black">Token Count </label>
-                <input type="number" min="0.01" pattern="^[0-9]" step="1" class="form-control form-control center"
-                        style="margin: 20px;width: 250px;" placeholder="Enter the Token Count to Sell"
-                        [(ngModel)]="sellCount">
-              </div>
-            </div>
-            <!-- <div class="form-group row"> -->
-                    <dt class="text" style="font-size: 20px;"> {{sellCount*specToken.specTokenPrice}} ETH
-              </dt>
-            <!-- </div> -->
-            <br>
-
-            <div class="form-group row">
-              <div class="col-lg-12">
-                <button type="button" (click)="sell()" class="btn btn-primary btn-lg btn-block">Sell Tokens <span
-                  class="glyph fas fa-coins"></span></button>
-       </div>
-            </div>
-          </div>
-      </div>
-
-
     </div>
   </div>
 

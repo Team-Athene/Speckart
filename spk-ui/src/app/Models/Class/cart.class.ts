@@ -6,6 +6,8 @@ export class CartProductClass implements CartProduct {
   itemCount: number
   itemPrice: any
   itemTotal: any
+  imageId: any
+  imageData: ImageDataModel[]
 }
 export class OrderModelClass implements OrderModel {
   orderId: any
