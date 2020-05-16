@@ -6,33 +6,56 @@ mongoose
 	.connect(mongoUrl, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
-		useFindAndModify: false
+		useFindAndModify: false,
 	})
 	.then(() => console.log('MongoDB Connected'))
-	.catch(err => console.log(err))
+	.catch((err) => console.log(err))
 
 const Schema = mongoose.Schema
 const productSchema = new Schema({
-	productId: String,
 	file: [
 		{
 			_id: {
-				required: false
+				required: false,
 			},
 			originalname: {
 				type: String,
-				required: true
+				required: true,
 			},
 			filename: {
 				type: String,
-				required: true
+				required: true,
 			},
 			path: {
 				type: String,
-				required: true
-			}
-		}
-	]
+				required: true,
+			},
+		},
+	],
+	itemName: {
+		type: String,
+		required: true,
+	},
+	itemType: {
+		type: String,
+		required: true,
+	},
+	itemPrice: {
+		type: String,
+		required: true,
+	},
+	itemDetails: {
+		type: String,
+		required: true,
+	},
+	itemBrand: {
+		type: String,
+		required: true,
+	},
+	itemColor: {
+		type: String,
+		required: true,
+	},
 })
 const ProductData = mongoose.model('ProductData', productSchema)
 module.exports = ProductData

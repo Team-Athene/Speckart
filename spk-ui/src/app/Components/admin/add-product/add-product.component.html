@@ -8,9 +8,29 @@
           placeholder="Product Name">
       </div>
       <div class="form-row">
+        <label for="name">Product Brand</label>
+        <input type="text" name="itemBrand" id="itemBrand" formControlName="itemBrand" class="input-text"
+          placeholder="Product Brand">
+      </div>
+      <div class="form-row">
         <label for="type">Product Type</label>
-        <input type="text" name="type" id="type" formControlName="itemType" class="input-text"
-          placeholder="Product Type">
+        <select formControlName="itemType" class="input-text form-row form-control" name="itemType" style="width: 95%;"
+          class="form-control">
+          <option value="1">Causal</option>
+          <option value="2">Formal</option>
+          <option value="3">Sun Glass</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="type">Product Color</label>
+        <select formControlName="itemColor" class="input-text form-row form-control" name="itemColor"
+          style="width: 95%;" class="form-control">
+          <option value="1">Red</option>
+          <option value="2">Blue</option>
+          <option value="3">Black</option>
+          <option value="4">White</option>
+          <option value="5">Green</option>
+        </select>
       </div>
       <div class="form-row">
         <label for="price">Product Price</label>

@@ -22,6 +22,8 @@ export interface ProductModel {
   itemType: string
   itemPrice: any
   itemDetails: string
+  itemColor: string
+  itemBrand: string
   imageId: any,
   ratingCount: number
   imageData: ImageDataModel[]

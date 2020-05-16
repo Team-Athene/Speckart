@@ -18,6 +18,8 @@ export class ProductModelClass implements ProductModel {
   itemId: any
   itemName: string
   itemType: string
+  itemBrand: string
+  itemColor: string
   itemPrice: number
   itemDetails: string
   imageId: any

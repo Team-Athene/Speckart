@@ -15,6 +15,8 @@ library SpecLibrary {
     string itemType;
     uint itemPrice;
     string itemDetails;
+    string itemBrand;
+    string itemColor;
     string imageId;
     // uint ratingCount;
   }
@@ -324,12 +326,19 @@ contract SpecKart is SpecRead, SpecToken{
       emit SignUp(msg.sender, _userName);
   }
 
-  function addProduct(string calldata _itemName, string calldata _itemType,
-    uint _itemPrice, string calldata _itemDetails, string calldata _imageId) external onlyAdmin{
+  function addProduct(string calldata _itemName,
+   string calldata _itemType,
+    uint _itemPrice,
+     string calldata _itemDetails,
+     string calldata _itemBrand,
+     string calldata _itemColor,
+      string calldata _imageId) external onlyAdmin{
       SPEC.Product[SPEC.P_ID].itemName = _itemName;
       SPEC.Product[SPEC.P_ID].itemType = _itemType;
       SPEC.Product[SPEC.P_ID].itemPrice = _itemPrice;
       SPEC.Product[SPEC.P_ID].itemDetails = _itemDetails;
+      SPEC.Product[SPEC.P_ID].itemBrand = _itemBrand;
+      SPEC.Product[SPEC.P_ID].itemColor = _itemColor;
       SPEC.Product[SPEC.P_ID].imageId = _imageId;
       // SPEC.Product[SPEC.P_ID].ratingCount = 0;
       SPEC.P_ID++;
