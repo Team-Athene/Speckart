@@ -95,21 +95,53 @@
     <div class="site-section">
       <div class="container">
         <div class="row ml-auto">
-          <div class="col-md-6 p-4 border mb-3">
-            <span class="d-block text-primary h6 text-uppercase">New York</span>
-            <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>
+          <div class="col-md-6 p-4 border mb-3" align="center">
+            <span class="d-block text-primary h4 text-uppercase">Token Details</span><div class="col text-center">
+              <br><h6>
+                <p class="text">Token Name :
+                    {{specToken.tokenName}}</p>
+            </h6>
+            <h6>
+                  <p class="text">Token Price :
+                      {{specToken.specTokenPrice}} ETH</p>
+              </h6>
+              <h6>
+                  <p class="text" >Total Supply :
+                      {{specToken.tokenTotalSupply}} {{specToken.tokenSymbol}}</p>
+              </h6>
+
+              <h6>
+                  <p class="text">Ether Weight : {{specToken.etherBal}} ETH
+                  </p>
+              </h6>
+              <h6>
+                  <p class="text" >Token Weight : {{specToken.tokenBalance}}
+                      {{specToken.tokenSymbol}}
+                  </p>
+              </h6>
           </div>
-          <div class="col-md-6 p-4 border mb-3">
-            <span class="d-block text-primary h6 text-uppercase">New York</span>
-            <p class="mb-0">203 Fake St. Mountain View, San Francisco, California, USA</p>
           </div>
+          <div class="col-md-6 p-4 border mb-3" align="center">
+            <span class="d-block text-primary h4 text-uppercase">USER DETAILS</span>
+            <br> <br>
+            <h6>
+              <p class="text">Token Balance : {{userBalance.tokenBal}}
+                  {{specToken.tokenSymbol}}</p>
+          </h6>
+
+          <h6>
+              <p class="text">Ether Balance : {{userBalance.etherBal}}
+                  ETH</p>
+          </h6>
+        </div>
         </div>
         <div class="row ml-auto" align="center">
           <div class="col-md-6 p-4 border mb-3" align="center">
-            <span class="d-block text-primary h6 text-uppercase">BUY TOKEN</span>
+            <span class="d-block text-primary h4 text-uppercase">BUY TOKEN</span>
+            <br>
             <div class="form-group row">
               <div class="col-md-12">
-                <label for="c_subject" class="text-black">Token Number </label>
+                <label for="c_subject" class="text-black">Token Count </label>
                 <input type="number" min="0.01" pattern="^[0-9]" step="1" class="form-control form-control center"
                   style="margin: 20px;width: 250px;" placeholder="Enter the Token Count to Buy" [(ngModel)]="buyCount">
               </div>
@@ -129,26 +161,27 @@
             </div>
           </div>
           <div class="col-md-6 p-4 border mb-3" align="center">
-            <span class="d-block text-primary h6 text-uppercase">BUY TOKEN</span>
+            <span class="d-block text-primary h4 text-uppercase">SELL TOKEN</span>
+            <br>
             <div class="form-group row">
               <div class="col-md-12">
-                <label for="c_subject" class="text-black">Token Number </label>
+                <label for="c_subject" class="text-black">Token Count </label>
                 <input type="number" min="0.01" pattern="^[0-9]" step="1" class="form-control form-control center"
-                  style="margin: 20px;width: 250px;" placeholder="Enter the Token Count to Buy" [(ngModel)]="buyCount">
+                        style="margin: 20px;width: 250px;" placeholder="Enter the Token Count to Sell"
+                        [(ngModel)]="sellCount">
               </div>
             </div>
             <!-- <div class="form-group row"> -->
-              <dt class="text" style="font-size: 20px;">{{buyCount*specToken.specTokenPrice}} ETH
+                    <dt class="text" style="font-size: 20px;"> {{sellCount*specToken.specTokenPrice}} ETH
               </dt>
             <!-- </div> -->
             <br>
 
             <div class="form-group row">
               <div class="col-lg-12">
-                <button type="button" (click)="buy()" class="btn btn-primary btn-lg btn-block">Buy Tokens <span
-                    class="glyph fas fa-coins"></span></button>
-
-              </div>
+                <button type="button" (click)="sell()" class="btn btn-primary btn-lg btn-block">Sell Tokens <span
+                  class="glyph fas fa-coins"></span></button>
+       </div>
             </div>
           </div>
       </div>
