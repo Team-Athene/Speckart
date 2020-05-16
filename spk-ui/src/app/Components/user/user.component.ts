@@ -59,12 +59,16 @@ export class UserComponent implements OnInit {
       itemName: null,
       itemCount: null,
       itemPrice: null,
-      itemTotal: null
+      itemTotal: null,
+      imageData: [],
+      imageId: null
     }
     itemCart.itemId = product.itemId
     itemCart.itemName = product.itemName
     itemCart.itemCount++
     itemCart.itemPrice = product.itemPrice
+    itemCart.imageData = product.imageData
+    itemCart.imageId = product.imageId
     itemCart.itemTotal = itemCart.itemPrice * itemCart.itemCount
 
     const len = this.cart.productData.length

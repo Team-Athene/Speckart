@@ -911,11 +911,11 @@ a {
     height: 300px;
     padding: 40px; }
   .product-item.md-height {
-    height: 400px;
+    height: 300px;
     padding: 40px; }
   .product-item img {
     left: 50%;
-    top: 15%;
+    top: 20%;
     -webkit-transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     transform: translateX(-50%);

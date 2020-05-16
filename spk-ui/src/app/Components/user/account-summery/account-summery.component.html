@@ -1,145 +1,277 @@
-<div class="container border border-dark" style="margin-top: 100px;">
-  <div class="row nav">
-    <div class="column block center">
-      <h4>Balance : {{userBalance.tokenBal}} SPC</h4>
-    </div>
-    <div class="column  block center">
-      <h4>Balance : {{userBalance.etherBal}} ETH</h4>
-    </div>
-  </div>
-  <div class="row nav1">
-    <div class="column block1 center " style="margin-top: 15px;height:auto;background-color:#020a74;">
-      <h4 style="color:white">User Details</h4>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ShopMax &mdash; Colorlib e-Commerce Template</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="../../../assets/userStyles/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="../../../assets/userStyles/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../assets/userStyles/css/magnific-popup.css">
+    <link rel="stylesheet" href="../../../assets/userStyles/css/jquery-ui.css">
+    <link rel="stylesheet" href="../../../assets/userStyles/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../../../assets/userStyles/css/owl.theme.default.min.css">
+
+
+    <link rel="stylesheet" href="../../../assets/userStyles/css/aos.css">
+
+    <link rel="stylesheet" href="../../../assets/userStyles/css/style.css">
+
+  </head>
+  <body>
+
+  <div class="site-wrap">
+
+
+    <div class="site-navbar bg-white py-2">
+
+      <div class="search-wrap">
+        <div class="container">
+          <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+          <form action="#" method="post">
+            <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
+          </form>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="logo">
+            <div class="site-logo">
+              <a [routerLink]="['/market']" class="js-logo-clone">SPECKART</a>
+            </div>
+          </div>
+          <div class="main-nav d-none d-lg-block">
+            <nav class="site-navigation text-right text-md-center" role="navigation">
+              <ul class="site-menu js-clone-nav d-none d-lg-block">
+                <li [routerLink]="['/market']">
+                  <a>Home</a>
+                </li>
+
+                <li [routerLink]="['/market/shop']"><a>Shop</a></li>
+                <li [routerLink]="['/market/exchange']"><a>Token Market</a></li>
+                <li  [routerLink]="['/market/chatRoom']"><a href="#">Chat Room</a></li>
+                <li [routerLink]="['/market/summary']" class="active"><a>My Orders</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="icons">
+            <a [routerLink]="['/market/userDetails']" class="icons-btn d-inline-block"><span class="fa fa-user"></span></a>
+            <a [routerLink]="['/market/cart']" class="icons-btn d-inline-block bag">
+              <span ><i class="fa fa-shopping-cart active" ></i></span>
+            </a>
+            <a (click)="logOut()" href="#" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
+            <a class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="column block1 center " style="margin-top: 15px;background-color:#020a74;">
-      <h4 style="color:white">Order Details</h4>
-    </div>
-  </div>
-  <div class="row nav1">
-    <div class="column block1 center " style="margin-bottom: 15px;background-color:white;">
-      <br>
-      <p><span>
-          <h5 style="color:black">Name</h5>
-        </span><span>
-          <h5 style="color:black">:</h5>
-        </span><span>
-          <h5 style="color:black"> {{name}}</h5>
-        </span></p>
-      <p><span>
-          <h5 style="color:black">Contact</h5>
-        </span><span>
-          <h5 style="color:black">:</h5>
-        </span><span>
-          <h5 style="color:black">{{contact}}</h5>
-        </span></p>
-      <p><span>
-          <h5 style="color:black">Gender</h5>
-        </span><span>
-          <h5 style="color:black">:</h5>
-        </span><span>
-          <h5 style="color:black">{{gender}}</h5>
-        </span></p>
-      <p><span>
-          <h5 style="color:black">Email</h5>
-        </span><span>
-          <h5 style="color:black">: </h5>
-        </span><span>
-          <h5 style="color:black">{{email}}</h5>
-        </span></p>
-      <p><span>
-          <h5 style="color:black">Address</h5>
-        </span><span>
-          <h5 style="color:black">: </h5>
-        </span><span>
-          <h5 style="color:black">{{address}}</h5>
-        </span></p>
-    </div>
-    <div class="column block1 center " style="margin-bottom: 15px;background-color:white;"><br>
-      <div *ngFor="let order of orderData; let i=index">
-        <button type="button" class="btn btn1" *ngIf="i>0" (click)="orderView(i)" data-toggle="modal"
-          data-target="#order_view">Order {{i}} </button>
-      </div>
-      <br>
-    </div>
-  </div>
-  <div class="modal fade product_view" id="order_view">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <a href="#" data-dismiss="modal" class="class pull-right"><span
-              class="fa fa-remove"></span></a>
-          <h4 class="modal-title">
-            <dt>Order Details</dt>
-          </h4>
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Cart</strong></div>
         </div>
-        <div class="modal-body">
-          <div class="container border border-dark" style="margin-top: 40px;">
-            <div class="row nav2">
-              <div class="column">
-                <h4 style="color: white;margin: 15px;">Order<span class="glyph fas fa-shopping-cart"></span></h4>
-              </div>
-              <div class="column" style="text-align: right;width:70%">
-                <h4 style="color: white;margin: 15px;">{{currentOrder.timeStamp}}</h4>
-              </div>
-            </div>
-            <div class="container">
-              <table class="table border border-dark" style="margin-top: 30px;margin-bottom: 30px;">
-                <thead class="thead" style="background-color: #8b8e91;">
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row mb-5">
+          <form class="col-md-12" method="post">
+            <div class="site-blocks-table">
+              <table class="table table-bordered">
+                <thead>
                   <tr>
-                    <th>Item No</th>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
+                    <th class="product-name">Order ID</th>
+                    <th class="product-remove">View Details</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of currentOrder.orderDetails let i = index">
-                    <td>{{i+1}}</td>
-                    <td>{{item.itemName}}</td>
-                    <td>{{item.itemPrice}} SPC</td>
-                    <td>
-                      <input style="width: 25px;height: 20px;font-size: 14px" type="text" name="name"
-                        value="{{item.itemCount}}" disabled>
-                    </td>
-                    <td>{{item.itemTotal}} SPC</td>
-                  </tr>
+                  <tr>
+                    <tr  *ngFor="let order of orderData; let i=index" class="product-thumbnail">
+                      <td *ngIf="i>0" class="product-name">
+                        <h2 class="h5 text-black">Order {{i}}</h2>
+                       </td>
+                      <td *ngIf="i>0" ><a (click)="orderView(i)" data-toggle="modal"
+                        data-target="#order_view"  class="btn btn-primary height-auto btn-sm" style="color: white;">View Details</a></td>
+                    </tr>
                 </tbody>
               </table>
             </div>
-          </div>
-          <div class="container border border-dark" style="margin-top: 10px;width: 46%;">
-            <div class="row nav2">
-              <div class=" ">
-                <h4 style="color: white;margin: 15px;">Cart Total<span
-                    class="glyph fas fa-coins"></span>{{currentOrder.totalPrice}} SPC</h4>
+          </form>
+        </div>
+        <div class="modal fade product_view" id="order_view">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header" style="background-color:rgb(73, 64, 64);color: white;">
+                <a href="#" data-dismiss="modal" class="class pull-right" style="color: white;"><span style="color: white;"
+                    class="fa fa-remove"></span></a>
+                <h4 class="modal-title">
+                  <dt>Order Details</dt>
+                </h4>
               </div>
-            </div>
-            <div *ngIf="status == 0" class="container" style="margin-top: 20px;margin-bottom: 20px;">
-              <button data-dismiss="modal" class="btn btn2 center">
-                <h5 style="color: white; margin: auto;" (click)="cancelOrder(currentOrder.orderId)">Cancel</h5>
-              </button>
-            </div>
-            <div *ngIf="status != 0" class="container" style="margin-top: 20px;margin-bottom: 20px;">
-              <div class=" nav1">
-                <table class="table">
-                  <tbody>
-                    <tr>
-                      <th>
-                        <h6>Order Status :</h6>
-                      </th>
-                      <th>
-                        <h6>{{currentOrder.status}} </h6>
-                      </th>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="modal-body">
+                <div class="site-section">
+                  <div class="container">
+                    <div class="row mb-5">
+                      <form class="col-md-12" method="post">
+                        <div class="site-blocks-table">
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th class="product-thumbnail">No</th>
+                                <th class="product-name">Product</th>
+                                <th class="product-price">Price</th>
+                                <th class="product-quantity">Quantity</th>
+                                <th class="product-total">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <tr *ngFor="let item of currentOrder.orderDetails; let i = index" class="product-thumbnail">
+                                  <td>{{i+1}}</td>
+                                  <td class="product-name">
+                                    <h2 class="h5 text-black">{{item.itemName}}</h2>
+                                   </td>
+                                  <td>{{item.itemPrice}} SPC</td>
+                                  <td>{{item.itemCount}} SPC</td>
+                                  <td>{{item.itemTotal}} SPC</td>
+                                </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="row mb-5">
+                          <div class="col-md-11 mb-3 mb-md-0">
+                            <button *ngIf="status == 0" class="btn btn-primary btn-sm btn-block" (click)="cancelOrder(currentOrder.orderId)">Cancel Order</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-8 pl-5">
+                        <div class="row justify-content-end">
+                          <div class="col-md-10">
+                            <div class="row">
+                              <div class="col-md-12 text-right border-bottom mb-5">
+                                <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                              </div>
+                            </div>
+                            <div class="row mb-5">
+                              <div class="col-md-6">
+                                <span class="text-black">Total</span>
+                              </div>
+                              <div class="col-md-6 text-right">
+                                <strong class="text-black">{{currentOrder.totalPrice}} SPEC</strong>
+                              </div>
+                            </div>
+                            <div class="row mb-5">
+                              <div class="col-md-6">
+                                <span class="text-black">Order Status</span>
+                              </div>
+                              <div class="col-md-6 text-right" *ngIf="status == 0">
+                                <strong class="text-black">Waiting for Confirmation</strong>
+                              </div>
+                              <div class="col-md-6 text-right" *ngIf="status != 0">
+                                <strong class="text-black">{{currentOrder.status}}</strong>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+
+    <footer class="site-footer custom-border-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <h3 class="footer-heading mb-4">Promo</h3>
+            <a href="#" class="block-6">
+              <img src="../../../assets/userStyles/images/about_1.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
+              <h3 class="font-weight-light  mb-0">Finding Your Perfect Shades This Summer</h3>
+            </a>
+          </div>
+          <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="footer-heading mb-4">Quick Links</h3>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a href="#">Shop Now</a></li>
+                  <li><a href="#">Shopping cart</a></li>
+                  <li><a href="#">My Orders</a></li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a href="#">Token Market</a></li>
+                  <li><a href="#">Chat Room</a></li>
+                  <li><a href="#">About Us</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="block-5 mb-5">
+              <h3 class="footer-heading mb-4">Contact Info</h3>
+              <ul class="list-unstyled">
+                <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
+                <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
+                <li class="email">emailaddress@domain.com</li>
+              </ul>
+            </div>
+
+            <div class="block-7">
+              <form action="#" method="post">
+                <label for="email_subscribe" class="footer-heading">Subscribe</label>
+                <div class="form-group">
+                  <input type="text" class="form-control py-4" id="email_subscribe" placeholder="Email">
+                  <input type="submit" class="btn btn-sm btn-primary" value="Send">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved to SpecKart
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </footer>
   </div>
-</div>
+
+  <script src="../../../assets/userStyles/js/jquery-3.3.1.min.js"></script>
+  <script src="../../../assets/userStyles/js/jquery-ui.js"></script>
+  <script src="../../../assets/userStyles/js/popper.min.js"></script>
+  <script src="../../../assets/userStyles/js/bootstrap.min.js"></script>
+  <script src="../../../assets/userStyles/js/owl.carousel.min.js"></script>
+  <script src="../../../assets/userStyles/js/jquery.magnific-popup.min.js"></script>
+  <script src="../../../assets/userStyles/js/aos.js"></script>
+
+  <script src="../../../assets/userStyles/js/main.js"></script>
+
+  </body>
+</html>

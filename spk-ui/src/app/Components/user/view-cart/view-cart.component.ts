@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core'
 import { Web3Service } from 'src/app/Services/Web3/web3.service'
 import { ApiService } from 'src/app/Services/api/api.service'
 import { Web3Model } from 'src/app/Models/web3.model'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-view-cart',
@@ -12,11 +13,12 @@ import { Web3Model } from 'src/app/Models/web3.model'
 })
 export class ViewCartComponent implements OnInit {
 
-  constructor(private api: ApiService, private web3service: Web3Service, private cart: CartService) { }
+  constructor(private api: ApiService, private web3service: Web3Service, private cart: CartService, private route: Router) { }
   account: string
   spk: any
   items: Cart
   flag: any
+  imgurl = 'http://0.0.0.0:3000/'
   ngOnInit() {
     this.web3service.web3login()
     this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
@@ -54,5 +56,16 @@ export class ViewCartComponent implements OnInit {
   addCount = async (index) => {
     await this.cart.calculateCart(index, 1)
     this.onLoad()
+  }
+  remove = async (index, count) => {
+    await this.cart.calculateCart(index, -1*(count))
+    this.onLoad()
+  }
+  continue = async () => {
+    this.route.navigateByUrl('/market/shop')
+  }
+  logOut = async () => {
+    sessionStorage.clear()
+    this.route.navigateByUrl('/')
   }
 }
