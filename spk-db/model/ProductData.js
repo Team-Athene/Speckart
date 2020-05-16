@@ -13,6 +13,10 @@ mongoose
 
 const Schema = mongoose.Schema
 const productSchema = new Schema({
+	itemId: {
+		type: String,
+		required: true,
+	},
 	file: [
 		{
 			_id: {

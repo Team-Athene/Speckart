@@ -7,6 +7,7 @@ const router = () => {
 		const files = req.files
 		const { product } = req.body
 		const {
+			itemId,
 			itemName,
 			itemType,
 			itemPrice,
@@ -15,6 +16,7 @@ const router = () => {
 			itemColor,
 		} = JSON.parse(product)
 		const Product = {
+			itemId,
 			file: files,
 			itemName,
 			itemType,

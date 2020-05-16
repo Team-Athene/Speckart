@@ -134,7 +134,7 @@ contract SpecRead is SpecModifiers{
       return 0;
   }
   event SignUp(address indexed user, string name);
-  event addItem(string user, string name);
+  event addItem(string user, string name,uint product_id);
   event order(address indexed user, uint id);
 }
 
@@ -342,7 +342,7 @@ contract SpecKart is SpecRead, SpecToken{
       SPEC.Product[SPEC.P_ID].imageId = _imageId;
       // SPEC.Product[SPEC.P_ID].ratingCount = 0;
       SPEC.P_ID++;
-      emit addItem(_itemName, _itemType);
+      emit addItem(_itemName, _itemType,SPEC.P_ID);
   }
   function createOrder(string calldata _orderDetails, uint _totalPrice) external onlyUser{
       SPEC.MarketOrder[SPEC.O_ID].consumerAddr = msg.sender;
