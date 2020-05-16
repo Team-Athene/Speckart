@@ -37,46 +37,34 @@
           </form>
         </div>
       </div>
-
       <div class="container">
         <div class="d-flex align-items-center justify-content-between">
           <div class="logo">
             <div class="site-logo">
-              <a href="index.html" class="js-logo-clone">SPECKART</a>
+              <a [routerLink]="['/market']" class="js-logo-clone">SPECKART</a>
             </div>
           </div>
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li class="">
-                  <a href="index.html">Home</a>
+                <li [routerLink]="['/market']">
+                  <a>Home</a>
                 </li>
 
                 <li [routerLink]="['/market/shop']"><a>Shop</a></li>
-                <li [routerLink]="['/market/exchange']" class="active"><a>Token Market</a></li>
-                <li><a href="#">Chat Room</a></li>
+                <li [routerLink]="['/market/exchange']" class="active" ><a>Token Market</a></li>
+                <li  [routerLink]="['/market/chatRoom']"><a href="#">Chat Room</a></li>
                 <li [routerLink]="['/market/summary']"><a>My Orders</a></li>
-                <!-- <li class="blog  dropdown"><a> Username <i class="fa fa-lg fa-caret-down"></i></a>
-                  <ul class="blog  dropdown">
-                    <li [routerLink]="['/market/summary']" [state]="{isHome: false}"><a>Summary <i class="fa fa-lg fa-user"></i>
-                      </a>
-                    </li>
-                    <li [routerLink]="['/market/cart']" [state]="{isHome: false}"><a>View Cart <i
-                          class="fa fa-lg fa-shopping-cart"></i></a></li>
-                    <li (click)="logOut()"><a>Logout <i class="fa fa-lg fa-lock"></i></a></li>
-                  </ul>
-                </li> -->
               </ul>
             </nav>
           </div>
           <div class="icons">
             <a [routerLink]="['/market/summary']" class="icons-btn d-inline-block"><span class="fa fa-user"></span></a>
             <a [routerLink]="['/market/cart']" class="icons-btn d-inline-block bag">
-              <span><i class="fa fa-shopping-cart"></i></span>
+              <span ><i class="fa fa-shopping-cart"></i></span>
             </a>
-            <a href="#" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
-            <a (click)="logOut()" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
-                class="icon-menu"></span></a>
+            <a (click)="logOut()" href="#" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
+            <a class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
           </div>
         </div>
       </div>
