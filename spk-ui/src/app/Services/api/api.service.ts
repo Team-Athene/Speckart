@@ -27,13 +27,39 @@ export class ApiService {
       }
     } )
   }
-  recentView = async ( data ) => {
+  recentView = async ( rData ) => {
     return new Promise( async ( resolve, reject ) => {
       try {
-        console.log('TCL: ApiService -> recentView -> data', data)
-        this.http.post( this.userUrl + '/recentView', data).subscribe( ( res ) => {
+        console.log("TCL: ApiService -> recentView -> rData", rData)
+        this.http.post( this.userUrl + '/recentView', rData).subscribe( ( res ) => {
           resolve( res )
         } )
+      } catch ( error ) {
+      }
+    } )
+  }
+  getRecentView = async ( address ) => {
+    return new Promise( async ( resolve, reject ) => {
+      try {
+        resolve( await this.http.get( this.userUrl + `/getRecentView/${address}` ).toPromise() )
+      } catch ( error ) {
+      }
+    } )
+  }
+  addCart = async ( data ) => {
+    return new Promise( async ( resolve, reject ) => {
+      try {
+        this.http.post( this.userUrl + '/addCart', data).subscribe( ( res ) => {
+          resolve( res )
+        } )
+      } catch ( error ) {
+      }
+    } )
+  }
+  getCart = async ( address ) => {
+    return new Promise( async ( resolve, reject ) => {
+      try {
+        resolve( await this.http.get( this.userUrl + `/getCart/${address}` ).toPromise() )
       } catch ( error ) {
       }
     } )

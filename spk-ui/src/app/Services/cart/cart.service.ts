@@ -1,13 +1,15 @@
 
 import { Injectable } from '@angular/core'
 import { Cart } from 'src/app/Models/spk.model'
+import { ApiService } from '../api/api.service'
 @Injectable( {
   providedIn: 'root'
 } )
 export class CartService {
-  constructor () { }
-  calculateCart = async ( index, num ) => {
-    const items: Cart = JSON.parse( sessionStorage.getItem( 'cart' ) )
+  constructor (private api: ApiService) { }
+  calculateCart = async ( index, num, address ) => {
+    const cartApi: any = await this.api.getCart( address )
+    const items: Cart = JSON.parse( cartApi )
     items.cartTotal = 0
     items.productData[ index ].itemCount = items.productData[ index ].itemCount + num
     items.productData[ index ].itemTotal = items.productData[ index ].itemPrice * items.productData[ index ].itemCount
@@ -23,6 +25,7 @@ export class CartService {
     items.productData.forEach( ( item ) => {
       items.cartTotal = items.cartTotal + item.itemTotal
     } )
-    sessionStorage.setItem( 'cart', JSON.stringify( items ) )
+    await this.api.addCart({cart: JSON.stringify(items), address: address})
+    // sessionStorage.setItem( 'cart', JSON.stringify( items ) )
   }
 }

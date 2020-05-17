@@ -15,17 +15,11 @@ export class UserComponent implements OnInit {
   account: string
   spk: any
   imgurl = 'http://0.0.0.0:3000/'
-  products: ProductModel[] = []
+  recentProducts: ProductModel[] = []
   productDetail: ProductModel = new ProductModelClass()
-  cart: Cart
+  cart: Cart = { productData: [], cartTotal: 0 }
 
-  constructor(private api: ApiService, private web3service: Web3Service, private route: Router) {
-    if (sessionStorage.getItem('cart') === null) {
-      this.cart = { productData: [], cartTotal: 0 }
-    } else {
-      this.cart = JSON.parse(sessionStorage.getItem('cart'))
-    }
-  }
+  constructor(private api: ApiService, private web3service: Web3Service, private route: Router) {}
   ngOnInit() {
     this.web3service.web3login()
     this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
@@ -36,22 +30,29 @@ export class UserComponent implements OnInit {
   }
   onLoad = async () => {
     try {
-      const totalProducts = await this.spk.totalProductID().call({ from: this.account })
-      for (let i = 100; i < totalProducts; i++) {
-        const temProduct: ProductModel = await this.spk.product(i).call({ from: this.account })
+      const getRecentView: any = await this.api.getRecentView(this.account)
+      const cartApi: any = await this.api.getCart( this.account )
+      if(cartApi === null){
+        this.cart = { productData: [], cartTotal: 0 }
+      } else {
+        this.cart = JSON.parse(cartApi)
+      }
+      for (let i = 0; i < getRecentView.length; i++) {
+        const temProduct: ProductModel = await this.spk.product(parseInt(getRecentView[i])).call({ from: this.account })
         temProduct.itemId = i
         const imgs: any = await this.api.viewProducts(temProduct.imageId)
         temProduct.imageData = new Array()
         imgs.forEach((img: ImageDataModel, i: any) => {
           temProduct.imageData[i] = img
         })
-        this.products.push(temProduct)
+        this.recentProducts.push(temProduct)
       }
     } catch (error) {
     }
   }
   detailView = async (product: ProductModel) => {
     this.productDetail = product
+    await this.api.recentView({itemId: product.itemId, address: this.account})
   }
   addToCart = async (product: ProductModel) => {
     const itemCart: CartProduct = {
@@ -60,16 +61,17 @@ export class UserComponent implements OnInit {
       itemCount: null,
       itemPrice: null,
       itemTotal: null,
-      imageData: [],
-      imageId: null
+      imageId: null,
+      imageData: []
     }
     itemCart.itemId = product.itemId
     itemCart.itemName = product.itemName
     itemCart.itemCount++
     itemCart.itemPrice = product.itemPrice
-    itemCart.imageData = product.imageData
-    itemCart.imageId = product.imageId
     itemCart.itemTotal = itemCart.itemPrice * itemCart.itemCount
+    itemCart.imageId = product.imageId
+    itemCart.imageData = product.imageData
+    console.log("TCL: ShopComponent -> addToCart -> itemCart", itemCart)
 
     const len = this.cart.productData.length
 
@@ -85,7 +87,9 @@ export class UserComponent implements OnInit {
       this.cart.productData.push(itemCart)
     }
     this.cart.cartTotal = this.cart.cartTotal + parseInt(product.itemPrice, 10)
-    sessionStorage.setItem('cart', JSON.stringify(this.cart))
+    await this.api.addCart({cart: JSON.stringify(this.cart), address: this.account})
+    alert('Your item is added to the cart')
+    // sessionStorage.setItem('cart', JSON.stringify(this.cart))
   }
   clearProduct = async () => {
     this.productDetail = new ProductModelClass()
@@ -94,4 +98,5 @@ export class UserComponent implements OnInit {
     sessionStorage.clear()
     this.route.navigateByUrl('/')
   }
+
 }

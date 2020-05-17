@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
-    <link rel="stylesheet" href="../../../assets/userStyles/fonts/icomoon/style.css">
 
     <link rel="stylesheet" href="../../../assets/userStyles/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../../assets/userStyles/css/magnific-popup.css">
@@ -169,69 +168,19 @@
       <div class="container">
         <div class="row">
           <div class="title-section mb-5 col-12">
-            <h2 class="text-uppercase">Popular Products</h2>
+            <h2 class="text-uppercase">Recent Searches</h2>
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-4 col-md-6 item-entry mb-4">
-            <a href="#" class="product-item md-height bg-gray d-block">
-              <img src="../../../assets/userStyles/images/prod_2.png" alt="Image" class="img-fluid">
-            </a>
-            <h2 class="item-title"><a href="#">Gray Shoe</a></h2>
-            <strong class="item-price">$20.00</strong>
-          </div>
-          <div class="col-lg-4 col-md-6 item-entry mb-4">
-            <a href="#" class="product-item md-height bg-gray d-block">
-              <img src="../../../assets/userStyles/images/prod_3.png" alt="Image" class="img-fluid">
-            </a>
-            <h2 class="item-title"><a href="#">Blue Shoe High Heels</a></h2>
-            <strong class="item-price"><del>$46.00</del> $28.00</strong>
-          </div>
 
-          <div class="col-lg-4 col-md-6 item-entry mb-4">
-            <a href="#" class="product-item md-height bg-gray d-block">
-              <img src="../../../assets/userStyles/images/model_5.png" alt="Image" class="img-fluid">
+          <div class="col-lg-4 col-md-6 item-entry mb-4" *ngFor="let product of recentProducts">
+            <a  data-toggle="modal" (click)="detailView(product)"
+            data-target="#product_view" class="product-item md-height bg-gray d-block">
+              <img src="{{imgurl + product.imageData[0].path}}" alt="1" class="img-fluid">
+              <!-- <img src="../../../assets/userStyles/images/prod_2.png" alt="Image" class="img-fluid"> -->
             </a>
-            <h2 class="item-title"><a href="#">Denim Jacket</a></h2>
-            <strong class="item-price"><del>$46.00</del> $28.00</strong>
-
-            <div class="star-rating">
-              <span class="icon-star2 text-warning"></span>
-              <span class="icon-star2 text-warning"></span>
-              <span class="icon-star2 text-warning"></span>
-              <span class="icon-star2 text-warning"></span>
-              <span class="icon-star2 text-warning"></span>
-            </div>
-
-          </div>
-          <div class="col-lg-4 col-md-6 item-entry mb-4">
-            <a href="#" class="product-item md-height bg-gray d-block">
-              <img src="../../../assets/userStyles/images/prod_1.png" alt="Image" class="img-fluid">
-            </a>
-            <h2 class="item-title"><a href="#">Leather Green Bag</a></h2>
-            <strong class="item-price"><del>$46.00</del> $28.00</strong>
-            <div class="star-rating">
-              <span class="icon-star2 text-warning"></span>
-              <span class="icon-star2 text-warning"></span>
-              <span class="icon-star2 text-warning"></span>
-              <span class="icon-star2 text-warning"></span>
-              <span class="icon-star2 text-warning"></span>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 item-entry mb-4">
-            <a href="#" class="product-item md-height bg-gray d-block">
-              <img src="../../../assets/userStyles/images/model_1.png" alt="Image" class="img-fluid">
-            </a>
-            <h2 class="item-title"><a href="#">Smooth Cloth</a></h2>
-            <strong class="item-price"><del>$46.00</del> $28.00</strong>
-          </div>
-          <div class="col-lg-4 col-md-6 item-entry mb-4">
-            <a href="#" class="product-item md-height bg-gray d-block">
-              <img src="../../../assets/userStyles/images/model_7.png" alt="Image" class="img-fluid">
-            </a>
-            <h2 class="item-title"><a href="#">Yellow Jacket</a></h2>
-            <strong class="item-price">$58.00</strong>
+            <h2 class="item-title"><a href="#">{{product.itemName}}</a></h2>
+            <strong class="item-price">{{product.itemPrice}} SPEC</strong>
           </div>
 
         </div>
@@ -256,6 +205,71 @@
       </div>
     </div>
 
+    <div class="modal fade product_view" id="product_view">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <a href="#" data-dismiss="modal" (click)="clearProduct()" class="class pull-right"><span
+                class="fa fa-remove"></span></a>
+            <h4 class="modal-title">
+              <dt>Product Details</dt>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6 product_img">
+                <br><br>
+                <div id="myCarouselMod" class="carousel slide" data-ride="carousel">
+
+                  <!-- Wrapper for slides -->
+                  <div id="myCarouselMod" class="carousel slide" data-ride="carousel">
+                    <br>
+
+                    <!-- The slideshow -->
+                    <div class="carousel-inner">
+                      <div class="carousel-item" *ngFor="let img of productDetail.imageData let i = index"
+                        [ngClass]="{'active' : i === 0}">
+                        <img src="{{imgurl + img.path}}" alt="1" class="center" style="width:60%;">
+                      </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="carousel-control-prev" href="#myCarouselMod" data-slide="prev">
+                      <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#myCarouselMod" data-slide="next">
+                      <span class="carousel-control-next-icon" style="color: gray;"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 product_content">
+                <h6>
+                  <dt>Product Id: </dt><span>{{productDetail.itemId}}</span>
+                </h6><br>
+                <h6>
+                  <dt>Product Type: </dt><span>{{productDetail.itemType}}</span>
+                </h6><br>
+                <h6>
+                  <dt>Product Name: </dt><span>{{productDetail.itemName}}</span>
+                </h6>
+                <br>
+                <h6>
+                  <dt>Product Details: </dt><span>{{productDetail.itemDetails}}</span>
+                </h6><br>
+                <h3 class="cost"><span class="fa fa-coins"></span> {{productDetail.itemPrice}} SPC </h3>
+
+              <div class="space-ten"></div>
+              <div class="btn-ground">
+                <button type="button" class="btn btn-primary btn-lg btn-block" (click)="addToCart(productDetail)"><span
+                    class="fa fa-shopping-cart"></span> Add To Cart</button>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <footer class="site-footer custom-border-top">
       <div class="container">
         <div class="row">

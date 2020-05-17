@@ -8,8 +8,14 @@ client.on('connect', function () {
 
 module.exports = {
   ...client,
+  del: promisify(client.del).bind(client),
+  llen: promisify(client.llen).bind(client),
+  lrem: promisify(client.lrem).bind(client),
+  ltrim: promisify(client.ltrim).bind(client),
   lrange: promisify(client.lrange).bind(client),
+  lpop: promisify(client.lpop).bind(client),
   rpush: promisify(client.rpush).bind(client),
+  lpush: promisify(client.lpush).bind(client),
   get: promisify(client.get).bind(client),
   set: promisify(client.set).bind(client),
   keys: promisify(client.keys).bind(client)

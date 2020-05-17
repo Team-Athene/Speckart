@@ -16,43 +16,58 @@ const router = () => {
 
 	userRouter.post('/recentView', async (req, res, next) => {
 		try {
-			console.log("TCL: router -> req", req.body)
-		const itemId = req.body.itemId;
-		const address = req.body.address;
-		const add = await client.rpush(address, itemId)
-        console.log("TCL: router -> add", add)
-		const get = await client.lrange(address, 0, -1)
-		console.log("TCL: router -> get", get)
-		// client.lrange(address, 0, -1)
+			const itemId = req.body.itemId,
+				address = req.body.address,
+				data = "REC" + address
 
-		// const client = redis.createClient()
-		// client.on("error", function(error) {
-		// 	console.error(error);
-		//   });
-		// redisClient.on('connect', function () {
-		// 	console.log('Redis Server Connected');
-		// })
-		// const data = await client.hset(prod);
-		// console.log("TCL: router -> data", data)
-		//res.json('true');
+			await client.lrem(data, 0, itemId)
+			await client.lpush(data, itemId)
+			await client.ltrim(data, 0, 5)
+			res.send(true)
+
 		} catch (error) {
-            console.log("TCL: router -> error", error)
+			console.log("TCL: router -> error", error)
 		}
-        
+
 	})
 
-	userRouter.get('/getRecentView/:prod', async (req, res, next) => {
-		const prod = req.params.prod;
-		console.log("TCL: router -> prod", prod)
+	userRouter.get('/getRecentView/:address', async (req, res, next) => {
+		const address = req.params.address,
+		data = "REC" + address
+		console.log("TCL: router -> address", data)
 
 
-		const client = redis.createClient()
-		client.on('connect', function () {
-			console.log('Redis Server Connected');
-		})
-		// const data = await client.lpush(prod);
-		// console.log("TCL: router -> data", data)
-		res.json('data');
+		const get = await client.lrange(data, 0, -1)
+		console.log("TCL: router -> get", get)
+		res.json(get);
+	})
+
+	userRouter.post('/addCart', async (req, res, next) => {
+		try {
+			const cart = req.body.cart,
+				address = req.body.address,
+				data = "CART" + address
+			if(cart == '0') {
+				await client.del(data)
+			}
+			else{
+				await client.set(data, cart)
+			}
+			res.send(true)
+
+		} catch (error) {
+			console.log("TCL: router -> error", error)
+		}
+
+	})
+
+	userRouter.get('/getCart/:address', async (req, res, next) => {
+		const address = req.params.address,
+		data = "CART" + address
+
+		const get = await client.get(data)
+		console.log("TCL: router -> get", get)
+		res.json(get);
 	})
 
 	return userRouter;

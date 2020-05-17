@@ -16,7 +16,7 @@ export class ViewCartComponent implements OnInit {
   constructor(private api: ApiService, private web3service: Web3Service, private cart: CartService, private route: Router) { }
   account: string
   spk: any
-  items: Cart
+  items: Cart = { productData: [], cartTotal: 0 }
   flag: any
   imgurl = 'http://0.0.0.0:3000/'
   ngOnInit() {
@@ -31,7 +31,13 @@ export class ViewCartComponent implements OnInit {
   onLoad = async () => {
     try {
       this.flag = 0;
-      this.items = JSON.parse(sessionStorage.getItem('cart'))
+      const cartApi: any = await this.api.getCart( this.account )
+      if(cartApi === null){
+        this.items = { productData: [], cartTotal: 0 }
+      } else {
+        this.items = JSON.parse(cartApi)
+      }
+      // this.items = JSON.parse(sessionStorage.getItem('cart'))
       if (this.items !== null) {
         this.flag = 1
       }
@@ -44,21 +50,22 @@ export class ViewCartComponent implements OnInit {
       const details = JSON.stringify(this.items.productData)
       const order = await this.spk.createOrder(details, count * 100).send({ from: this.account })
       if (order.status) {
-        sessionStorage.removeItem('cart')
+        await this.api.addCart({cart: '0', address: this.account})
+        // sessionStorage.removeItem('cart')
         this.onLoad()
       }
     } catch (error) { }
   }
   subCount = async (index) => {
-    await this.cart.calculateCart(index, -1)
+    await this.cart.calculateCart(index, -1, this.account)
     this.onLoad()
   }
   addCount = async (index) => {
-    await this.cart.calculateCart(index, 1)
+    await this.cart.calculateCart(index, 1, this.account)
     this.onLoad()
   }
   remove = async (index, count) => {
-    await this.cart.calculateCart(index, -1*(count))
+    await this.cart.calculateCart(index, -1*(count), this.account)
     this.onLoad()
   }
   continue = async () => {
