@@ -30,6 +30,7 @@ export class UserComponent implements OnInit {
   }
   onLoad = async () => {
     try {
+      this.recentProducts = []
       const getRecentView: any = await this.api.getRecentView(this.account)
       const cartApi: any = await this.api.getCart( this.account )
       if(cartApi === null){
@@ -39,7 +40,7 @@ export class UserComponent implements OnInit {
       }
       for (let i = 0; i < getRecentView.length; i++) {
         const temProduct: ProductModel = await this.spk.product(parseInt(getRecentView[i])).call({ from: this.account })
-        temProduct.itemId = i
+        temProduct.itemId = getRecentView[i]
         const imgs: any = await this.api.viewProducts(temProduct.imageId)
         temProduct.imageData = new Array()
         imgs.forEach((img: ImageDataModel, i: any) => {
@@ -53,6 +54,7 @@ export class UserComponent implements OnInit {
   detailView = async (product: ProductModel) => {
     this.productDetail = product
     await this.api.recentView({itemId: product.itemId, address: this.account})
+    this.onLoad()
   }
   addToCart = async (product: ProductModel) => {
     const itemCart: CartProduct = {
@@ -71,7 +73,6 @@ export class UserComponent implements OnInit {
     itemCart.itemTotal = itemCart.itemPrice * itemCart.itemCount
     itemCart.imageId = product.imageId
     itemCart.imageData = product.imageData
-    console.log("TCL: ShopComponent -> addToCart -> itemCart", itemCart)
 
     const len = this.cart.productData.length
 

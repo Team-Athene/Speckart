@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductModel, Cart, ImageDataModel, CartProduct } from 'src/app/Models/spk.model';
-// tslint:disable-next-line: semicolon
-import { ProductModelClass } from 'src/app/Models/Class/cart.class';
-import { ApiService } from 'src/app/Services/api/api.service';
-// tslint:disable-next-line: semicolon
-// tslint:disable-next-line: semicolon
-import { Web3Service } from 'src/app/Services/Web3/web3.service';
-import { Router } from '@angular/router';
-import { Web3Model } from 'src/app/Models/web3.model';
+import { Component, OnInit } from '@angular/core'
+import { ProductModel, Cart, ImageDataModel, CartProduct } from 'src/app/Models/spk.model'
+import { ProductModelClass } from 'src/app/Models/Class/cart.class'
+import { ApiService } from 'src/app/Services/api/api.service'
+import { Web3Service } from 'src/app/Services/Web3/web3.service'
+import { Router } from '@angular/router'
+import { Web3Model } from 'src/app/Models/web3.model'
 
 @Component({
   selector: 'app-shop',
@@ -77,7 +74,6 @@ export class ShopComponent implements OnInit {
     itemCart.imageId = product.imageId
     itemCart.imageData = product.imageData
 
-    console.log("TCL: ShopComponent -> addToCart -> this.cart", this.cart)
     const len = this.cart.productData.length
 
     let flag = 0
@@ -94,7 +90,6 @@ export class ShopComponent implements OnInit {
     this.cart.cartTotal = this.cart.cartTotal + parseInt(product.itemPrice, 10)
     await this.api.addCart({cart: JSON.stringify(this.cart), address: this.account})
     alert('Your item is added to the cart')
-    // sessionStorage.setItem('cart', JSON.stringify(this.cart))
   }
   clearProduct = async () => {
     this.productDetail = new ProductModelClass()

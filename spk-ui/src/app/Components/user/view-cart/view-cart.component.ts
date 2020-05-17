@@ -37,7 +37,6 @@ export class ViewCartComponent implements OnInit {
       } else {
         this.items = JSON.parse(cartApi)
       }
-      // this.items = JSON.parse(sessionStorage.getItem('cart'))
       if (this.items !== null) {
         this.flag = 1
       }
@@ -51,7 +50,6 @@ export class ViewCartComponent implements OnInit {
       const order = await this.spk.createOrder(details, count * 100).send({ from: this.account })
       if (order.status) {
         await this.api.addCart({cart: '0', address: this.account})
-        // sessionStorage.removeItem('cart')
         this.onLoad()
       }
     } catch (error) { }

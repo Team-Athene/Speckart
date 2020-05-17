@@ -30,7 +30,6 @@ export class ApiService {
   recentView = async ( rData ) => {
     return new Promise( async ( resolve, reject ) => {
       try {
-        console.log("TCL: ApiService -> recentView -> rData", rData)
         this.http.post( this.userUrl + '/recentView', rData).subscribe( ( res ) => {
           resolve( res )
         } )

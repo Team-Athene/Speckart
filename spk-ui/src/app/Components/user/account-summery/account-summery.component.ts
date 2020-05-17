@@ -77,7 +77,6 @@ export class AccountSummeryComponent implements OnInit {
       const date = new Date(parseInt(this.orderData[i].timeStamp, 10) * 1000)
       this.currentOrder.timeStamp = date.toLocaleString()
       this.status = this.orderData[i].status
-      console.log("TCL: AccountSummeryComponent -> constructor -> this.status", this.status)
       if (this.orderData[i].status === '1') {
         this.currentOrder.status = "Confirmed"
       } else if (this.orderData[i].status === '2') {
