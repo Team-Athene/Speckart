@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const adminRouter = require("./routes/adminRoutes")();
 const userRouter = require("./routes/userRoutes")();
 const app = express();
+
 app.set("view engine", "ejs");
 app.use(express.static("./public"));
 app.options("/*", (req, res) => {

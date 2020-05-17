@@ -49,10 +49,15 @@
                 <li [routerLink]="['/market']">
                   <a>Home</a>
                 </li>
-
                 <li [routerLink]="['/market/shop']"><a>Shop</a></li>
                 <li [routerLink]="['/market/exchange']"><a>Token Market</a></li>
-                <li  [routerLink]="['/market/chatRoom']"><a href="#">Chat Room</a></li>
+                <li class="has-children ">
+                  <a>Chat Room  <i class="fa fa-caret-down"></i></a>
+                  <ul class="dropdown">
+                    <li><a href="#">With Users</a></li>
+                    <li><a href="#">With Admin</a></li>
+                  </ul>
+                </li>
                 <li [routerLink]="['/market/summary']"><a>My Orders</a></li>
               </ul>
             </nav>
@@ -189,7 +194,13 @@
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
                   <li><a href="#">Token Market</a></li>
-                  <li><a href="#">Chat Room</a></li>
+                  <li class="has-children ">
+                    <a>Chat Room  <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown">
+                      <li><a href="#">With Users</a></li>
+                      <li><a href="#">With Admin</a></li>
+                    </ul>
+                  </li>
                   <li><a href="#">About Us</a></li>
                 </ul>
               </div>

@@ -57,6 +57,8 @@ export class ShopComponent implements OnInit {
   }
   detailView = async (product: ProductModel) => {
     this.productDetail = product
+    const recentView: any = await this.api.recentView(product, this.account)
+    console.log("TCL: ShopComponent -> detailView -> recentView", recentView)
   }
   addToCart = async (product: ProductModel) => {
     const itemCart: CartProduct = {

@@ -252,7 +252,6 @@ a {
         padding-right: 20px; }
         .site-navbar .site-navigation .site-menu .has-children > a:before {
           position: absolute;
-          content: "\e313";
           font-size: 16px;
           top: 50%;
           right: 0;

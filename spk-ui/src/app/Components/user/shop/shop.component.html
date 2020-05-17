@@ -52,7 +52,13 @@
 
                 <li [routerLink]="['/market/shop']" class="active"><a>Shop</a></li>
                 <li [routerLink]="['/market/exchange']"><a>Token Market</a></li>
-                <li  [routerLink]="['/market/chatRoom']"><a href="#">Chat Room</a></li>
+                <li class="has-children ">
+                  <a>Chat Room  <i class="fa fa-caret-down"></i></a>
+                  <ul class="dropdown">
+                    <li><a href="#">With Users</a></li>
+                    <li><a href="#">With Admin</a></li>
+                  </ul>
+                </li>
                 <li [routerLink]="['/market/summary']"><a>My Orders</a></li>
               </ul>
             </nav>
