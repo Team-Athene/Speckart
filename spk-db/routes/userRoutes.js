@@ -17,8 +17,9 @@ const router = () => {
 	userRouter.post('/recentView', async (req, res, next) => {
 		try {
 			const itemId = req.body.itemId,
-				address = req.body.address,
-				data = "REC" + address
+			address = req.body.address,
+			data = "REC" + address
+            console.log("TCL: router -> req.body", req.body)
 
 			await client.lrem(data, 0, itemId)
 			await client.lpush(data, itemId)
