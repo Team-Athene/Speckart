@@ -72,7 +72,7 @@
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Cart</strong></div>
+          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="">Cart</strong></div>
         </div>
       </div>
     </div>
@@ -93,7 +93,7 @@
                   <tr>
                     <tr  *ngFor="let order of orderData; let i=index" class="product-thumbnail">
                       <td *ngIf="i>0" class="product-name">
-                        <h2 class="h5 text-black">Order {{i}}</h2>
+                        <h2 class="h5 ">Order {{i}}</h2>
                        </td>
                       <td *ngIf="i>0" ><a (click)="orderView(i)" data-toggle="modal"
                         data-target="#order_view"  class="btn btn-primary height-auto btn-sm" style="color: white;">View Details</a></td>
@@ -106,19 +106,19 @@
         <div class="modal fade product_view" id="order_view">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header" style="background-color:rgb(73, 64, 64);color: white;">
-                <a href="#" data-dismiss="modal" class="class pull-right" style="color: white;"><span style="color: white;"
+              <div class="modal-header" >
+                <a href="#" data-dismiss="modal" class="class pull-right" ><span
                     class="fa fa-remove"></span></a>
                 <h4 class="modal-title">
                   <dt>Order Details</dt>
                 </h4>
               </div>
               <div class="modal-body">
-                <div class="site-section">
-                  <div class="container">
+                <!-- <div class="site-section"> -->
+                  <!-- <div class="container"> -->
                     <div class="row mb-5">
                       <form class="col-md-12" method="post">
-                        <div class="site-blocks-table">
+                        <!-- <div class="site-blocks-table"> -->
                           <table class="table table-bordered">
                             <thead>
                               <tr>
@@ -133,16 +133,14 @@
                               <tr>
                                 <tr *ngFor="let item of currentOrder.orderDetails; let i = index" class="product-thumbnail">
                                   <td>{{i+1}}</td>
-                                  <td class="product-name">
-                                    <h2 class="h5 text-black">{{item.itemName}}</h2>
-                                   </td>
+                                  <td>{{item.itemName}}</td>
                                   <td>{{item.itemPrice}} SPC</td>
                                   <td>{{item.itemCount}} SPC</td>
                                   <td>{{item.itemTotal}} SPC</td>
                                 </tr>
                             </tbody>
                           </table>
-                        </div>
+                        <!-- </div> -->
                       </form>
                     </div>
 
@@ -150,35 +148,43 @@
                       <div class="col-md-4">
                         <div class="row mb-5">
                           <div class="col-md-11 mb-3 mb-md-0">
-                            <button *ngIf="status == 0" class="btn btn-primary btn-sm btn-block" (click)="cancelOrder(currentOrder.orderId)">Cancel Order</button>
+                            <button *ngIf="status == 0" class="btn btn-outline-primary btn-sm btn-block" (click)="cancelOrder(currentOrder.orderId)">Cancel Order</button>
                           </div>
                         </div>
                       </div>
                       <div class="col-md-8 pl-5">
                         <div class="row justify-content-end">
                           <div class="col-md-10">
+                            <!-- <div class="row">
+                              <div class="col-md-12 text-right border-bottom">
+                                <h3 class=" h4 text-uppercase">Cart Totals</h3>
+                              </div>
+                            </div> -->
                             <div class="row">
-                              <div class="col-md-12 text-right border-bottom mb-5">
-                                <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                              <div class="col-md-6 product_content">
+                                <span class="">Total</span>
+                              </div>
+                              <div class="col-md-6 text-right product_content">
+                                <strong class="">{{currentOrder.totalPrice}} SPEC</strong>
                               </div>
                             </div>
-                            <div class="row mb-5">
-                              <div class="col-md-6">
-                                <span class="text-black">Total</span>
+                            <div class="row">
+                              <div class="col-md-6 product_content">
+                                <span class="">Order Date</span>
                               </div>
-                              <div class="col-md-6 text-right">
-                                <strong class="text-black">{{currentOrder.totalPrice}} SPEC</strong>
+                              <div class="col-md-6 text-right product_content">
+                                <strong class="">{{currentOrder.timeStamp}} </strong>
                               </div>
                             </div>
-                            <div class="row mb-5">
+                            <div class="row ">
                               <div class="col-md-6">
-                                <span class="text-black">Order Status</span>
+                                <span class="">Order Status</span>
                               </div>
                               <div class="col-md-6 text-right" *ngIf="status == 0">
-                                <strong class="text-black">Waiting for Confirmation</strong>
+                                <strong class="">Waiting for Confirmation</strong>
                               </div>
                               <div class="col-md-6 text-right" *ngIf="status != 0">
-                                <strong class="text-black">{{currentOrder.status}}</strong>
+                                <strong class="">{{currentOrder.status}}</strong>
                               </div>
                             </div>
 
@@ -186,8 +192,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  <!-- </div> -->
+                <!-- </div> -->
               </div>
             </div>
           </div>
