@@ -16,6 +16,7 @@ app.options("/*", (req, res) => {
 	);
 	res.sendStatus(200);
 })
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/img", express.static(path.join(__dirname, "public/uploads")));
 app.use("/api/admin", adminRouter);

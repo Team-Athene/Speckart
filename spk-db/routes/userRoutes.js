@@ -7,7 +7,6 @@ const router = () => {
 	userRouter.get('/view/:id', async (req, res, next) => {
 		const id = req.params.id;
 		const data = await ProductData.findById(id);
-        console.log("TCL: router -> data", data)
 		data.file.forEach(img => {
 			img.path = img.path.replace('public/uploads', 'img');
 		});
@@ -16,8 +15,6 @@ const router = () => {
 
 	userRouter.post('/recentView', async (req, res, next) => {
         console.log("TCL: router -> req", req.body)
-        console.log("TCL: router -> req", req.query)
-        console.log("TCL: router -> req", req.params)
 		// const prod = req.body.prod;
         // console.log("TCL: router -> prod", prod)
 		// const addr = req.body.addr;
@@ -33,7 +30,7 @@ const router = () => {
 		// })
 		// const data = await client.hset(prod);
 		// console.log("TCL: router -> data", data)
-		res.json('true');
+		//res.json('true');
 	})
 
 	userRouter.get('/getRecentView/:prod', async (req, res, next) => {
