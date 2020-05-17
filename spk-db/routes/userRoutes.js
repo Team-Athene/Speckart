@@ -7,6 +7,7 @@ const router = () => {
 	userRouter.get('/view/:id', async (req, res, next) => {
 		const id = req.params.id;
 		const data = await ProductData.findById(id);
+        console.log("TCL: router -> data", data)
 		data.file.forEach(img => {
 			img.path = img.path.replace('public/uploads', 'img');
 		});
@@ -17,16 +18,16 @@ const router = () => {
         console.log("TCL: router -> req", req.body)
         console.log("TCL: router -> req", req.query)
         console.log("TCL: router -> req", req.params)
-		const prod = req.body.prod;
-        console.log("TCL: router -> prod", prod)
-		const addr = req.body.addr;
-        console.log("TCL: router -> addr", addr)
-		console.log("TCL: router -> prod", prod)
+		// const prod = req.body.prod;
+        // console.log("TCL: router -> prod", prod)
+		// const addr = req.body.addr;
+        // console.log("TCL: router -> addr", addr)
+		// console.log("TCL: router -> prod", prod)
 
-		const client = redis.createClient()
-		client.on("error", function(error) {
-			console.error(error);
-		  });
+		// const client = redis.createClient()
+		// client.on("error", function(error) {
+		// 	console.error(error);
+		//   });
 		// client.on('connect', function () {
 		// 	console.log('Redis Server Connected');
 		// })

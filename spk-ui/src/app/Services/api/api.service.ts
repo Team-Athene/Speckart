@@ -27,10 +27,11 @@ export class ApiService {
       }
     } )
   }
-  recentView = async ( prod, account ) => {
+  recentView = async ( data ) => {
     return new Promise( async ( resolve, reject ) => {
       try {
-        this.http.post( this.userUrl + '/recentView', JSON.stringify(prod), account).subscribe( ( res ) => {
+        console.log('TCL: ApiService -> recentView -> data', data)
+        this.http.post( this.userUrl + '/recentView', data).subscribe( ( res ) => {
           resolve( res )
         } )
       } catch ( error ) {

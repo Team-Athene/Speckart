@@ -43,6 +43,7 @@ export class ShopComponent implements OnInit {
       const totalProducts = await this.spk.totalProductID().call({ from: this.account })
       for (let i = 100; i < totalProducts; i++) {
         const temProduct: ProductModel = await this.spk.product(i).call({ from: this.account })
+        console.log("TCL: ShopComponent -> onLoad -> temProduct", temProduct)
         temProduct.itemId = i
         const imgs: any = await this.api.viewProducts(temProduct.imageId)
         temProduct.imageData = new Array()
@@ -57,7 +58,8 @@ export class ShopComponent implements OnInit {
   }
   detailView = async (product: ProductModel) => {
     this.productDetail = product
-    const recentView: any = await this.api.recentView(product, this.account)
+    product['address'] = this.account
+    const recentView: any = await this.api.recentView(JSON.stringify(product))
     console.log("TCL: ShopComponent -> detailView -> recentView", recentView)
   }
   addToCart = async (product: ProductModel) => {
