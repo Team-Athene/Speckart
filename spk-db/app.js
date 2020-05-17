@@ -23,4 +23,4 @@ app.use("/api/admin", adminRouter);
 app.use("/api/user", userRouter);
 
 const port = 3000;
-app.listen(port, () => console.log(`Server started on port ${{port}}`))
+app.listen(port, () => console.log(`Server started on port ${port}`))
