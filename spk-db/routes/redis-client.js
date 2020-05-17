@@ -8,7 +8,9 @@ client.on('connect', function () {
 
 module.exports = {
   ...client,
-  getAsync: promisify(client.get).bind(client),
-  setAsync: promisify(client.set).bind(client),
-  keysAsync: promisify(client.keys).bind(client)
+  lrange: promisify(client.lrange).bind(client),
+  rpush: promisify(client.rpush).bind(client),
+  get: promisify(client.get).bind(client),
+  set: promisify(client.set).bind(client),
+  keys: promisify(client.keys).bind(client)
 };

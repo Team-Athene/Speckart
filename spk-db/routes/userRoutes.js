@@ -1,9 +1,6 @@
 const express = require('express'),
 	ProductData = require('../model/ProductData'),
-	redis = require('redis')
-	// client = redis.createClient({
-	// 	port: 6379
-	// }),
+	client = require('./redis-client'),
 	userRouter = express.Router()
 
 const router = () => {
@@ -18,12 +15,16 @@ const router = () => {
 	})
 
 	userRouter.post('/recentView', async (req, res, next) => {
-        console.log("TCL: router -> req", req.body)
+		try {
+			console.log("TCL: router -> req", req.body)
 		const itemId = req.body.itemId;
 		const address = req.body.address;
-		const redisClient = require('./redis-client');
-		await redisClient.setAsync('Name', 'Mekha')
-		console.log(await redisClient.getAsync('Name'))
+		const add = await client.rpush(address, itemId)
+        console.log("TCL: router -> add", add)
+		const get = await client.lrange(address, 0, -1)
+		console.log("TCL: router -> get", get)
+		// client.lrange(address, 0, -1)
+
 		// const client = redis.createClient()
 		// client.on("error", function(error) {
 		// 	console.error(error);
@@ -34,6 +35,10 @@ const router = () => {
 		// const data = await client.hset(prod);
 		// console.log("TCL: router -> data", data)
 		//res.json('true');
+		} catch (error) {
+            console.log("TCL: router -> error", error)
+		}
+        
 	})
 
 	userRouter.get('/getRecentView/:prod', async (req, res, next) => {
