@@ -1,96 +1,207 @@
-<body class="form-v5">
-  <div class="page-content">
-    <div class="form-v5-content"><form class="form-detail" (ngSubmit)="onSubmit(myForm)" #myForm="ngForm">
-      <h2>Register Account Form</h2>
-      <div class="p-3 p-lg-5 border">
-        <div class="form-group row">
-          <div class="col-md-12">
-            <label for="c_lname" class="text-black">Name <span class="text-danger">*</span></label>
-            <input type="text" name="name" id="name" class="input-text" placeholder="Your Name" required ngModel>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-md-12">
-            <label for="c_lname" class="text-black">Contact <span class="text-danger">*</span></label>
-            <input type="number" name="contact" id="contact" class="input-text" placeholder="Your Contact" required ngModel>
-          </div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SpecKart</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <div class="form-group row">
-          <div class="col-md-12">
-            <label for="gender">Gender <span class="text-danger">*</span></label>
-            <select class="input-text form-row form-control" name="gender" style="width: 95%;" ngModel>
-              <option selected>Choose Your Gender</option>
-              <option value="1">Male</option>
-              <option value="2">Female</option>
-              <option value="3">Other</option>
-            </select>
-          </div>
-        </div>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="../../../assets/userStyles/fonts/icomoon/style.css">
 
-        <div class="form-group row">
-          <div class="col-md-12">
-            <label for="c_email" class="text-black">Email <span class="text-danger">*</span></label>
-            <input type="text" name="mail" id="mail" class="input-text" placeholder="Your Email" required ngModel
-              pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-md-12">
-            <label for="c_message" class="text-black">Address <span class="text-danger">*</span></label>
-            <textarea name="address" id="address" class="input-text" placeholder="Your Address" required ngModel cols="30"
-              rows="5" class="form-control"></textarea>
-          </div>
-        </div><br>
+    <link rel="stylesheet" href="../../../assets/userStyles/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../assets/userStyles/css/magnific-popup.css">
+    <link rel="stylesheet" href="../../../assets/userStyles/css/jquery-ui.css">
+    <link rel="stylesheet" href="../../../assets/userStyles/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../../../assets/userStyles/css/owl.theme.default.min.css">
 
-        <div class="form-group row">
-          <div class="col-lg-6">
-            <input type="submit" name="register" class="btn btn-primary btn-lg btn-block" value="Register">
-            <!-- <input style="margin-left: 5px;" type="button" routerLink="/" class="btn btn-primary btn-lg btn-block" value="Home"> -->
+
+    <link rel="stylesheet" href="../../../assets/userStyles/css/aos.css">
+
+    <link rel="stylesheet" href="../../../assets/userStyles/css/style.css">
+
+  </head>
+  <body>
+
+  <div class="site-wrap">
+
+
+    <div class="site-navbar bg-white py-2">
+
+      <div class="search-wrap">
+        <div class="container">
+          <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+          <form action="#" method="post">
+            <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
+          </form>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="logo">
+            <div class="site-logo">
+              <a [routerLink]="['/']" class="js-logo-clone">SPECKART</a>
+            </div>
           </div>
-          <div class="col-lg-6">
-            <!-- <input type="submit" name="register" class="btn btn-primary btn-lg btn-block" value="Register"> -->
-            <input style="margin-left: 5px;" type="button" routerLink="/" class="btn btn-primary btn-lg btn-block" value="Home">
+          <div class="main-nav d-none d-lg-block">
+            <nav class="site-navigation text-right text-md-center" role="navigation">
+              <ul class="site-menu js-clone-nav d-none d-lg-block">
+                <li  [routerLink]="['/']">
+                  <a>Home</a>
+                </li>
+                <li [routerLink]="['/register']" class="active"><a>Register</a></li>
+                <li [routerLink]="['/exchange']"><a>Token Market</a></li>
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
-    </form>
-      <!-- <form class="form-detail" (ngSubmit)="onSubmit(myForm)" #myForm="ngForm">
-        <h2>Register Account Form</h2>
-        <div class="form-row">
-          <label for="name">Name</label>
-          <input type="text" name="name" id="name" class="input-text" placeholder="Your Name" required ngModel>
+    </div>
+    <div class="site-blocks-cover inner-page" style="background-image: url('../../../assets/userStyles/images/about_1.png'); background-repeat: no-repeat; background-size: cover; background-position: center">
+      <div class="container">
+        <div class="row">
 
         </div>
-        <div class="form-row">
-          <label for="contact">Contact</label>
-          <input type="number" name="contact" id="contact" class="input-text" placeholder="Your Contact" required
-            ngModel>
-        </div>
-        <div class="form-row">
-          <label for="gender">Gender</label>
-          <select class="input-text form-row form-control" name="gender" style="width: 95%;" ngModel>
-            <option selected>Choose Your Gender</option>
-            <option value="1">Male</option>
-            <option value="2">Female</option>
-            <option value="3">Other</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label for="your-email">Your Email</label>
-          <input type="text" name="mail" id="mail" class="input-text" placeholder="Your Email" required ngModel
-            pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
-        </div>
-        <div class="form-row">
-          <label for="address">Address</label>
-          <input type="textarea" name="address" id="address" class="input-text" placeholder="Your Address" required
-            ngModel>
-        </div>
-        <div class="form-row-last">
-          <input type="submit" name="register" class="register" value="Register">
-          <input style="margin-left: 5px;" type="button" routerLink="/" class="register" value="Home">
-        </div>
-      </form> -->
+      </div>
     </div>
+
+    <div class="custom-border-bottom py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Register</strong></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+
+            <form class="form-detail" (ngSubmit)="onSubmit(myForm)" #myForm="ngForm">
+              <h2>Register Account Form</h2>
+              <div class="p-3 p-lg-5 border">
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <label for="c_lname" class="text-black">Name <span class="text-danger">*</span></label>
+                    <input type="text" name="name" id="name" class="input-text" placeholder="Your Name" required ngModel>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <label for="c_lname" class="text-black">Contact <span class="text-danger">*</span></label>
+                    <input type="number" name="contact" id="contact" class="input-text" placeholder="Your Contact" required ngModel>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <label for="gender">Gender <span class="text-danger">*</span></label>
+                    <select class="input-text form-row form-control" name="gender" style="width: 95%;" ngModel>
+                      <option selected>Choose Your Gender</option>
+                      <option value="1">Male</option>
+                      <option value="2">Female</option>
+                      <option value="3">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <label for="c_email" class="text-black">Email <span class="text-danger">*</span></label>
+                    <input type="text" name="mail" id="mail" class="input-text" placeholder="Your Email" required ngModel
+                      pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <label for="c_message" class="text-black">Address <span class="text-danger">*</span></label>
+                    <textarea name="address" id="address" class="input-text" placeholder="Your Address" required ngModel cols="30"
+                      rows="5" class="form-control"></textarea>
+                  </div>
+                </div><br>
+
+                <div class="form-group row" align="center">
+                  <div class="col-lg-3">
+                  </div>
+                  <div class="col-lg-6">
+                    <input type="submit" name="register" class="btn btn-primary btn-lg btn-block" value="Register">
+                    <!-- <input style="margin-left: 5px;" type="button" routerLink="/" class="btn btn-primary btn-lg btn-block" value="Home"> -->
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer custom-border-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <h3 class="footer-heading mb-4">Promo</h3>
+            <a href="#" class="block-6">
+              <img src="../../../assets/userStyles/images/about_1.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
+              <h3 class="font-weight-light  mb-0">Finding Your Perfect Shades This Summer</h3>
+            </a>
+          </div>
+          <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="footer-heading mb-4">Quick Links</h3>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a href="#">Register</a></li>
+                  <li><a href="#">Login</a></li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a href="#">Token Market</a></li>
+                  <li><a href="#">About Us</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="block-5 mb-5">
+              <h3 class="footer-heading mb-4">Contact Info</h3>
+              <ul class="list-unstyled">
+                <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
+                <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
+                <li class="email">emailaddress@domain.com</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved to SpecKart
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </footer>
   </div>
-</body>
+
+  <script src="../../../assets/userStyles/js/jquery-3.3.1.min.js"></script>
+  <script src="../../../assets/userStyles/js/jquery-ui.js"></script>
+  <script src="../../../assets/userStyles/js/popper.min.js"></script>
+  <script src="../../../assets/userStyles/js/bootstrap.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="../../../assets/userStyles/js/jquery.magnific-popup.min.js"></script>
+  <script src="../../../assets/userStyles/js/aos.js"></script>
+
+  <script src="../../../assets/userStyles/js/main.js"></script>
+
+  </body>
+</html>
