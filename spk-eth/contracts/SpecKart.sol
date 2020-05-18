@@ -93,12 +93,16 @@ contract SpecRead is SpecModifiers{
     string memory itemType,
     uint itemPrice,
     string memory itemDetails,
+    string memory itemBrand,
+    string memory itemColor,
     string memory imageId) {
     return (
       SPEC.Product[_id].itemName,
       SPEC.Product[_id].itemType,
       SPEC.Product[_id].itemPrice,
       SPEC.Product[_id].itemDetails,
+      SPEC.Product[_id].itemBrand,
+      SPEC.Product[_id].itemColor,
       SPEC.Product[_id].imageId
       // SPEC.Product[_id].ratingCount
     );

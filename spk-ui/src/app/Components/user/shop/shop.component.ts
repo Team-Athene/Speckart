@@ -49,6 +49,7 @@ export class ShopComponent implements OnInit {
         })
         this.products.push(temProduct)
       }
+      console.log("TCL: ShopComponent -> onLoad -> this.products", this.products)
     } catch (error) {
     }
   }
@@ -63,6 +64,8 @@ export class ShopComponent implements OnInit {
       itemCount: null,
       itemPrice: null,
       itemTotal: null,
+      itemBrand: null,
+      itemColor: null,
       imageId: null,
       imageData: []
     }
@@ -71,6 +74,8 @@ export class ShopComponent implements OnInit {
     itemCart.itemCount++
     itemCart.itemPrice = product.itemPrice
     itemCart.itemTotal = itemCart.itemPrice * itemCart.itemCount
+    itemCart.itemBrand = product.itemBrand
+    itemCart.itemColor = product.itemColor
     itemCart.imageId = product.imageId
     itemCart.imageData = product.imageData
 

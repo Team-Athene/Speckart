@@ -34,6 +34,8 @@ export interface CartProduct {
   itemCount: number
   itemPrice: any
   itemTotal: any
+  itemBrand: any
+  itemColor: any
   imageId: any
   imageData: ImageDataModel[]
 }

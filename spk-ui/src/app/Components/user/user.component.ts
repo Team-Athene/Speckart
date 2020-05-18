@@ -63,6 +63,8 @@ export class UserComponent implements OnInit {
       itemCount: null,
       itemPrice: null,
       itemTotal: null,
+      itemColor: null,
+      itemBrand: null,
       imageId: null,
       imageData: []
     }
@@ -71,6 +73,8 @@ export class UserComponent implements OnInit {
     itemCart.itemCount++
     itemCart.itemPrice = product.itemPrice
     itemCart.itemTotal = itemCart.itemPrice * itemCart.itemCount
+    itemCart.itemColor = product.itemColor
+    itemCart.itemBrand = product.itemBrand
     itemCart.imageId = product.imageId
     itemCart.imageData = product.imageData
 
