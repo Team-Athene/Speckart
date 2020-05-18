@@ -99,6 +99,10 @@ export class ShopComponent implements OnInit {
   clearProduct = async () => {
     this.productDetail = new ProductModelClass()
   }
+  search = async ( key, value ) => {
+    const prod = await this.api.search(key,value)
+    console.log("TCL: ShopComponent -> search -> prod", prod)
+  }
   logOut = async () => {
     sessionStorage.clear()
     this.route.navigateByUrl('/')

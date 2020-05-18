@@ -67,16 +67,23 @@ const router = () => {
 	userRouter.get('/getCart/:address', async (req, res, next) => {
 		const address = req.params.address,
 		data = "CART" + address
-
 		const get = await client.get(data)
-		console.log("TCL: router -> get", get)
 		res.json(get);
 	})
 
-	userRouter.get('/getProducts', async (req, res, next) => {
-		const c = await redisearch.search('*')
-		console.log("TCL: router -> c", c)
-		res.json(get);
+	userRouter.get('/getProducts/:data', async (req, res, next) => {
+	const data = JSON.parse(req.params.data)
+		const key = data[0]
+		const value = data[1]
+		const arg = '@'+key+':'+value
+		redisearch.search(arg, function( error, data) {
+			if(error) {
+				console.log("TCL: router -> error", error)
+			} else {
+				console.log("TCL: router -> data", data)
+			}
+		})
+		res.json(key);
 	})
 
 	return userRouter;

@@ -63,4 +63,13 @@ export class ApiService {
       }
     } )
   }
+  search = async ( key, value ) => {
+    return new Promise( async ( resolve, reject ) => {
+      try {
+        const data = JSON.stringify([key, value])
+        resolve( await this.http.get( this.userUrl + `/getProducts/${data}` ).toPromise() )
+      } catch ( error ) {
+      }
+    } )
+  }
 }

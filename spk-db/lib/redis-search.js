@@ -161,6 +161,7 @@ module.exports = function(clientOrNodeRedis,key,passedOptsOrCb,passedCb) {// Thi
       if (!checked) { clientCheck(); }                                    // bindings check
       
       searchArgs.push(queryString);
+      console.log("TCL: searchFactory -> searchArgs11111", searchArgs)
 
       if (lastArgs.opts.noContent) {
         searchArgs.push(
@@ -179,7 +180,11 @@ module.exports = function(clientOrNodeRedis,key,passedOptsOrCb,passedCb) {// Thi
         cObj.parsers['c'+cObj.queue.length] = parser;                     // push the correct parser into the object at an index 'c'(current index #)
       }
       cObj.ft_search(key,searchArgs,function(err,results) {               // run the command with the `key` established on instantiation and our arguments
-        if (err) { lastArgs.cb(err); } else {                             // handle the errors
+      if (err) { 
+          console.log("TCL: searchFactory -> err", err)
+          lastArgs.cb(err); } else {                             // handle the errors
+        
+      console.log("TCL: searchFactory -> results", results)
           if (lastArgs.cb !== noop) {                                     // if we have a noop in the callback then we do nothing...
             lastArgs.cb(err,parser(results));                             // otherwise we run the parser and pass it back to the callback.
           }
