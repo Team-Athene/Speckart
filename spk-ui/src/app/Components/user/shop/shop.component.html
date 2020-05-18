@@ -45,7 +45,7 @@
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li [routerLink]="['/market']">
+                <li  [routerLink]="['/market']">
                   <a>Home</a>
                 </li>
 
@@ -54,8 +54,8 @@
                 <li class="has-children ">
                   <a>Chat Room  <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
-                    <li><a href="#">With Users</a></li>
-                    <li><a href="#">With Admin</a></li>
+                    <li [routerLink]="['/market/chatroom']"><a>With Users</a></li>
+                    <li [routerLink]="['/market/adminChat']"><a>With Admin</a></li>
                   </ul>
                 </li>
                 <li [routerLink]="['/market/summary']"><a>My Orders</a></li>
@@ -67,7 +67,7 @@
             <a [routerLink]="['/market/cart']" class="icons-btn d-inline-block bag">
               <span ><i class="fa fa-shopping-cart"></i></span>
             </a>
-            <a (click)="logOut()" href="#" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
+            <a (click)="logOut()" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
             <a class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
           </div>
         </div>
@@ -81,7 +81,7 @@
             <div class="site-block-cover-content">
             <h2 class="sub-title">#New Summer Collection 2020</h2>
             <h1>Arrivals Sales</h1>
-            <p><a href="#" class="btn btn-black rounded-0">Shop Now</a></p>
+            <p><a  [routerLink]="['/market/shop']" class="btn btn-black rounded-0">Shop Now</a></p>
             </div>
           </div>
           <div class="col-md-6 order-1 align-self-end">
@@ -94,7 +94,7 @@
     <div class="custom-border-bottom py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+          <div class="col-md-12 mb-0"><a [routerLink]="['/market']" >Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
         </div>
       </div>
     </div>
@@ -281,7 +281,7 @@
         <div class="row">
           <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
             <h3 class="footer-heading mb-4">Promo</h3>
-            <a href="#" class="block-6">
+            <a class="block-6">
               <img src="../../../assets/userStyles/images/about_1.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
               <h3 class="font-weight-light  mb-0">Finding Your Perfect Shades This Summer</h3>
             </a>
@@ -293,16 +293,16 @@
               </div>
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
-                  <li><a href="#">Shop Now</a></li>
-                  <li><a href="#">Shopping cart</a></li>
-                  <li><a href="#">My Orders</a></li>
+                  <li><a [routerLink]="['/market/shop']">Shop Now</a></li>
+                  <li><a [routerLink]="['/market/cart']">Shopping cart</a></li>
+                  <li><a  [routerLink]="['/market/summary']">My Orders</a></li>
                 </ul>
               </div>
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
-                  <li><a href="#">Token Market</a></li>
-                  <li><a href="#">Chat Room</a></li>
-                  <li><a href="#">About Us</a></li>
+                  <li><a [routerLink]="['/market/exchange']">Token Market</a></li>
+                  <li><a [routerLink]="['/market/chatroom']">Chat Room</a></li>
+                  <li><a [routerLink]="['/market/userDetails']">My Account</a></li>
                 </ul>
               </div>
             </div>

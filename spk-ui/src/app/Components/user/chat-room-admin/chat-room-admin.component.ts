@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { Web3Model } from 'src/app/Models/web3.model';
 
 @Component({
-  selector: 'app-chat-room',
-  templateUrl: './chat-room.component.html',
-  styleUrls: ['./chat-room.component.scss']
+  selector: 'app-chat-room-admin',
+  templateUrl: './chat-room-admin.component.html',
+  styleUrls: ['./chat-room-admin.component.scss']
 })
-export class ChatRoomComponent implements OnInit {
+export class ChatRoomAdminComponent implements OnInit {
+
   account: string
   spk: any
 

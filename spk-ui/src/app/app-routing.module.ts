@@ -18,6 +18,8 @@ import { ViewOrdersComponent } from './Components/admin/view-orders/view-orders.
 import { ShopComponent } from './Components/user/shop/shop.component'
 import { TokenMarketComponent_User } from './Components/user/token-market-user/token-market.component'
 import { UserDetailsComponent } from './Components/user/user-details/user-details.component'
+import { ChatRoomComponent } from './Components/user/chat-room/chat-room.component'
+import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-room-admin.component'
 
 
 const routes: Routes = [
@@ -57,6 +59,14 @@ const routes: Routes = [
       {
         path: 'userDetails',
         component: UserDetailsComponent
+      },
+      {
+        path: 'chatroom',
+        component: ChatRoomComponent
+      },
+      {
+        path: 'adminChat',
+        component: ChatRoomAdminComponent
       }
     ]
   },
