@@ -3,9 +3,8 @@ const redis = require('redis')
 const { promisify } = require('util')
 const client = redis.createClient(process.env.REDIS_URL)
 console.log('Log: process.env.REDIS_URL', process.env.REDIS_URL)
-const redisearch = require('redis-redisearch')
-redisearch(redis)
-console.log('TCL: redisearch', redisearch)
+// const redisearch = require('redis-redisearch')
+// redisearch(redis)
 
 client.on('connect', function () {
 	console.log('Redis Server Connected')

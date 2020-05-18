@@ -1,7 +1,9 @@
 const express = require('express'),
 	ProductData = require('../model/ProductData'),
 	client = require('./redis-client'),
-	userRouter = express.Router()
+	userRouter = express.Router(),
+	redisearch = require('./redis-search')
+
 
 const router = () => {
 
@@ -68,6 +70,12 @@ const router = () => {
 
 		const get = await client.get(data)
 		console.log("TCL: router -> get", get)
+		res.json(get);
+	})
+
+	userRouter.get('/getProducts', async (req, res, next) => {
+		const c = await redisearch.search('*')
+		console.log("TCL: router -> c", c)
 		res.json(get);
 	})
 
