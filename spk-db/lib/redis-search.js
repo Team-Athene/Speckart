@@ -1,6 +1,7 @@
 const
   _                   = require('lodash'),                                // Lodash is used for parsing redis output
-  rediSearchBindings  = require('redis-redisearch'),                      // supplies node_redis with the extended RediSearch commands
+  rediSearchBindings  = require('redis-redisearch'),  
+  { promisify }       = require('util'),                    // supplies node_redis with the extended RediSearch commands
   s                   = {                                                 // Static strings are declared here to prevent retyping and typos
     // RediSearch strings
     noContent   : 'NOCONTENT',
@@ -37,7 +38,6 @@ function optionalOptsCbHandler(passedPenultimateArg,passedUltimateArg) {  // Mos
     opts    : {},
     cb      : noop
   };
-console.log("INSIDEEEEEE__________________");
 
   if (typeof passedPenultimateArg === 'function') {                       // passed a function in penultimate argument then there is no opts
     out.cb = passedPenultimateArg;
@@ -161,7 +161,6 @@ module.exports = function(clientOrNodeRedis,key,passedOptsOrCb,passedCb) {// Thi
       if (!checked) { clientCheck(); }                                    // bindings check
       
       searchArgs.push(queryString);
-      console.log("TCL: searchFactory -> searchArgs11111", searchArgs)
 
       if (lastArgs.opts.noContent) {
         searchArgs.push(
@@ -181,10 +180,8 @@ module.exports = function(clientOrNodeRedis,key,passedOptsOrCb,passedCb) {// Thi
       }
       cObj.ft_search(key,searchArgs,function(err,results) {               // run the command with the `key` established on instantiation and our arguments
       if (err) { 
-          console.log("TCL: searchFactory -> err", err)
           lastArgs.cb(err); } else {                             // handle the errors
         
-      console.log("TCL: searchFactory -> results", results)
           if (lastArgs.cb !== noop) {                                     // if we have a noop in the callback then we do nothing...
             lastArgs.cb(err,parser(results));                             // otherwise we run the parser and pass it back to the callback.
           }
@@ -229,9 +226,7 @@ module.exports = function(clientOrNodeRedis,key,passedOptsOrCb,passedCb) {// Thi
       cObj.ft_get(key, docId, function(err,doc){   
         if (err) { lastArgs.cb(err); } else {                             // handle the errors
           document = doc;
-          if (lastArgs.cb !== noop) {                                     // if we have a noop in the callback then we do nothing...
-          console.log("INSIDE LASTARGS");
-          
+          if (lastArgs.cb !== noop) {                                     // if we have a noop in the callback then we do nothing..
             lastArgs.cb(err,parser(doc));                                 // otherwise we run the parser and pass it back to the callback.
         }
       }

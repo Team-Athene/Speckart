@@ -4,6 +4,7 @@ const express = require('express'),
 	userRouter = express.Router(),
 	redisearch = require('./redis-search')
 
+	let temp;
 
 const router = () => {
 
@@ -81,9 +82,11 @@ const router = () => {
 				console.log("TCL: router -> error", error)
 			} else {
 				console.log("TCL: router -> data", data)
+				temp = data
 			}
 		})
-		res.json(key);
+		console.log("TCL: router -> temp", temp)
+		res.json(temp);
 	})
 
 	return userRouter;
