@@ -14,13 +14,25 @@ services:
   #     - '6379:6379'
 
 
-  redismod:
-    container_name: cache
-    image: redismod
-    build: .
-    ports:
-      - 6379:6379
+  # redismod:
+  #   container_name: cache
+  #   image: redismod
+  #   build: .
+  #   ports:
+  #     - 6379:6379
 
+  spk-redis:
+    container_name: spk-redis
+    build:
+      context: .
+      dockerfile: ./spk-redis/Dockerfile
+    expose:
+      - 6379
+    ports:
+      - '6379:6379'
+    volumes:
+      - '.:/project/spk'
+      
   spk-db:
     container_name: spk-db
     restart: always
@@ -35,9 +47,9 @@ services:
       - mongo
     links:
       - mongo
-      - redismod
+      - spk-redis
     environment:
-    - REDIS_URL=redismod://cache
+    - REDIS_URL=0.0.0.0://spk-redis
     volumes:
       - '.:/project/spk'
 
