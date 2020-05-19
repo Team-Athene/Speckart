@@ -18,6 +18,7 @@ export class ViewCartComponent implements OnInit {
   spk: any
   items: Cart = { productData: [], cartTotal: 0 }
   flag: any
+  done: number
   imgurl = 'http://0.0.0.0:3000/'
   ngOnInit() {
     this.web3service.web3login()
@@ -25,6 +26,7 @@ export class ViewCartComponent implements OnInit {
       this.account = data.account
       this.spk = data.spk
     })
+    this.done = 0
     this.onLoad()
   }
 
@@ -50,11 +52,11 @@ export class ViewCartComponent implements OnInit {
       const details = JSON.stringify(this.items.productData)
       const order = await this.spk.createOrder(details, count * 100).send({ from: this.account })
       if (order.status) {
-        console.log("TCL: ViewCartComponent -> subCount -> this.cart", this.items)
         let itemId = []
         this.items.productData.forEach(element => {
           itemId.push({id: element.itemId, count: element.itemCount})
         });
+        this.done = 1
         await this.api.addCart({cart: '0', address: this.account, itemId: itemId})
         this.onLoad()
       }

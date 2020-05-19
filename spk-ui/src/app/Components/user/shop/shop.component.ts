@@ -56,7 +56,6 @@ export class ShopComponent implements OnInit {
       this.productList = []
       this.products = []
       const cartApiPre: any = await this.api.getCart( this.account )
-      console.log("TCL: ShopComponent -> onLoad -> cartApiPre", cartApiPre)
       const cartApi: any = cartApiPre.cart
       this.brand = cartApiPre.brand
       if(cartApi === null){
@@ -82,10 +81,6 @@ export class ShopComponent implements OnInit {
       }
     } catch (error) {
     }
-  }
-  searchIO = async (event) => {
-    console.log("TCL: ShopComponent -> event", event)
-    console.log("TCL: ShopComponent -> event", event.target.value)
   }
   detailView = async (prod: ProductModel) => {
     this.productDetail = prod
@@ -133,9 +128,15 @@ export class ShopComponent implements OnInit {
   clearProduct = async () => {
     this.productDetail = new ProductModelClass()
   }
+  searchIO = async (event) => {
+    this.search('itemBrand', event.target.value)
+  }
   search = async ( key: any, value: any ) => {
     let t:any[]=[]
-
+    if(key === 'itemBrand') {
+      const temp = value.target.value
+      value = temp
+    }
     const prod:[]= await this.api.search(key,value) as []
     t = this.productList.filter(item => {
         const ta: never= JSON.stringify(item.itemId) as never
