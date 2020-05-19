@@ -12,6 +12,10 @@ client.on('connect', function () {
 
 module.exports = {
 	...client,
+	zincrby: promisify(client.zincrby).bind(client),
+	zrevrange: promisify(client.zrevrange).bind(client),
+	zcard: promisify(client.zcard).bind(client),
+	zadd: promisify(client.zadd).bind(client),
 	del: promisify(client.del).bind(client),
 	llen: promisify(client.llen).bind(client),
 	lrem: promisify(client.lrem).bind(client),

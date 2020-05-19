@@ -16,11 +16,17 @@ export class ShopComponent implements OnInit {
   account: string
   spk: any
   imgurl = 'http://0.0.0.0:3000/'
+  prod: any = []
   products: ProductModel[] = []
+
+  productList: ProductModel[] = []
+
   productDetail: ProductModel = new ProductModelClass()
   cart: Cart = { productData: [], cartTotal: 0 }
 
-  constructor(private api: ApiService, private web3service: Web3Service, private route: Router) {}
+  constructor(private api: ApiService, private web3service: Web3Service, private route: Router) {
+
+  }
   ngOnInit() {
     this.web3service.web3login()
     this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
@@ -29,9 +35,13 @@ export class ShopComponent implements OnInit {
     })
     this.onLoad()
   }
+  load = async () => {
+    this.products = this.productList
+  }
   onLoad = async () => {
     try {
-
+      this.productList = []
+      this.products = []
       const cartApi: any = await this.api.getCart( this.account )
       if(cartApi === null){
         this.cart = { productData: [], cartTotal: 0 }
@@ -47,15 +57,15 @@ export class ShopComponent implements OnInit {
         imgs.forEach((img: ImageDataModel, i: any) => {
           temProduct.imageData[i] = img
         })
-        this.products.push(temProduct)
+        this.productList.push(temProduct)
+        this.products = this.productList
       }
-      console.log("TCL: ShopComponent -> onLoad -> this.products", this.products)
     } catch (error) {
     }
   }
-  detailView = async (product: ProductModel) => {
-    this.productDetail = product
-    await this.api.recentView({itemId: product.itemId, address: this.account})
+  detailView = async (prod: ProductModel) => {
+    this.productDetail = prod
+    await this.api.recentView({itemId: prod.itemId, address: this.account})
   }
   addToCart = async (product: ProductModel) => {
     const itemCart: CartProduct = {
@@ -99,9 +109,18 @@ export class ShopComponent implements OnInit {
   clearProduct = async () => {
     this.productDetail = new ProductModelClass()
   }
-  search = async ( key, value ) => {
-    const prod = await this.api.search(key,value)
-    console.log("TCL: ShopComponent -> search -> prod", prod)
+  search = async ( key: any, value: any ) => {
+    let t:any[]=[]
+
+    const prod:[]= await this.api.search(key,value) as []
+    t = this.productList.filter(item => {
+        const ta: never= JSON.stringify(item.itemId) as never
+        if (prod.includes(ta)=== true) {
+          return item
+        }
+      })
+    this.products = t
+
   }
   logOut = async () => {
     sessionStorage.clear()

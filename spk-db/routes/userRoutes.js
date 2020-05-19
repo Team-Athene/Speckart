@@ -4,7 +4,6 @@ const express = require('express'),
 	userRouter = express.Router(),
 	redisearch = require('./redis-search')
 
-	let temp;
 
 const router = () => {
 
@@ -20,9 +19,9 @@ const router = () => {
 	userRouter.post('/recentView', async (req, res, next) => {
 		try {
 			const itemId = req.body.itemId,
-			address = req.body.address,
-			data = "REC" + address
-            console.log("TCL: router -> req.body", req.body)
+				address = req.body.address,
+				data = "REC" + address
+			console.log("TCL: router -> req.body", req.body)
 
 			await client.lrem(data, 0, itemId)
 			await client.lpush(data, itemId)
@@ -37,13 +36,16 @@ const router = () => {
 
 	userRouter.get('/getRecentView/:address', async (req, res, next) => {
 		const address = req.params.address,
-		data = "REC" + address
-		console.log("TCL: router -> address", data)
-
+			data = "REC" + address
 
 		const get = await client.lrange(data, 0, -1)
 		console.log("TCL: router -> get", get)
-		res.json(get);
+
+		const a = await client.zrevrange("itemCount", 0, 5)
+        console.log("TCL: router -> a", a)
+
+		
+		res.send({recent: get, trend: a});
 	})
 
 	userRouter.post('/addCart', async (req, res, next) => {
@@ -51,10 +53,12 @@ const router = () => {
 			const cart = req.body.cart,
 				address = req.body.address,
 				data = "CART" + address
-			if(cart == '0') {
+			if (cart == '0') {
+				const itemId = req.body.itemId
+				await client.zincrby("itemCount", parseInt(itemId.count), itemId.id)
 				await client.del(data)
 			}
-			else{
+			else {
 				await client.set(data, cart)
 			}
 			res.send(true)
@@ -67,26 +71,25 @@ const router = () => {
 
 	userRouter.get('/getCart/:address', async (req, res, next) => {
 		const address = req.params.address,
-		data = "CART" + address
+			data = "CART" + address
 		const get = await client.get(data)
 		res.json(get);
 	})
 
 	userRouter.get('/getProducts/:data', async (req, res, next) => {
-	const data = JSON.parse(req.params.data)
+		const data = JSON.parse(req.params.data)
 		const key = data[0]
 		const value = data[1]
-		const arg = '@'+key+':'+value
-		redisearch.search(arg, function( error, data) {
-			if(error) {
-				console.log("TCL: router -> error", error)
-			} else {
-				console.log("TCL: router -> data", data)
-				temp = data
-			}
-		})
-		console.log("TCL: router -> temp", temp)
-		res.json(temp);
+		const arg = '@' + key + ':' + value 
+		const search = await redisearch.search(arg)
+        console.log("TCL: router -> search", search)
+		let productList = []
+		const array = search.results
+		array.forEach(element => {
+			productList.push(element.docId)
+		});
+		res.send(productList)
+
 	})
 
 	return userRouter;

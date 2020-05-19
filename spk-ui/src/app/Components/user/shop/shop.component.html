@@ -227,50 +227,57 @@
             </div>
           </div>
 
-          <div class="col-md-3 order-2 mb-5 mb-md-0">
+          <div class="col-md-3 order-2 mb-5 mb-md-0"><div class="border p-4 rounded mb-4">
+            <h3 class="mb-3 h6 text-uppercase text-black d-block" style="cursor: pointer;" (click)="load()"><a class="">Clear All Filters</a></h3>
+          </div>
             <div class="border p-4 rounded mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
-              <ul class="list-unstyled mb-0">
-                <li class="mb-1 " (click)="search('itemType',1)"><a class="d-flex"><span>Casual</span> <span class="text-black ml-auto">(2,220)</span></a></li>
-                <li class="mb-1" (click)="search('itemType',2)"><a class="d-flex"><span>Formal</span> <span class="text-black ml-auto">(2,550)</span></a></li>
-                <li class="mb-1" (click)="search('itemType',3)"><a class="d-flex"><span>Sunglass</span> <span class="text-black ml-auto">(2,124)</span></a></li>
+              <ul class="list-unstyled mb-0" style="margin-left: 25px;">
+                <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemType',1)"><a class="d-flex"><span>Casual</span></a></li>
+                <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemType',2)"><a class="d-flex"><span>Formal</span></a></li>
+                <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemType',3)"><a class="d-flex"><span>Sunglass</span></a></li>
               </ul>
             </div>
 
             <div class="border p-4 rounded mb-4">
               <div class="mb-4">
-                <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
-                <div id="slider-range" class="border-primary"></div>
-                <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
+                <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Brand</h3>
+                <div class="">
+                  <div class="container">
+                      <input type="text" class="form-control" placeholder="Brand Name">
+                  </div>
+                </div>
               </div>
 
               <div class="mb-4">
-                <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
-                <label for="s_sm" class="d-flex">
-                  <input type="checkbox" id="s_sm" class="mr-2 mt-1"> <span class="text-black">Small (2,319)</span>
-                </label>
-                <label for="s_md" class="d-flex">
-                  <input type="checkbox" id="s_md" class="mr-2 mt-1"> <span class="text-black">Medium (1,282)</span>
-                </label>
-                <label for="s_lg" class="d-flex">
-                  <input type="checkbox" id="s_lg" class="mr-2 mt-1"> <span class="text-black">Large (1,392)</span>
-                </label>
+                <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
+                <ul class="list-unstyled mb-0" style="margin-left: 25px;">
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemPrice','[0 100]')"><a class="d-flex"><span>Price < 100 </span></a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemPrice','[100 300]')"><a class="d-flex"><span>Price > 100 & < 300 </span></a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemPrice','[300 +inf]')"><a class="d-flex"><span>Price > 300 </span></a></li>
+                </ul>
               </div>
 
               <div class="mb-4">
                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
-                <a href="#" class="d-flex color-item align-items-center" >
-                  <span class="bg-danger color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red (2,429)</span>
-                </a>
-                <a href="#" class="d-flex color-item align-items-center" >
-                  <span class="bg-success color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Green (2,298)</span>
-                </a>
-                <a href="#" class="d-flex color-item align-items-center" >
-                  <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Blue (1,075)</span>
-                </a>
-                <a href="#" class="d-flex color-item align-items-center" >
-                  <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Purple (1,075)</span>
-                </a>
+                <ul class="list-unstyled mb-0" style="margin-left: 25px;">
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',1)"><a class="d-flex color-item align-items-center" >
+                    <span class="bg-danger color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red</span>
+                  </a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',2)"><a class="d-flex color-item align-items-center" >
+                    <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Blue</span>
+                  </a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',3)"><a class="d-flex color-item align-items-center" >
+                    <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Black</span>
+                  </a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',4)"><a class="d-flex color-item align-items-center" >
+                    <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">White</span>
+                  </a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',5)"><a class="d-flex color-item align-items-center" >
+                    <span class="bg-success color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Green</span>
+                  </a></li>
+                </ul>
+
               </div>
 
             </div>

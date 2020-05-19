@@ -2,7 +2,8 @@ const express = require('express'),
 	ProductData = require('../model/ProductData'),
 	adminRouter = express.Router(),
 	upload = require('../middleware/multer'),
-	client = require('./redis-search')
+	client = require('./redis-search'),
+	redisClient = require('./redis-client')
 
 const router = () => {
 	adminRouter.post('/add', upload.array('product'), async (req, res, next) => {
@@ -55,9 +56,21 @@ const router = () => {
 			} else {
 			}
 		})
+		await redisClient.lrem("itemBrand", 0, itemBrand.toUpperCase())
+		await redisClient.lpush("itemBrand", itemBrand)
+		await redisClient.zadd("itemCount",0, itemId)
 		const c = await client.getDoc(itemId)
 		console.log("TCL: router -> c", c)
 	})
+	adminRouter.post('/added', async (req, res, next) => {
+		// await redisClient.zadd("itemCount", 80, 'itemId7')
+		const len = await redisClient.zcard("itemCount")
+        console.log("TCL: router -> len", len)
+		await redisClient.zincrby("itemCount", 300,'itemId1')
+		const a = await redisClient.zrevrange("itemCount", 0, 5)
+        console.log("TCL: router -> a", a)
+	})
+
 	return adminRouter
 }
 module.exports = router

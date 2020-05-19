@@ -49,7 +49,12 @@ export class ViewCartComponent implements OnInit {
       const details = JSON.stringify(this.items.productData)
       const order = await this.spk.createOrder(details, count * 100).send({ from: this.account })
       if (order.status) {
-        await this.api.addCart({cart: '0', address: this.account})
+        console.log("TCL: ViewCartComponent -> subCount -> this.cart", this.items)
+        let itemId = []
+        this.items.productData.forEach(element => {
+          itemId.push({id: element.itemId, count: element.itemCount})
+        });
+        await this.api.addCart({cart: '0', address: this.account, itemId: itemId})
         this.onLoad()
       }
     } catch (error) { }
