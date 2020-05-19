@@ -9,6 +9,14 @@ export class ApiService {
   private userUrl = 'api/user'
   constructor ( private http: HttpClient ) { }
 
+  testapi = async () => {
+    return new Promise( async ( resolve, reject ) => {
+      try {
+        this.http.get( this.adminUrl + '/test' ).toPromise()
+      } catch ( error ) {
+      }
+    } )
+  }
   addProducts = async ( product: FormData ) => {
     return new Promise( async ( resolve, reject ) => {
       try {
@@ -30,7 +38,7 @@ export class ApiService {
   recentView = async ( rData ) => {
     return new Promise( async ( resolve, reject ) => {
       try {
-        this.http.post( this.userUrl + '/recentView', rData).subscribe( ( res ) => {
+        this.http.post( this.userUrl + '/recentView', rData ).subscribe( ( res ) => {
           resolve( res )
         } )
       } catch ( error ) {
@@ -48,7 +56,7 @@ export class ApiService {
   addCart = async ( data ) => {
     return new Promise( async ( resolve, reject ) => {
       try {
-        this.http.post( this.userUrl + '/addCart', data).subscribe( ( res ) => {
+        this.http.post( this.userUrl + '/addCart', data ).subscribe( ( res ) => {
           resolve( res )
         } )
       } catch ( error ) {
@@ -66,7 +74,7 @@ export class ApiService {
   search = async ( key, value ) => {
     return new Promise( async ( resolve, reject ) => {
       try {
-        const data = JSON.stringify([key, value])
+        const data = JSON.stringify( [ key, value ] )
         resolve( await this.http.get( this.userUrl + `/getProducts/${data}` ).toPromise() )
       } catch ( error ) {
       }
