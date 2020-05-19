@@ -55,7 +55,10 @@ const router = () => {
 				data = "CART" + address
 			if (cart == '0') {
 				const itemId = req.body.itemId
-				await client.zincrby("itemCount", parseInt(itemId.count), itemId.id)
+                console.log("TCL: router -> itemId", itemId)
+				itemId.forEach(async element => {
+					await client.zincrby("itemCount", parseInt(element.count), element.id)
+				});
 				await client.del(data)
 			}
 			else {
@@ -73,7 +76,8 @@ const router = () => {
 		const address = req.params.address,
 			data = "CART" + address
 		const get = await client.get(data)
-		res.json(get);
+		const brand = await client.lrange("itemBrand", 0, -1)
+		res.json({cart:get, brand: brand});
 	})
 
 	userRouter.get('/getProducts/:data', async (req, res, next) => {

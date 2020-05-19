@@ -57,7 +57,7 @@ const router = () => {
 			}
 		})
 		await redisClient.lrem("itemBrand", 0, itemBrand.toUpperCase())
-		await redisClient.lpush("itemBrand", itemBrand)
+		await redisClient.lpush("itemBrand", itemBrand.toUpperCase())
 		await redisClient.zadd("itemCount",0, itemId)
 		const c = await client.getDoc(itemId)
 		console.log("TCL: router -> c", c)

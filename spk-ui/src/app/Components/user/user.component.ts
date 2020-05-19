@@ -41,11 +41,14 @@ export class UserComponent implements OnInit {
   onLoad = async () => {
     try {
       this.recentProducts = [];
+      this.popularProducts = [];
       const apiResult: any = await this.api.getRecentView(this.account),
-        getRecentView: any = apiResult.recent,
-        popular: any = apiResult.popular;
+      getRecentView: any = apiResult.recent,
+      popular: any = apiResult.trend;
+      console.log("TCL: UserComponent -> onLoad -> apiResult", apiResult)
 
-      const cartApi: any = await this.api.getCart(this.account);
+        const cartApiPre: any = await this.api.getCart( this.account )
+        const cartApi: any = cartApiPre.cart
       if (cartApi === null) {
         this.cart = { productData: [], cartTotal: 0 };
       } else {

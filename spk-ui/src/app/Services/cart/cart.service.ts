@@ -8,7 +8,8 @@ import { ApiService } from '../api/api.service'
 export class CartService {
   constructor (private api: ApiService) { }
   calculateCart = async ( index, num, address ) => {
-    const cartApi: any = await this.api.getCart( address )
+    const cartApiPre: any = await this.api.getCart( address )
+    const cartApi: any = cartApiPre.cart
     const items: Cart = JSON.parse( cartApi )
     items.cartTotal = 0
     items.productData[ index ].itemCount = items.productData[ index ].itemCount + num

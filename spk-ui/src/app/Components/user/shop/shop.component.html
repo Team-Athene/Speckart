@@ -244,7 +244,9 @@
                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Brand</h3>
                 <div class="">
                   <div class="container">
-                      <input type="text" class="form-control" placeholder="Brand Name">
+                    <select class = "dropdown-toggle px-4" (change)="searchIO($event)">
+                      <option *ngFor="let item of brand" value="item" > {{item}} </option>
+                    </select>
                   </div>
                 </div>
               </div>

@@ -31,7 +31,8 @@ export class ViewCartComponent implements OnInit {
   onLoad = async () => {
     try {
       this.flag = 0;
-      const cartApi: any = await this.api.getCart( this.account )
+      const cartApiPre: any = await this.api.getCart( this.account )
+      const cartApi: any = cartApiPre.cart
       if(cartApi === null){
         this.items = { productData: [], cartTotal: 0 }
       } else {

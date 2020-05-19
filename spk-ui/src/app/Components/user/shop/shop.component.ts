@@ -17,12 +17,25 @@ export class ShopComponent implements OnInit {
   spk: any
   imgurl = 'http://0.0.0.0:3000/'
   prod: any = []
+  brand: any = []
   products: ProductModel[] = []
 
   productList: ProductModel[] = []
 
   productDetail: ProductModel = new ProductModelClass()
   cart: Cart = { productData: [], cartTotal: 0 }
+  type = {
+    1: 'Casual',
+    2: 'Formal',
+    3: 'Sunglass',
+  }
+  color = {
+    1: 'Red',
+    2: 'Blue',
+    3: 'Black',
+    4: 'White',
+    5: 'Green'
+  }
 
   constructor(private api: ApiService, private web3service: Web3Service, private route: Router) {
 
@@ -42,7 +55,10 @@ export class ShopComponent implements OnInit {
     try {
       this.productList = []
       this.products = []
-      const cartApi: any = await this.api.getCart( this.account )
+      const cartApiPre: any = await this.api.getCart( this.account )
+      console.log("TCL: ShopComponent -> onLoad -> cartApiPre", cartApiPre)
+      const cartApi: any = cartApiPre.cart
+      this.brand = cartApiPre.brand
       if(cartApi === null){
         this.cart = { productData: [], cartTotal: 0 }
       } else {
@@ -53,6 +69,10 @@ export class ShopComponent implements OnInit {
         const temProduct: ProductModel = await this.spk.product(i).call({ from: this.account })
         temProduct.itemId = i
         const imgs: any = await this.api.viewProducts(temProduct.imageId)
+        const a = temProduct.itemColor,
+        b = temProduct.itemType
+        temProduct.itemColor = this.color[a]
+        temProduct.itemType = this.type[b]
         temProduct.imageData = new Array()
         imgs.forEach((img: ImageDataModel, i: any) => {
           temProduct.imageData[i] = img
@@ -62,6 +82,10 @@ export class ShopComponent implements OnInit {
       }
     } catch (error) {
     }
+  }
+  searchIO = async (event) => {
+    console.log("TCL: ShopComponent -> event", event)
+    console.log("TCL: ShopComponent -> event", event.target.value)
   }
   detailView = async (prod: ProductModel) => {
     this.productDetail = prod
