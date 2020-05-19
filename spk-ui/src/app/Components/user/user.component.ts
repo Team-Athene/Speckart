@@ -24,6 +24,18 @@ export class UserComponent implements OnInit {
   popularProducts: ProductModel[] = [];
   productDetail: ProductModel = new ProductModelClass();
   cart: Cart = { productData: [], cartTotal: 0 };
+  type = {
+    1: "Casual",
+    2: "Formal",
+    3: "Sunglass",
+  };
+  color = {
+    1: "Red",
+    2: "Blue",
+    3: "Black",
+    4: "White",
+    5: "Green",
+  };
 
   constructor(
     private api: ApiService,
@@ -43,12 +55,12 @@ export class UserComponent implements OnInit {
       this.recentProducts = [];
       this.popularProducts = [];
       const apiResult: any = await this.api.getRecentView(this.account),
-      getRecentView: any = apiResult.recent,
-      popular: any = apiResult.trend;
-      console.log("TCL: UserComponent -> onLoad -> apiResult", apiResult)
+        getRecentView: any = apiResult.recent,
+        popular: any = apiResult.trend;
+      console.log("TCL: UserComponent -> onLoad -> apiResult", apiResult);
 
-        const cartApiPre: any = await this.api.getCart( this.account )
-        const cartApi: any = cartApiPre.cart
+      const cartApiPre: any = await this.api.getCart(this.account);
+      const cartApi: any = cartApiPre.cart;
       if (cartApi === null) {
         this.cart = { productData: [], cartTotal: 0 };
       } else {
@@ -60,6 +72,10 @@ export class UserComponent implements OnInit {
           .call({ from: this.account });
         temProduct.itemId = getRecentView[i];
         const imgs: any = await this.api.viewProducts(temProduct.imageId);
+        const a = temProduct.itemColor,
+          b = temProduct.itemType;
+        temProduct.itemColor = this.color[a];
+        temProduct.itemType = this.type[b];
         temProduct.imageData = new Array();
         imgs.forEach((img: ImageDataModel, i: any) => {
           temProduct.imageData[i] = img;
@@ -72,6 +88,10 @@ export class UserComponent implements OnInit {
           .call({ from: this.account });
         popProd.itemId = popular[i];
         const imgs: any = await this.api.viewProducts(popProd.imageId);
+        const a = popProd.itemColor,
+          b = popProd.itemType;
+          popProd.itemColor = this.color[a];
+          popProd.itemType = this.type[b];
         popProd.imageData = new Array();
         imgs.forEach((img: ImageDataModel, i: any) => {
           popProd.imageData[i] = img;
