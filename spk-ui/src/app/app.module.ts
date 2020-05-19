@@ -19,13 +19,16 @@ import { ViewCartComponent } from './Components/user/view-cart/view-cart.compone
 import { MarketRouterComponent } from './Components/token-market/market-router/market-router.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { HttpClientModule } from '@angular/common/http';
-import { ViewOrdersComponent } from './Components/admin/view-orders/view-orders.component';
+import { HttpClientModule } from '@angular/common/http'
+import { ViewOrdersComponent } from './Components/admin/view-orders/view-orders.component'
 import { ShopComponent } from './Components/user/shop/shop.component'
-import { TokenMarketComponent_User } from './Components/user/token-market-user/token-market.component';
-import { UserDetailsComponent } from './Components/user/user-details/user-details.component';
-import { ChatRoomComponent } from './Components/user/chat-room/chat-room.component';
+import { TokenMarketComponent_User } from './Components/user/token-market-user/token-market.component'
+import { UserDetailsComponent } from './Components/user/user-details/user-details.component'
+import { ChatRoomComponent } from './Components/user/chat-room/chat-room.component'
 import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-room-admin.component'
+
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io'
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
 @NgModule( {
   declarations: [
     AppComponent,
@@ -56,7 +59,8 @@ import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-r
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SocketIoModule.forRoot( config )
   ],
   providers: [],
   bootstrap: [ AppComponent ]
