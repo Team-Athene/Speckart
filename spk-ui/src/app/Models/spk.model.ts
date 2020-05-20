@@ -15,6 +15,7 @@ export interface UserModel {
   gender: string
   mail: string
   address: string
+  type: number
 }
 export interface ProductModel {
   itemId: any

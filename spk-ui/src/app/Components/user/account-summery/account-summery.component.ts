@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Web3Service } from 'src/app/Services/Web3/web3.service'
 import { ApiService } from 'src/app/Services/api/api.service'
 import { Web3Model } from 'src/app/Models/web3.model'
-import { OrderModel, CartProduct, UserBalanceModel } from 'src/app/Models/spk.model'
+import { OrderModel, CartProduct, UserBalanceModel, ProductModel } from 'src/app/Models/spk.model'
 import { CartProductClass, OrderModelClass, UserBalanceModelClass } from 'src/app/Models/Class/cart.class'
 import { SpkService } from 'src/app/Services/spk/spk.service'
 import { Router } from '@angular/router'
@@ -21,6 +21,7 @@ export class AccountSummeryComponent implements OnInit {
   email: string
   address: string
   status: any
+  view: number
   orderData: OrderModel[] = new Array(new OrderModelClass)
   currentOrder: OrderModel = new OrderModelClass
   userBalance: UserBalanceModel = new UserBalanceModelClass()
@@ -35,6 +36,7 @@ export class AccountSummeryComponent implements OnInit {
   }
   onLoad = async () => {
     try {
+      this.view = 0;
       this.userBalance = {
         etherBal: await this.spec.getBalance(this.account),
         tokenBal: (await this.spk.balanceOf(this.account).call({ from: this.account }) / (10 ** 2))
@@ -84,9 +86,16 @@ export class AccountSummeryComponent implements OnInit {
       } else if (this.orderData[i].status === '3') {
         this.currentOrder.status = "Cancelled"
       }
+      this.view = 1
     } catch (error) {
     }
   }
+  statusView = async (itemId, orderId) => {
+  console.log("TCL: AccountSummeryComponent -> productView -> orderId", orderId)
+  console.log("TCL: AccountSummeryComponent -> productView -> itemId", itemId)
+
+    this.onLoad();
+  };
   cancelOrder = async i => {
     try {
       const data = await this.spk.cancelOrder(i).send({ from: this.account })

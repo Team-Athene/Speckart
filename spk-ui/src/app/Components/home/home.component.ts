@@ -1,5 +1,5 @@
 import { ApiService } from 'src/app/Services/api/api.service'
-import { SocketService } from './../../Services/socket/socket.service'
+// import { SocketService } from './../../Services/socket/socket.service'
 import { async } from '@angular/core/testing'
 import { Component, OnInit } from '@angular/core'
 import { Web3Service } from 'src/app/Services/Web3/web3.service'
@@ -14,7 +14,9 @@ import { Web3Model } from 'src/app/Models/web3.model'
 export class HomeComponent implements OnInit {
   account: string
   spk: any
-  constructor ( private web3service: Web3Service, private route: Router, private api: ApiService, private socket: SocketService ) { }
+  constructor ( private web3service: Web3Service, private route: Router, private api: ApiService,
+    // private socket: SocketService 
+    ) { }
   ngOnInit() {
     // this.api.testapi()
     // this.socket.test()

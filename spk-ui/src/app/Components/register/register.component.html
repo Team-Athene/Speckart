@@ -108,6 +108,17 @@
 
                 <div class="form-group row">
                   <div class="col-md-12">
+                    <label for="type">Type <span class="text-danger">*</span></label>
+                    <select class="input-text form-row form-control" name="type" style="width: 95%;" ngModel>
+                      <option selected>Choose Your Type</option>
+                      <option value="1">Buyer</option>
+                      <option value="2">Seller</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-md-12">
                     <label for="c_email" class="text-black">Email <span class="text-danger">*</span></label>
                     <input type="text" name="mail" id="mail" class="input-text" placeholder="Your Email" required ngModel
                       pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">

@@ -28,7 +28,7 @@ import { ChatRoomComponent } from './Components/user/chat-room/chat-room.compone
 import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-room-admin.component'
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io'
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
+// const config: SocketIoConfig = { url: 'api', options: {} }
 @NgModule( {
   declarations: [
     AppComponent,
@@ -60,7 +60,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    SocketIoModule.forRoot( config )
+    // SocketIoModule.forRoot( config )
   ],
   providers: [],
   bootstrap: [ AppComponent ]

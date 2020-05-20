@@ -29,8 +29,10 @@ export class RegisterComponent implements OnInit {
         user.contact,
         user.gender,
         user.mail,
-        user.address
+        user.address,
+        user.type
       ).send({ from: this.account, gas: 5000000 })
+      console.log("TCL: RegisterComponent -> onSubmit -> regRespone", regRespone)
       if (regRespone.status) {
         alert('Hi ' + regRespone.events.SignUp.returnValues.name + '  Your Registration to SpecKart is Success')
         this.route.navigateByUrl('/')

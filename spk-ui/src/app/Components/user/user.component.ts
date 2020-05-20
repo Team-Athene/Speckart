@@ -67,9 +67,15 @@ export class UserComponent implements OnInit {
         this.cart = JSON.parse(cartApi);
       }
       for (let i = 0; i < getRecentView.length; i++) {
-        const temProduct: ProductModel = await this.spk
-          .product(parseInt(getRecentView[i]))
+        const prod1 = await this.spk
+          .product1(parseInt(getRecentView[i]))
           .call({ from: this.account });
+          const prod2 = await this.spk
+          .product2(parseInt(getRecentView[i]))
+          .call({ from: this.account });
+          console.log("TCL: UserComponent -> onLoad -> prod1", prod1)
+          console.log("TCL: UserComponent -> onLoad -> prod2", prod2)
+        let temProduct: ProductModel
         temProduct.itemId = getRecentView[i];
         const imgs: any = await this.api.viewProducts(temProduct.imageId);
         const a = temProduct.itemColor,
