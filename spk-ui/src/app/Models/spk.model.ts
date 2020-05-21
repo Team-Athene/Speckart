@@ -22,6 +22,7 @@ export interface ProductModel {
   itemName: string
   itemType: string
   itemPrice: any
+  itemCount: number
   itemDetails: string
   itemColor: string
   itemBrand: string

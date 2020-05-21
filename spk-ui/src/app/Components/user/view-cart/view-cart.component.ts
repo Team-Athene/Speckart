@@ -49,13 +49,17 @@ export class ViewCartComponent implements OnInit {
   payment = async () => {
     try {
       const count = this.items.cartTotal
+      const id = [],
+      itemCount = [],
+      itemId = []
       const details = JSON.stringify(this.items.productData)
-      const order = await this.spk.createOrder(details, count * 100).send({ from: this.account })
+      this.items.productData.forEach(element => {
+        id.push(element.itemId)
+        itemCount.push(element.itemCount)
+        itemId.push({id: element.itemId, count: element.itemCount})
+      });
+      const order = await this.spk.createOrder(details, id, itemCount, count * 100).send({ from: this.account })
       if (order.status) {
-        let itemId = []
-        this.items.productData.forEach(element => {
-          itemId.push({id: element.itemId, count: element.itemCount})
-        });
         this.done = 1
         await this.api.addCart({cart: '0', address: this.account, itemId: itemId})
         this.onLoad()

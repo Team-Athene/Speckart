@@ -27,7 +27,9 @@ import { UserDetailsComponent } from './Components/user/user-details/user-detail
 import { ChatRoomComponent } from './Components/user/chat-room/chat-room.component'
 import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-room-admin.component'
 
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io'
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { TokenMarketAdminComponent } from './Components/admin/token-market-admin/token-market-admin.component';
+import { SellerDetailsComponent } from './Components/admin/seller-details/seller-details.component'
 // const config: SocketIoConfig = { url: 'api', options: {} }
 @NgModule( {
   declarations: [
@@ -51,7 +53,9 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io'
     ShopComponent,
     UserDetailsComponent,
     ChatRoomComponent,
-    ChatRoomAdminComponent
+    ChatRoomAdminComponent,
+    TokenMarketAdminComponent,
+    SellerDetailsComponent
   ],
   imports: [
     BrowserModule,

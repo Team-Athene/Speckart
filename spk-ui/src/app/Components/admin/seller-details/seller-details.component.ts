@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderModel, UserBalanceModel } from 'src/app/Models/spk.model';
-import { OrderModelClass, UserBalanceModelClass } from 'src/app/Models/Class/cart.class';
+import { UserBalanceModel } from 'src/app/Models/spk.model';
+import { UserBalanceModelClass } from 'src/app/Models/Class/cart.class';
 import { ApiService } from 'src/app/Services/api/api.service';
 import { Web3Service } from 'src/app/Services/Web3/web3.service';
 import { SpkService } from 'src/app/Services/spk/spk.service';
@@ -8,11 +8,11 @@ import { Router } from '@angular/router';
 import { Web3Model } from 'src/app/Models/web3.model';
 
 @Component({
-  selector: 'app-user-details',
-  templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss']
+  selector: 'app-seller-details',
+  templateUrl: './seller-details.component.html',
+  styleUrls: ['./seller-details.component.scss']
 })
-export class UserDetailsComponent implements OnInit {
+export class SellerDetailsComponent implements OnInit {
   account: string
   spk: any
   name: string
@@ -38,12 +38,12 @@ export class UserDetailsComponent implements OnInit {
         tokenBal: (await this.spk.balanceOf(this.account).call({ from: this.account }) / (10 ** 2))
       }
       const user = await this.spk.userDetails().call({ from: this.account })
-      console.log("TCL: UserDetailsComponent -> onLoad -> user", user)
+      console.log("TCL: SellerDetailsComponent -> onLoad -> user", user)
       this.name = user.userName
       this.contact = user.userContact
-      if (user.userGender === 1) {
+      if (user.userGender === '1') {
         this.gender = 'Male'
-      } else if (user.userGender === 2) {
+      } else if (user.userGender === '2') {
         this.gender = 'Female'
       } else {
         this.gender = 'Others'

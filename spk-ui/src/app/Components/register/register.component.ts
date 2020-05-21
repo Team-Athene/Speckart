@@ -19,11 +19,13 @@ export class RegisterComponent implements OnInit {
     this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
       this.account = data.account
       this.spk = data.spk
+      console.log("TCL: RegisterComponent -> ngOnInit -> this.spk", this.spk)
     })
   }
   onSubmit = async (form: NgForm) => {
     try {
       const user: UserModel = form.value
+      console.log("TCL: RegisterComponent -> onSubmit -> user", user)
       const regRespone = await this.spk.userSignUp(
         user.name,
         user.contact,

@@ -67,15 +67,16 @@ export class UserComponent implements OnInit {
         this.cart = JSON.parse(cartApi);
       }
       for (let i = 0; i < getRecentView.length; i++) {
-        const prod1 = await this.spk
-          .product1(parseInt(getRecentView[i]))
+        let temProduct: ProductModel = await this.spk
+          .product1(getRecentView[i])
           .call({ from: this.account });
-          const prod2 = await this.spk
-          .product2(parseInt(getRecentView[i]))
+        const temp = await this.spk
+          .product2(getRecentView[i])
           .call({ from: this.account });
-          console.log("TCL: UserComponent -> onLoad -> prod1", prod1)
-          console.log("TCL: UserComponent -> onLoad -> prod2", prod2)
-        let temProduct: ProductModel
+        temProduct.itemColor = temp.itemColor;
+        temProduct.itemType = temp.itemType;
+        temProduct.itemDetails = temp.itemDetails;
+        temProduct.itemBrand = temp.itemBrand;
         temProduct.itemId = getRecentView[i];
         const imgs: any = await this.api.viewProducts(temProduct.imageId);
         const a = temProduct.itemColor,
@@ -90,14 +91,21 @@ export class UserComponent implements OnInit {
       }
       for (let i = 0; i < popular.length; i++) {
         const popProd: ProductModel = await this.spk
-          .product(parseInt(popular[i]))
+          .product1(parseInt(popular[i]))
           .call({ from: this.account });
+          const pop = await this.spk
+            .product2(popular[i])
+            .call({ from: this.account });
+            popProd.itemColor = pop.itemColor;
+            popProd.itemType = pop.itemType;
+            popProd.itemDetails = pop.itemDetails;
+            popProd.itemBrand = pop.itemBrand;
         popProd.itemId = popular[i];
         const imgs: any = await this.api.viewProducts(popProd.imageId);
         const a = popProd.itemColor,
           b = popProd.itemType;
-          popProd.itemColor = this.color[a];
-          popProd.itemType = this.type[b];
+        popProd.itemColor = this.color[a];
+        popProd.itemType = this.type[b];
         popProd.imageData = new Array();
         imgs.forEach((img: ImageDataModel, i: any) => {
           popProd.imageData[i] = img;

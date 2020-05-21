@@ -1,24 +1,22 @@
 <div class="container" style="margin-top: 80px;">
+  <button (click)="ShowConfirmed()">Confirmed</button>
+  <button (click)="ShowRejected()">Rejected</button>
   <table class="table" border="1">
     <thead class="thread text-center">
       <tr>
         <th>Item No</th>
         <th>View Details</th>
         <th>Price</th>
-        <th>Approval</th>
+        <th>TimeStamp</th>
       </tr>
     </thead>
     <tbody class="text-center">
-      <!-- <div > -->
       <tr *ngFor="let order of orders let i = index">
         <td *ngIf="order">{{order.orderId}}</td>
         <td *ngIf="order" (click)="orderView(i)" data-toggle="modal" data-target="#order_view"><button
             class="fas fa-search"></button></td>
         <td *ngIf="order">{{order.totalPrice/100}} SPC</td>
-        <td *ngIf="order">
-          <button type="button" (click)="accept(order.orderId)" class="btn btn1 btn-outline-success">Accept</button>
-          <button type="button" (click)="reject(order.orderId)" class="btn btn1 btn-outline-danger">Reject</button>
-        </td>
+        <td *ngIf="order"> {{date}}</td>
       </tr>
       <!-- </div> -->
     </tbody>

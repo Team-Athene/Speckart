@@ -77,7 +77,8 @@
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="">Cart</strong></div>
+          <div class="col-md-9 mb-0"><a href="/">Home</a> <span class="mx-2 mb-0">/</span> <strong class="">Cart</strong></div>
+          <div *ngIf="view==1" class="col-md-3 mb-0"><span class="mx-2 mb-0"></span> <strong class=""> {{currentOrder.timeStamp}} </strong></div>
         </div>
       </div>
     </div>
@@ -118,7 +119,7 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th class="product-thumbnail">Product ID</th>
+                    <th class="product-thumbnail">ID</th>
                     <th class="product-name">Product</th>
                     <th class="product-price">Price</th>
                     <th class="product-quantity">Quantity</th>
@@ -134,7 +135,7 @@
                       <td>{{item.itemPrice}} SPC</td>
                       <td>{{item.itemCount}} SPC</td>
                       <td>{{item.itemTotal}} SPC</td>
-                      <td *ngIf="i>0" ><a (click)="statusView(item.itemId, currentOrder.orderId)" data-toggle="modal"
+                      <td><a (click)="statusView(item.itemId, currentOrder.orderId)" data-toggle="modal"
                         data-target="#order_view"  class="btn btn-primary height-auto btn-sm" style="color: white;">View Status</a>
                       </td>
                     </tr>

@@ -149,7 +149,7 @@ contract SpecRead is SpecVariables{
     string memory itemName,
     uint256 itemPrice,
     string memory imageId,
-    uint256 availableCount,
+    uint256 itemCount,
     uint256 status) {
     return (
       SPEC.Product[_id].itemName,
@@ -297,7 +297,8 @@ library SafeMath {
   }
 }
 
-contract SpecTokenModifiers {
+contract SpecToken {
+  using SafeMath for uint256;  
   mapping (address => uint256) public balanceOf;
 	mapping (address => uint256) public freezeOf;
   mapping (address => mapping (address => uint256)) public allowance;
@@ -314,10 +315,6 @@ contract SpecTokenModifiers {
     require(balanceOf[_add] >= _value,"insufficient funds");
     _;
   }
-}
-
-contract SpecToken is SpecTokenModifiers {
-  using SafeMath for uint256;
   string public name;
   string public symbol;
   uint8 public decimals;
@@ -345,24 +342,6 @@ function transfer(address _to, uint256 _count) public
     balanceOf[msg.sender] = balanceOf[msg.sender].sub(_count); 
     balanceOf[_to] = balanceOf[_to].add(_count);
     emit Transfer(msg.sender, _to, _count); 
-    return true;
-}
-function approve(address _spender, uint256 _count) public
-  isGreaterThanZero(_count) 
-  returns (bool success) {
-    allowance[msg.sender][_spender] = _count;
-    return true;
-}
-function transferFrom(address _from, address _to, uint256 _count) public
-  isGreaterThanZero(_count)
-  isValidAddress(_to)
-  isSufficientBalance(_count,_from)
-  returns (bool success) {
-    require(_count <= allowance[_from][msg.sender],"Transfer not allowed from this contract");   // Check allowance
-    balanceOf[_from] = balanceOf[_from].sub(_count);   // Subtract from the sender
-    balanceOf[_to] = balanceOf[_to].add(_count);   // Add the same to the recipient
-    allowance[_from][msg.sender] = allowance[_from][msg.sender].sub(_count);
-    emit Transfer(_from, _to, _count);
     return true;
 }
 function mint(address _to, uint256 _count) public

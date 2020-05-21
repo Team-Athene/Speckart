@@ -20,6 +20,8 @@ import { TokenMarketComponent_User } from './Components/user/token-market-user/t
 import { UserDetailsComponent } from './Components/user/user-details/user-details.component'
 import { ChatRoomComponent } from './Components/user/chat-room/chat-room.component'
 import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-room-admin.component'
+import { TokenMarketAdminComponent } from './Components/admin/token-market-admin/token-market-admin.component'
+import { SellerDetailsComponent } from './Components/admin/seller-details/seller-details.component'
 
 
 const routes: Routes = [
@@ -83,6 +85,10 @@ const routes: Routes = [
         component: AddProductComponent
       },
       {
+        path: 'userDetails',
+        component: SellerDetailsComponent
+      },
+      {
         path: 'order-details',
         component: OrderDetailsComponent
       },
@@ -93,6 +99,10 @@ const routes: Routes = [
       {
         path: 'view-orders',
         component: ViewOrdersComponent
+      },
+      {
+        path: 'exchange',
+        component: TokenMarketAdminComponent
       }
     ]
   },

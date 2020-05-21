@@ -25,6 +25,7 @@ export class ProductModelClass implements ProductModel {
   itemBrand: string
   itemColor: string
   itemPrice: number
+  itemCount: number
   itemDetails: string
   imageId: any
   ratingCount: number
