@@ -17,6 +17,8 @@ export const client = () => {
 			reject('Redis Connection failed')
 		})
 		connector.on('connect', () => {
+			// console.log(connector)
+
 			resolve(connector)
 		})
 	})

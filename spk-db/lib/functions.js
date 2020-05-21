@@ -8,7 +8,7 @@ export let fetchMessages = () => {
 			(res) => {
 				res.lrangeAsync('messages', 0, -1).then(
 					(messages) => {
-						console.log(messages)
+						console.log('messages', messages)
 						resolve(messages)
 					},
 					(err) => {
@@ -52,6 +52,8 @@ export let fetchActiveUsers = () => {
 			(res) => {
 				res.smembersAsync('users').then(
 					(users) => {
+						console.log('Users ', users)
+
 						resolve(users)
 					},
 					(err) => {

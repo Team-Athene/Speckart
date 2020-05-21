@@ -27,10 +27,10 @@ import { UserDetailsComponent } from './Components/user/user-details/user-detail
 import { ChatRoomComponent } from './Components/user/chat-room/chat-room.component'
 import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-room-admin.component'
 
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { TokenMarketAdminComponent } from './Components/admin/token-market-admin/token-market-admin.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io'
+import { TokenMarketAdminComponent } from './Components/admin/token-market-admin/token-market-admin.component'
 import { SellerDetailsComponent } from './Components/admin/seller-details/seller-details.component'
-// const config: SocketIoConfig = { url: 'api', options: {} }
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
 @NgModule( {
   declarations: [
     AppComponent,
@@ -64,7 +64,7 @@ import { SellerDetailsComponent } from './Components/admin/seller-details/seller
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    // SocketIoModule.forRoot( config )
+    SocketIoModule.forRoot( config )
   ],
   providers: [],
   bootstrap: [ AppComponent ]
