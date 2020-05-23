@@ -17,7 +17,7 @@ export class SocketService {
   listMessages = async () => {
     return new Promise( async ( resolve, reject ) => {
       try {
-        this.http.get( this.url + '/messages' ).toPromise()
+        resolve( this.http.get( this.url + '/messages' ).toPromise() )
       } catch ( error ) {
       }
     } )
@@ -25,7 +25,7 @@ export class SocketService {
   listUsers = async () => {
     return new Promise( async ( resolve, reject ) => {
       try {
-        this.http.get( this.url + '/users' ).toPromise()
+        resolve( this.http.get( this.url + '/users' ).toPromise() )
       } catch ( error ) {
       }
     } )
@@ -78,11 +78,11 @@ export class SocketService {
       } )
     } )
   }
-  public getUsers = () => {
-    return Observable.create( ( observer ) => {
-      this.socket.on( 'users', ( userList ) => {
-        observer.next( userList )
-      } )
-    } )
-  }
+  // public getUsers = () => {
+  //   return Observable.create( ( observer ) => {
+  //     this.socket.on( 'users', ( userList ) => {
+  //       observer.next( userList )
+  //     } )
+  //   } )
+  // }
 }
