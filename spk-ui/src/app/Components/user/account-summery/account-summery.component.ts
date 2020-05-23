@@ -183,7 +183,7 @@ export class AccountSummeryComponent implements OnInit {
       }
     } catch (error) {}
   }
-  confirmOrder = async (o_Id, p_Id) => {
+  confirmDelivery = async (o_Id, p_Id) => {
     try {
       const data = await this.spk
         .confirmDelivery(o_Id, p_Id)
