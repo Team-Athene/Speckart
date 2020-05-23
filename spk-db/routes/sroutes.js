@@ -95,19 +95,17 @@ export let createUser = router.post('/user', (req, res) => {
 	})
 })
 
-export let deleteUser = router.post('/deleteUser', (req, res) => {
+export let deleteUser = router.post('/deleteUser', async (req, res) => {
 	let users
 	let user = req.body.user
 	console.log('Log: user', user)
 
-	fetchUsers().then((u) => {
+	fetchUsers().then(async (u) => {
 		users = u
-		console.log(
-			'Log: users]]================',
-			users.indexOf(JSON.stringify(user))
-		)
-
 		if (users.indexOf(user) !== -1) {
+			console.log('Log: users]]================', users.indexOf(user))
+			console.log('Log: users]]================', users.includes(user))
+			console.log('Log: users', users)
 			helper.removeActiveUser(user).then(
 				() => {
 					client().then(
@@ -116,10 +114,8 @@ export let deleteUser = router.post('/deleteUser', (req, res) => {
 								message: req.body.user + ' just left the chat room',
 								user: 'system',
 							}
-
 							client.publish('chatMessages', JSON.stringify(msg))
 							client.publish('activeUsers', JSON.stringify(fetchUsers()))
-
 							helper.addMessage(JSON.stringify(msg)).then(
 								() => {
 									res.send({

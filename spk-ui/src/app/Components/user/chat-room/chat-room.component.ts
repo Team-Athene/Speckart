@@ -53,6 +53,9 @@ export class ChatRoomComponent implements OnInit {
         console.log( 'Log: ChatRoomComponent -> chatLoad -> this.newMsg', this.newMsg )
       } )
   }
+  loadChat = async () => {
+
+  }
   createMsg = async () => {
     console.log( this.msg )
     this.chat.NewMessage( { user: this.name, msg: this.msg } )
@@ -61,5 +64,13 @@ export class ChatRoomComponent implements OnInit {
   leaveRoom = async () => {
     console.log( 'Log: ChatRoomComponent -> leaveRoom -> this.name ', this.name )
     await this.chat.leave( { user: this.name } )
+    await this.chat.getMessages()
+      .subscribe( async ( message: string ) => {
+        this.usersList = await this.chat.listUsers() as []
+        this.newMsg = message
+        this.msgsList.push( this.newMsg )
+        console.log( 'Log: ChatRoomComponent -> chatLoad -> this.newMsg', this.newMsg )
+      } )
+
   }
 }
