@@ -58,7 +58,7 @@
           </div>
 
           <div class="card-body msg_card_body">
-            <div *ngFor="let chat of msgsList">
+            <div #scrollMe [scrollTop]="scrollMe.scrollHeight" *ngFor="let chat of msgsList">
               <div *ngIf="chat.user===name;else otherchat" class="d-flex justify-content-end mb-4">
                 <div class="msg_cotainer_send">
                   {{chat.message}}
