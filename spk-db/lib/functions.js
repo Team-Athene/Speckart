@@ -53,7 +53,6 @@ export let fetchActiveUsers = () => {
 				res.smembersAsync('users').then(
 					(users) => {
 						console.log('Users ', users)
-
 						resolve(users)
 					},
 					(err) => {

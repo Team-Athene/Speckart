@@ -28,6 +28,6 @@ router.get('/chat/:username', chat.chatRoom)
 router.get('/messages', chat.messages)
 router.get('/users', chat.users)
 router.post('/user', chat.createUser)
-router.delete('/user', chat.deleteUser)
+router.post('/deleteUser', chat.deleteUser)
 router.post('/message', chat.createMessage)
 module.exports = router

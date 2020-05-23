@@ -95,12 +95,17 @@ export let createUser = router.post('/user', (req, res) => {
 	})
 })
 
-export let deleteUser = router.delete('/user', (req, res) => {
+export let deleteUser = router.post('/deleteUser', (req, res) => {
 	let users
 	let user = req.body.user
+	console.log('Log: user', user)
 
 	fetchUsers().then((u) => {
 		users = u
+		console.log(
+			'Log: users]]================',
+			users.indexOf(JSON.stringify(user))
+		)
 
 		if (users.indexOf(user) !== -1) {
 			helper.removeActiveUser(user).then(
