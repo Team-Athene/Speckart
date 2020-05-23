@@ -12,7 +12,6 @@ import { UserComponent } from './Components/user/user.component'
 import { AdminRouterComponent } from './Components/admin/admin-router/admin-router.component'
 import { AddProductComponent } from './Components/admin/add-product/add-product.component'
 import { ViewProductComponent } from './Components/admin/view-product/view-product.component'
-import { OrderDetailsComponent } from './Components/admin/order-details/order-details.component'
 import { UserRouterComponent } from './Components/user/user-router/user-router.component'
 import { AccountSummeryComponent } from './Components/user/account-summery/account-summery.component'
 import { ViewCartComponent } from './Components/user/view-cart/view-cart.component'
@@ -44,7 +43,6 @@ import { SellerDetailsComponent } from './Components/admin/seller-details/seller
     AdminRouterComponent,
     AddProductComponent,
     ViewProductComponent,
-    OrderDetailsComponent,
     UserRouterComponent,
     AccountSummeryComponent,
     ViewCartComponent,

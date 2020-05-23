@@ -85,6 +85,7 @@ const router = () => {
 		const key = data[0]
 		const value = data[1]
 		const arg = '@' + key + ':' + value 
+        console.log("TCL: router -> arg", arg)
 		const search = await redisearch.search(arg)
         console.log("TCL: router -> search", search)
 		let productList = []

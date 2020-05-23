@@ -67,17 +67,20 @@ export class UserComponent implements OnInit {
         this.cart = JSON.parse(cartApi);
       }
       for (let i = 0; i < getRecentView.length; i++) {
-        let temProduct: ProductModel = await this.spk
-          .product1(getRecentView[i])
-          .call({ from: this.account });
-        const temp = await this.spk
-          .product2(getRecentView[i])
-          .call({ from: this.account });
-        temProduct.itemColor = temp.itemColor;
-        temProduct.itemType = temp.itemType;
-        temProduct.itemDetails = temp.itemDetails;
-        temProduct.itemBrand = temp.itemBrand;
-        temProduct.itemId = getRecentView[i];
+        const temp1 = await this.spk.product1(getRecentView[i]).call({ from: this.account })
+        const temp = await this.spk.product2(getRecentView[i]).call({ from: this.account })
+        console.log('TCL: ViewProductComponent -> onLoad -> temp1', temp1)
+        console.log('TCL: ViewProductComponent -> onLoad -> temp', temp)
+        const temProduct: ProductModel = new ProductModelClass()
+        temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
+        temProduct.itemPrice = (temp1.itemPrice)
+        temProduct.imageId = await this.web3service.fromBytes(temp1.imageId)
+        temProduct.itemCount = temp1.availableCount
+        temProduct.itemColor = temp.itemColor
+        temProduct.itemType = temp.itemType
+        temProduct.itemDetails = await this.web3service.fromBytes(temp.itemDetails)
+        temProduct.itemBrand = await this.web3service.fromBytes(temp.itemBrand)
+        temProduct.itemId = getRecentView[i]
         const imgs: any = await this.api.viewProducts(temProduct.imageId);
         const a = temProduct.itemColor,
           b = temProduct.itemType;
@@ -90,27 +93,30 @@ export class UserComponent implements OnInit {
         this.recentProducts.push(temProduct);
       }
       for (let i = 0; i < popular.length; i++) {
-        const popProd: ProductModel = await this.spk
-          .product1(parseInt(popular[i]))
-          .call({ from: this.account });
-          const pop = await this.spk
-            .product2(popular[i])
-            .call({ from: this.account });
-            popProd.itemColor = pop.itemColor;
-            popProd.itemType = pop.itemType;
-            popProd.itemDetails = pop.itemDetails;
-            popProd.itemBrand = pop.itemBrand;
-        popProd.itemId = popular[i];
-        const imgs: any = await this.api.viewProducts(popProd.imageId);
-        const a = popProd.itemColor,
-          b = popProd.itemType;
-        popProd.itemColor = this.color[a];
-        popProd.itemType = this.type[b];
-        popProd.imageData = new Array();
+        const pop1 = await this.spk.product1(popular[i]).call({ from: this.account })
+        const pop = await this.spk.product2(popular[i]).call({ from: this.account })
+        console.log('TCL: ViewProductComponent -> onLoad -> pop1', pop1)
+        console.log('TCL: ViewProductComponent -> onLoad -> pop', pop)
+        const popProduct: ProductModel = new ProductModelClass()
+        popProduct.itemName = await this.web3service.fromBytes(pop1.itemName)
+        popProduct.itemPrice = (pop1.itemPrice)
+        popProduct.imageId = await this.web3service.fromBytes(pop1.imageId)
+        popProduct.itemCount = pop1.availableCount
+        popProduct.itemColor = pop.itemColor
+        popProduct.itemType = pop.itemType
+        popProduct.itemDetails = await this.web3service.fromBytes(pop.itemDetails)
+        popProduct.itemBrand = await this.web3service.fromBytes(pop.itemBrand)
+        popProduct.itemId = getRecentView[i]
+        const imgs: any = await this.api.viewProducts(popProduct.imageId);
+        const a = popProduct.itemColor,
+          b = popProduct.itemType;
+        popProduct.itemColor = this.color[a];
+        popProduct.itemType = this.type[b];
+        popProduct.imageData = new Array();
         imgs.forEach((img: ImageDataModel, i: any) => {
-          popProd.imageData[i] = img;
+          popProduct.imageData[i] = img;
         });
-        this.popularProducts.push(popProd);
+        this.popularProducts.push(popProduct);
       }
     } catch (error) {}
   };

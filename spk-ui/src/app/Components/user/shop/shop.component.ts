@@ -73,15 +73,20 @@ export class ShopComponent implements OnInit {
       .totalProductID()
       .call({ from: this.account });
       for (let i = 100; i < totalProducts; i++) {
-        let temProduct: ProductModel = await this.spk
-          .product1(i)
-          .call({ from: this.account });
-        const temp = await this.spk.product2(i).call({ from: this.account });
-        temProduct.itemColor = temp.itemColor;
-        temProduct.itemType = temp.itemType;
-        temProduct.itemDetails = temp.itemDetails;
-        temProduct.itemBrand = temp.itemBrand;
-        temProduct.itemId = i;
+        const temp1 = await this.spk.product1(i).call({ from: this.account })
+        const temp = await this.spk.product2(i).call({ from: this.account })
+        console.log('TCL: ViewProductComponent -> onLoad -> temp1', temp1)
+        console.log('TCL: ViewProductComponent -> onLoad -> temp', temp)
+        const temProduct: ProductModel = new ProductModelClass()
+        temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
+        temProduct.itemPrice = (temp1.itemPrice)
+        temProduct.imageId = await this.web3service.fromBytes(temp1.imageId)
+        temProduct.itemCount = temp1.availableCount
+        temProduct.itemColor = temp.itemColor
+        temProduct.itemType = temp.itemType
+        temProduct.itemDetails = await this.web3service.fromBytes(temp.itemDetails)
+        temProduct.itemBrand = await this.web3service.fromBytes(temp.itemBrand)
+        temProduct.itemId = i
         const imgs: any = await this.api.viewProducts(temProduct.imageId);
         const a = temProduct.itemColor,
           b = temProduct.itemType;
