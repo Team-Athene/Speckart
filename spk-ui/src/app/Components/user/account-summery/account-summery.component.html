@@ -242,7 +242,7 @@
                     </div>
 
                     <div class="col-md-4" *ngIf="orderStatus.isShipped == true && orderStatus.confirmDelivery == false">
-                      <button  class="btn btn-outline-primary btn-sm btn-block" (click)="confirmOrder(currentOrder.orderId, orderStatus.itemId)">Confirm Delivery</button>
+                      <button  class="btn btn-outline-primary btn-sm btn-block" (click)="confirmDelivery(currentOrder.orderId, orderStatus.itemId)">Confirm Delivery</button>
 
                 </div>
 

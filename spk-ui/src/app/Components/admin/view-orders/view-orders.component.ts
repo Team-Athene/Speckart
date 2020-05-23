@@ -78,7 +78,7 @@ export class ViewOrdersComponent implements OnInit {
     delete this.orders[0]
 
     const array = await this.spk
-      .orders(this.account)
+      .Orders(this.account)
       .call({ from: this.account })
     console.log('TCL: OrderDetailsComponent -> onLoad -> array', array)
     const orderList = [...new Set(array)]
