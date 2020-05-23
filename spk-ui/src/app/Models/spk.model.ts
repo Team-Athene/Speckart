@@ -17,18 +17,31 @@ export interface UserModel {
   address: string
   type: number
 }
+export interface UserOrderModel {
+  name: string
+  contact: number
+  mail: string
+  address: string
+}
 export interface ProductModel {
   itemId: any
-  itemName: string
-  itemType: string
+  itemName: any
+  itemType: any
   itemPrice: any
   itemCount: number
-  itemDetails: string
-  itemColor: string
-  itemBrand: string
-  imageId: any,
+  itemDetails: any
+  itemColor: any
+  itemBrand: any
+  imageId: any
   ratingCount: number
   imageData: ImageDataModel[]
+}
+export interface OrderListModel {
+  orderId: any
+  prodID: any
+  timeStamp: any
+  buyerDetails: UserOrderModel
+  prodDetails: ProductModel
 }
 export interface CartProduct {
   itemId: number
@@ -58,8 +71,17 @@ export interface OrderModel {
   orderId: any
   timeStamp: any
   orderDetails: CartProduct[]
-  totalPrice: number,
-  status: any
+  totalPrice: number
+}
+export interface OrderStatusModel {
+  isOrdered: boolean
+  isConfirmed: boolean
+  isRejected: boolean
+  isDispute: boolean
+  isShipped: boolean
+  isCancelled: boolean
+  confirmDelivery: boolean
+  itemId: number
 }
 
 

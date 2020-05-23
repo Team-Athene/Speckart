@@ -98,10 +98,10 @@
                 <tbody>
                   <tr>
                     <tr  *ngFor="let order of orderData; let i=index" class="product-thumbnail">
-                      <td *ngIf="i>0" class="product-name">
-                        <h2 class="h5 ">Order {{i}}</h2>
+                      <td class="product-name">
+                        <h2 class="h5 ">Order {{i+1}}</h2>
                        </td>
-                      <td *ngIf="i>0" ><a (click)="orderView(i)" class="btn btn-primary height-auto btn-sm" style="color: white;">View Details</a>
+                      <td ><a (click)="orderView(i)" class="btn btn-primary height-auto btn-sm" style="color: white;">View Details</a>
                       </td>
                     </tr>
                 </tbody>
@@ -146,107 +146,118 @@
         </div>
       </div>
     </div>
+
     <div class="modal fade product_view" id="order_view">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header" >
-            <a href="#" data-dismiss="modal" class="class pull-right" ><span
+          <div class="modal-header">
+            <a href="#" data-dismiss="modal" (click)="clearProduct()" class="class pull-right"><span
                 class="fa fa-remove"></span></a>
             <h4 class="modal-title">
               <dt>Product Details</dt>
             </h4>
           </div>
           <div class="modal-body">
-            <!-- <div class="site-section"> -->
-              <!-- <div class="container"> -->
-                <div class="row mb-5">
-                  <form class="col-md-12" method="post">
-                    <!-- <div class="site-blocks-table"> -->
-                      <table class="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th class="product-thumbnail">Product ID</th>
-                            <th class="product-name">Product</th>
-                            <th class="product-price">Price</th>
-                            <th class="product-quantity">Quantity</th>
-                            <th class="product-total">Total</th>
-                            <th class="view-product">View Product</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <tr *ngFor="let item of currentOrder.orderDetails; let i = index" class="product-thumbnail">
-                              <td>{{item.itemId}}</td>
-                              <td>{{item.itemName}}</td>
-                              <td>{{item.itemPrice}} SPC</td>
-                              <td>{{item.itemCount}} SPC</td>
-                              <td>{{item.itemTotal}} SPC</td>
-                              <td *ngIf="i>0" ><a (click)="statusView(item.itemId, currentOrder.orderId)" data-toggle="modal"
-                                data-target="#order_view"  class="btn btn-primary height-auto btn-sm" style="color: white;">View Details</a>
-                              </td>
-                            </tr>
-                        </tbody>
-                      </table>
-                    <!-- </div> -->
-                  </form>
-                </div>
+            <div class="row">
+              <div class="col-md-6 product_img">
+                <br><br>
+                <div id="myCarouselMod" class="carousel slide" data-ride="carousel">
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="row mb-5">
-                      <div class="col-md-11 mb-3 mb-md-0">
-                        <button *ngIf="status == 0" class="btn btn-outline-primary btn-sm btn-block" (click)="cancelOrder(currentOrder.orderId)">Cancel Order</button>
+                  <!-- Wrapper for slides -->
+                  <div id="myCarouselMod" class="carousel slide" data-ride="carousel">
+                    <br>
+
+                    <!-- The slideshow -->
+                    <div class="carousel-inner">
+                      <div class="carousel-item" *ngFor="let img of productList.imageData let i = index"
+                        [ngClass]="{'active' : i === 0}">
+                        <img src="{{imgurl + img.path}}" alt="1" class="center" style="width:60%;">
                       </div>
                     </div>
-                  </div>
-                  <div class="col-md-8 pl-5">
-                    <div class="row justify-content-end">
-                      <div class="col-md-10">
-                        <!-- <div class="row">
-                          <div class="col-md-12 text-right border-bottom">
-                            <h3 class=" h4 text-uppercase">Cart Totals</h3>
-                          </div>
-                        </div> -->
-                        <div class="row">
-                          <div class="col-md-6 product_content">
-                            <span class="">Total</span>
-                          </div>
-                          <div class="col-md-6 text-right product_content">
-                            <strong class="">{{currentOrder.totalPrice}} SPEC</strong>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6 product_content">
-                            <span class="">Order Date</span>
-                          </div>
-                          <div class="col-md-6 text-right product_content">
-                            <strong class="">{{currentOrder.timeStamp}} </strong>
-                          </div>
-                        </div>
-                        <div class="row ">
-                          <div class="col-md-6">
-                            <span class="">Order Status</span>
-                          </div>
-                          <div class="col-md-6 text-right" *ngIf="status == 0">
-                            <strong class="">Waiting for Confirmation</strong>
-                          </div>
-                          <div class="col-md-6 text-right" *ngIf="status != 0">
-                            <strong class="">{{currentOrder.status}}</strong>
-                          </div>
-                        </div>
 
-                      </div>
-                    </div>
+                    <!-- Left and right controls -->
+                    <a class="carousel-control-prev" href="#myCarouselMod" data-slide="prev">
+                      <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#myCarouselMod" data-slide="next">
+                      <span class="carousel-control-next-icon" style="color: gray;"></span>
+                    </a>
                   </div>
                 </div>
-              <!-- </div> -->
-            <!-- </div> -->
+              </div>
+              <div class="col-md-6 product_content">
+                <h6>
+                  <dt>Product Id: </dt><span>{{productList.itemId}}</span>
+                </h6>
+                <h6>
+                  <dt>Product Name: </dt><span>{{productList.itemName}}</span>
+                </h6>
+                <h6>
+                  <dt>Product Brand: </dt><span>{{productList.itemBrand}}</span>
+                </h6>
+                <h6>
+                  <dt>Product Type: </dt><span>{{productList.itemType}}</span>
+                </h6>
+                <h6>
+                  <dt>Product Color: </dt><span>{{productList.itemColor}}</span>
+                </h6>
+                <h6>
+                  <dt>Product Details: </dt><span>{{productList.itemDetails}}</span>
+                </h6>
+                <h3 class="cost"><span class="fa fa-coins"></span> {{productList.itemPrice}} SPC </h3>
+
+              <div class="space-ten"></div>
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <form class="col-md-12" method="post">
+                <!-- <div class="site-blocks-table"> -->
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="product-quantity">Cancelled</th>
+                        <th class="product-thumbnail">Confirmed</th>
+                        <th class="product-name">Rejected</th>
+                        <th class="product-price">Shipped</th>
+                        <th class="product-total">Delivered</th>
+                        <th class="view-product">Dispute</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <tr class="product-thumbnail">
+                          <td>{{confirm[orderStatus.isCancelled]}}</td>
+                          <td>{{confirm[orderStatus.isConfirmed]}}</td>
+                          <td>{{confirm[orderStatus.isRejected]}} </td>
+                          <td>{{confirm[orderStatus.isShipped]}} </td>
+                          <td>{{confirm[orderStatus.confirmDelivery]}} </td>
+                          <td>{{confirm[orderStatus.isDispute]}} </td>
+                        </tr>
+                    </tbody>
+                  </table><br>
+                  <div class="row">
+                    <div *ngIf="orderStatus.isCancelled == false && orderStatus.isConfirmed == false && orderStatus.isRejected == false" class="col-md-4">
+                          <button class="btn btn-outline-primary btn-sm btn-block" (click)="cancelOrder(currentOrder.orderId, orderStatus.itemId)">Cancel Order</button>
+                    </div>
+
+                    <div class="col-md-4" *ngIf="orderStatus.isShipped == true && orderStatus.confirmDelivery == false">
+                      <button  class="btn btn-outline-primary btn-sm btn-block" (click)="confirmOrder(currentOrder.orderId, orderStatus.itemId)">Confirm Delivery</button>
+
+                </div>
+
+                <div class="col-md-4" *ngIf="orderStatus.isShipped == true && orderStatus.confirmDelivery == false">
+                  <button class="btn btn-outline-primary btn-sm btn-block" (click)="dispute(currentOrder.orderId, orderStatus.itemId)">Initiate Dispute</button>
+
+            </div>
+                  </div>
+                <!-- </div> -->
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-
 
     <footer class="site-footer custom-border-top">
       <div class="container">

@@ -20,6 +20,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "ethers": "^4.0.47",
     "ngx-socket-io": "^3.0.1",
     "rxjs": "~6.4.0",
     "socket.io-client": "^2.3.0",

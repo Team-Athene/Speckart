@@ -1,4 +1,4 @@
-import { CartProduct, ProductModel, ImageDataModel, TokenModel, UserBalanceModel, OrderModel } from '../spk.model'
+import { CartProduct, ProductModel, ImageDataModel, TokenModel, UserBalanceModel, OrderModel, OrderStatusModel, UserOrderModel } from '../spk.model'
 
 export class CartProductClass implements CartProduct {
   itemId: number
@@ -16,7 +16,6 @@ export class OrderModelClass implements OrderModel {
   timeStamp: number
   orderDetails: CartProduct[] = new Array( new CartProductClass() )
   totalPrice: number
-  status: 0
 }
 export class ProductModelClass implements ProductModel {
   itemId: any
@@ -47,3 +46,27 @@ export class UserBalanceModelClass implements UserBalanceModel {
   tokenBal: any
 }
 
+export class OrderStatusModelClass implements OrderStatusModel {
+  isOrdered: boolean
+  isConfirmed: boolean
+  isRejected: boolean
+  isDispute: boolean
+  isShipped: boolean
+  isCancelled: boolean
+  confirmDelivery: boolean
+  itemId: number
+}
+export class OrderListModelClass implements OrderListModelClass{
+  orderId: any
+  prodID: any
+  timeStamp: any
+  buyerDetails: UserOrderModel
+  prodDetails: ProductModel
+}
+
+export class UserOrderModelClass implements UserOrderModel{
+  name: string
+  contact: number
+  mail: string
+  address: string
+}

@@ -62,14 +62,14 @@ export class AddProductComponent implements OnInit {
           this.imagesFormData.append( 'product', JSON.stringify( pData ) )
           pData.imageId = await this.api.addProducts( this.imagesFormData )
           const newProductRes = await this.spk.addProduct(
-            pData.itemName,
+            await this.web3service.toBytes( pData.itemName ),
             pData.itemType,
             pData.itemPrice,
             pData.itemCount,
-            pData.itemDetails,
-            pData.itemBrand,
+            await this.web3service.toBytes( pData.itemDetails ),
+            await this.web3service.toBytes( pData.itemBrand ),
             pData.itemColor,
-            pData.imageId ).send( { from: this.account, gas: 5000000 } )
+            await this.web3service.toBytes( pData.imageId )).send( { from: this.account, gas: 5000000 } )
             console.log("TCL: AddProductComponent -> addProduct -> newProductRes", newProductRes)
         } else {
           alert( 'No Images Selected' )

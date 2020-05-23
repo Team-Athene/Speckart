@@ -3,6 +3,7 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, interval, Subscription } from 'rxjs'
 import { Web3Model } from '../../Models/web3.model'
+import { ethers } from 'ethers'
 
 declare let require: any
 
@@ -18,6 +19,7 @@ declare let web3: any
 } )
 export class Web3Service {
   constructor () { }
+
   public Web3Details$: BehaviorSubject<Web3Model> = new BehaviorSubject<
     Web3Model
   >( {
@@ -119,5 +121,21 @@ export class Web3Service {
         resolve( netId )
       } )
     } )
+  }
+  public async toBytes( input: string ): Promise<string>  {
+    // const output = await web3.utils.padRight(web3.utils.asciiToHex(input), 34)
+    const output = await ethers.utils.formatBytes32String(input)
+    return output
+  }
+  public async fromBytes( input: string ): Promise<string>  {
+    // const output = await web3.utils.padRight(web3.utils.asciiToHex(input), 34)
+    return new Promise( async ( resolve, reject ) => {
+      const output = await ethers.utils.parseBytes32String(input)
+    console.log("TCL: Web3Service -> toBytes -> output", output)
+    resolve(output)
+    } )
+    // const output = await ethers.utils.parseBytes32String(input)
+    // console.log("TCL: Web3Service -> toBytes -> output", output)
+    // return output
   }
 }

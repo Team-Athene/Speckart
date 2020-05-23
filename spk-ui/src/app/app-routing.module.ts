@@ -1,6 +1,5 @@
 import { MarketRouterComponent } from './Components/token-market/market-router/market-router.component'
 import { ViewProductComponent } from './Components/admin/view-product/view-product.component'
-import { OrderDetailsComponent } from './Components/admin/order-details/order-details.component'
 import { AddProductComponent } from './Components/admin/add-product/add-product.component'
 import { AdminComponent } from './Components/admin/admin.component'
 import { AdminRouterComponent } from './Components/admin/admin-router/admin-router.component'
@@ -87,10 +86,6 @@ const routes: Routes = [
       {
         path: 'userDetails',
         component: SellerDetailsComponent
-      },
-      {
-        path: 'order-details',
-        component: OrderDetailsComponent
       },
       {
         path: 'view-products',

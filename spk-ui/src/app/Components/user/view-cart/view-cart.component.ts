@@ -58,7 +58,7 @@ export class ViewCartComponent implements OnInit {
         itemCount.push(element.itemCount)
         itemId.push({id: element.itemId, count: element.itemCount})
       });
-      const order = await this.spk.createOrder(details, id, itemCount, count * 100).send({ from: this.account })
+      const order = await this.spk.createOrder(details, id, itemCount, count).send({ from: this.account })
       if (order.status) {
         this.done = 1
         await this.api.addCart({cart: '0', address: this.account, itemId: itemId})

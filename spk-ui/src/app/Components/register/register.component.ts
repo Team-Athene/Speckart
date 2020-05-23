@@ -25,18 +25,21 @@ export class RegisterComponent implements OnInit {
   onSubmit = async (form: NgForm) => {
     try {
       const user: UserModel = form.value
+      // console.log("TCL: RegisterComponent -> onSubmit -> this.web3service.toBytes( user.name )", this.web3service.toBytes( user.name ))
       console.log("TCL: RegisterComponent -> onSubmit -> user", user)
       const regRespone = await this.spk.userSignUp(
-        user.name,
+        await this.web3service.toBytes( user.name ),
         user.contact,
         user.gender,
-        user.mail,
+        await this.web3service.toBytes( user.mail ),
         user.address,
         user.type
       ).send({ from: this.account, gas: 5000000 })
       console.log("TCL: RegisterComponent -> onSubmit -> regRespone", regRespone)
       if (regRespone.status) {
-        alert('Hi ' + regRespone.events.SignUp.returnValues.name + '  Your Registration to SpecKart is Success')
+        const a = await this.web3service.fromBytes( regRespone.events.SignUp.returnValues.name)
+        console.log("TCL: RegisterComponent -> onSubmit -> a", a)
+        alert('Hi ' + user.name + '  Your Registration to SpecKart is Success')
         this.route.navigateByUrl('/')
       }
     } catch (error) {
