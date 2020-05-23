@@ -50,7 +50,8 @@ export let users = router.get('/users', (req, res) => {
 
 export let createUser = router.post('/user', (req, res) => {
 	let users
-	let user = req.body.user
+	let { user } = req.body
+	console.log('Log: user', user)
 
 	fetchUsers().then((u) => {
 		users = u

@@ -49,7 +49,7 @@ services:
       - mongo
       - spk-redis
     environment:
-    - REDIS_URL=0.0.0.0://spk-redis
+    - REDIS_URL=redis://spk-redis
     volumes:
       - '.:/project/spk'
 

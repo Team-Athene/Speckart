@@ -4,8 +4,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import socket from 'socket.io'
 import path from 'path'
-import { client } from '../lib/redis'
-import * as routes from './routes'
+import { client } from './lib/redis'
 
 const PORT = 3000
 
@@ -40,15 +39,7 @@ client().then(
 		res.subscribe('activeUsers')
 
 		// App routes
-		app.use('/', require('./routes/api'))
-		// app.get('/', routes.home)
-		// app.get('/chat/:username', routes.chatRoom)
-		// app.get('/messages', routes.messages)
-		// app.get('/users', routes.users)
-		// app.post('/user', routes.createUser)
-		// app.delete('/user', routes.deleteUser)
-		// app.post('/message', routes.createMessage)
-
+		app.use('/api', require('./routes/api'))
 		//Start the server
 		const server = app.listen(PORT, () => {
 			console.log('Server Started')
@@ -58,10 +49,13 @@ client().then(
 
 		//listen and emit messages and user events (leave or join) using socket.io
 		io.on('connection', (socket) => {
+			console.log(socket.id)
 			res.on('message', (channel, message) => {
 				if (channel === 'chatMessages') {
+					console.log('Socket: message', message)
 					socket.emit('message', JSON.parse(message))
 				} else {
+					console.log('Socket: users', message)
 					socket.emit('users', JSON.parse(message))
 				}
 			})
