@@ -45,6 +45,7 @@ services:
       - '3000:3000'
     depends_on:
       - mongo
+      - spk-redis
     links:
       - mongo
       - spk-redis
