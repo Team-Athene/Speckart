@@ -28,6 +28,7 @@ body,html{
 }
 .msg_card_body{
   overflow-y: auto;
+  overscroll-behavior: auto;
 }
 .card-header{
   border-radius: 15px 15px 0 0 !important;
@@ -161,13 +162,23 @@ background-color: #82ccdd;
 padding: 10px;
 position: relative;
 }
+.msg_cotainer_system{
+margin-top: auto;
+margin-bottom: auto;
+font-size: small;
+margin-left: 30%;
+border-radius: 25px;
+background-color: #7cffa8;
+padding: 10px;
+position: relative;
+}
 .msg_cotainer_send{
 margin-top: auto;
 margin-bottom: auto;
 font-size: small;
 margin-right: 10px;
 border-radius: 25px;
-background-color: #78e08f;
+background-color: #e7148f;
 padding: 10px;
 position: relative;
 }

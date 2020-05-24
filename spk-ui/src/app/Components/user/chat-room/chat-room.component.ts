@@ -24,7 +24,7 @@ export class ChatRoomComponent implements OnInit {
   constructor ( private web3service: Web3Service, private route: Router, private chat: SocketService ) { }
 
   ngOnInit() {
-    this.name = 'Dennis'
+    this.name = prompt( 'Whats your Name ?' )
     this.chatLoad()
     // this.chat.getUsers()
     //   .subscribe( ( userList: string ) => {
@@ -36,6 +36,7 @@ export class ChatRoomComponent implements OnInit {
     // } )
   }
   chatLoad = async () => {
+    const newUser = await this.chat.NewUser( { user: this.name } )
     this.usersList = await this.chat.listUsers() as []
     console.log( 'Log: ChatRoomComponent -> ngOnInit -> this.chat.listUsers()', this.usersList )
     const temp = await this.chat.listMessages() as any[]
@@ -43,21 +44,33 @@ export class ChatRoomComponent implements OnInit {
       let t = JSON.parse( x )
       return t
     } )
-    console.log( 'Log: ChatRoomComponent -> ngOnInit -> this.chat.listUsers()', this.msgsList )
-    const newUser = await this.chat.NewUser( { user: 'Dennis1' } )
     console.log( 'Log: ChatRoomComponent -> chatLoad -> newUser', newUser )
     await this.chat.getMessages()
-      .subscribe( ( message: string ) => {
+      .subscribe( async ( message: string ) => {
+        this.usersList = await this.chat.listUsers() as []
         this.newMsg = message
+        this.msgsList.push( this.newMsg )
         console.log( 'Log: ChatRoomComponent -> chatLoad -> this.newMsg', this.newMsg )
       } )
+  }
+  loadChat = async () => {
+
   }
   createMsg = async () => {
     console.log( this.msg )
     this.chat.NewMessage( { user: this.name, msg: this.msg } )
     this.msg = ''
   }
-  logOut = async () => {
-    this.route.navigateByUrl( '/market' )
+  leaveRoom = async () => {
+    console.log( 'Log: ChatRoomComponent -> leaveRoom -> this.name ', this.name )
+    await this.chat.leave( { user: this.name } )
+    await this.chat.getMessages()
+      .subscribe( async ( message: string ) => {
+        this.usersList = await this.chat.listUsers() as []
+        this.newMsg = message
+        this.msgsList.push( this.newMsg )
+        console.log( 'Log: ChatRoomComponent -> chatLoad -> this.newMsg', this.newMsg )
+      } )
+
   }
 }

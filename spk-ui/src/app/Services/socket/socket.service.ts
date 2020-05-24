@@ -17,6 +17,7 @@ export class SocketService {
   listMessages = async () => {
     return new Promise( async ( resolve, reject ) => {
       try {
+        console.log( 'Log: SocketService -> listMessages -> this.url + ', this.url + '/messages' )
         resolve( this.http.get( this.url + '/messages' ).toPromise() )
       } catch ( error ) {
       }
@@ -26,6 +27,16 @@ export class SocketService {
     return new Promise( async ( resolve, reject ) => {
       try {
         resolve( this.http.get( this.url + '/users' ).toPromise() )
+      } catch ( error ) {
+      }
+    } )
+  }
+  leave = async ( user ) => {
+    return new Promise( async ( resolve, reject ) => {
+      try {
+        this.http.post( this.url + '/deleteUser', user ).subscribe( ( res ) => {
+          resolve( res )
+        } )
       } catch ( error ) {
       }
     } )

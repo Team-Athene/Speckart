@@ -53,23 +53,31 @@
                 <p>Users - SpecKart</p>
               </div>
             </div>
-            <span id="action_menu_btn"><button (click)="logOut()" class="attach_btn" style="margin: 5px;">Leave
+            <span id="action_menu_btn"><button (click)="leaveRoom()" class="attach_btn" style="margin: 5px;">Leave
                 Room</button></span>
           </div>
 
           <div class="card-body msg_card_body">
-            <div class="d-flex justify-content-start mb-4">
-
-              <div class="msg_cotainer">
-                Hi, how are you samim?
-                <span class="msg_time">Mekha</span>
+            <div #scrollMe [scrollTop]="scrollMe.scrollHeight" *ngFor="let chat of msgsList">
+              <div *ngIf="chat.user===name;else otherchat" class="d-flex justify-content-end mb-4">
+                <div class="msg_cotainer_send">
+                  {{chat.message}}
+                  <span class="msg_time_send">{{chat.user}}</span>
+                </div>
               </div>
-            </div>
-            <div class="d-flex justify-content-end mb-4">
-              <div class="msg_cotainer_send">
-                Hi Khalid i am good tnx how about you?
-                <span class="msg_time_send">Dennis</span>
-              </div>
+              <ng-template #otherchat>
+                <div *ngIf="chat.user==='system'" class="d-flex justify-content-start mb-4">
+                  <div class="msg_cotainer_system">
+                    <span>{{chat.message}}</span>
+                  </div>
+                </div>
+                <div *ngIf="chat.user!=='system'" class="d-flex justify-content-start mb-4">
+                  <div class="msg_cotainer">
+                    {{chat.message}}
+                    <span class="msg_time">{{chat.user}}</span>
+                  </div>
+                </div>
+              </ng-template>
             </div>
           </div>
           <div class="card-footer">

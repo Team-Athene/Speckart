@@ -53,7 +53,6 @@ export let fetchActiveUsers = () => {
 				res.smembersAsync('users').then(
 					(users) => {
 						console.log('Users ', users)
-
 						resolve(users)
 					},
 					(err) => {
@@ -97,7 +96,10 @@ export let addActiveUser = (user) => {
 }
 
 export let removeActiveUser = (user) => {
-	return new Promise((resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
+		// const res = client()
+		// const resp = res.multi().srem('users', user)
+		// console.log('Log: removeActiveUser -> resp', resp)
 		client().then(
 			(res) => {
 				res
@@ -106,7 +108,8 @@ export let removeActiveUser = (user) => {
 					.execAsync()
 					.then(
 						(res) => {
-							if (res === 1) {
+							console.log('Log: removeActiveUser -> res', res)
+							if (res[0] === 1) {
 								resolve('User removed')
 							}
 							reject('User is not in list')
