@@ -41,7 +41,7 @@ export class TokenMarketAdminComponent implements OnInit {
     this.userBalance = {
       etherBal: await this.spec.getBalance(this.account),
       tokenBal:
-        (await this.spk.balanceOf(this.account).call({ from: this.account })) /
+        (await this.spk.balanceOf().call({ from: this.account })) /
         10 ** spkDetails.tokenDecimals,
     };
     this.specToken = {

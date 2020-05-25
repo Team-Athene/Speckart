@@ -4,8 +4,10 @@ let SpecTokenInstance
 module.exports = async function(deployer) {
 	deployer.deploy(SpecToken).then(instance => {
 			SpecTokenInstance = instance
-			console.log("TCL: SpecTokenMigrate", SpecTokenInstance.address)
-		    return deployer.deploy(SpecKart,['0x876740dcc6AD21F9D223B77b2884F11C81e3B01e', '0x69986F35c99DD80E240e647ddEE30cc4061540D0', '0xDdd9f8e8a168271956fCf6C91D105143380A87a8'])
+            console.log("TCL: SpecTokenInstance", SpecTokenInstance.address)
+			return deployer.deploy(SpecKart,['0x0E2A1227DA6f21A14b5148137dd584681145C99B', 
+			'0x44fdb5700B29a4390DE5e2826Ff41B0F2D912ad7',
+			'0x7300b4689dc8fFe9152E40ABb95f7d4800C4426a'], SpecTokenInstance.address)
 		    })
 	
 	// deployer.deploy(SpecKart)

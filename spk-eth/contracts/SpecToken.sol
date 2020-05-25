@@ -33,16 +33,16 @@ contract SpecToken is ISpecToken{
         return tokenPrice;
     }
 
-    function transfer(address _to, uint256 _count)
+    function transfer(address _to, uint256 _count, address _addr)
         external override
         returns (bool success)
     {
         require(_count > 0, "Value must be greater than zero");
         require(_to != address(0), "Use burn() instead");
-        require(balanceOf[msg.sender] >= _count, "insufficient funds");
-        balanceOf[msg.sender] = balanceOf[msg.sender].sub(_count);
+        require(balanceOf[_addr] >= _count, "insufficient funds");
+        balanceOf[_addr] = balanceOf[_addr].sub(_count);
         balanceOf[_to] = balanceOf[_to].add(_count);
-        emit Transfer(msg.sender, _to, _count);
+        emit Transfer(_addr, _to, _count);
         return true;
     }
 
@@ -57,42 +57,39 @@ contract SpecToken is ISpecToken{
         return true;
     }
 
-    function burn(uint256 _count)
+    function burn(uint256 _count, address _addr)
         external override
         returns (bool success)
     {
         require(_count > 0, "Value must be greater than zero");
-        require(balanceOf[msg.sender] >= _count, "insufficient funds");
-        balanceOf[msg.sender] = balanceOf[msg.sender].sub(_count);
+        require(balanceOf[_addr] >= _count, "insufficient funds");
+        balanceOf[_addr] = balanceOf[_addr].sub(_count);
         totalSupply = totalSupply.sub(_count);
-        emit Burn(msg.sender, _count);
+        emit Burn(_addr, _count);
         return true;
     }
 
     fallback() external payable {
-        uint256 count = msg.value / tokenPrice;
-        uint256 bal = msg.value - count * tokenPrice;
-        mint(msg.sender, count);
-        msg.sender.transfer(bal);
+        revert();
     }
 
     receive() external payable {
         revert();
     }
 
-    function buyToken(uint256 _count) external override {
-        mint(msg.sender, _count);
-        emit Transfer(address(0), msg.sender, _count);
+    function buyToken(uint256 _count, address _addr) external override {
+        mint(_addr, _count);
+        emit Transfer(address(0), _addr, _count);
     }
 
-    function sendTokens(uint256 _count) external override {
+    function sendTokens(uint256 _count, address _addr) external override {
         balanceOf[self] = balanceOf[self].add(_count);
-        balanceOf[msg.sender] = balanceOf[msg.sender].sub(_count);
+        balanceOf[_addr] = balanceOf[_addr].sub(_count);
     }
 
-    function collectTokens(uint256 _count) external override {
+    function collectTokens(uint256 _count, address _addr) external override {
         balanceOf[self] = balanceOf[self].sub(_count);
-        balanceOf[msg.sender] = balanceOf[msg.sender].add(_count);
+        balanceOf[_addr] = balanceOf[_addr].add(_count);
     }
 
     function sentTokensToUser(address _user, uint256 _count) external override {
@@ -100,10 +97,7 @@ contract SpecToken is ISpecToken{
         balanceOf[_user] = balanceOf[_user].add(_count);
     }
     
-    function spkDetails()
-        external override
-        view
-        returns (
+    function spkDetail() external override view returns (
             string memory tokenName,
             string memory tokenSymbol,
             uint8 tokenDecimals,

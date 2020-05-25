@@ -33,7 +33,7 @@ export class AdminComponent implements OnInit {
     const spkDetails: TokenModel = await this.spk.spkDetails().call({ from: this.account })
     this.userBalance = {
       etherBal: await this.spec.getBalance(this.account),
-      tokenBal: (await this.spk.balanceOf(this.account).call({ from: this.account }) / (10 ** spkDetails.tokenDecimals))
+      tokenBal: (await this.spk.balanceOf().call({ from: this.account }) / (10 ** spkDetails.tokenDecimals))
     }
   }
   logOut = async () => {

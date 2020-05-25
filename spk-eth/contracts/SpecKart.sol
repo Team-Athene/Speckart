@@ -24,7 +24,7 @@ contract SpecRead is SpecVariables {
         _;
     }
     modifier newUser() {
-        require(checkUser() == 0, "Not An Admin");
+        require(checkUser() == 0, "Not A New User");
         _;
     }
 
@@ -177,19 +177,18 @@ contract SpecRead is SpecVariables {
     }
 
     function checkUser() public view returns (uint256 status) {
-        if (checkAdmin(msg.sender) == true) {
-            return 3;
-        }
         if (uint256(SPEC.Users[msg.sender].userType) == 2) {
             return 2;
         } else if (uint256(SPEC.Users[msg.sender].userType) == 1) {
             return 1;
+        } else if (checkAdmin(msg.sender) == true) {
+            return 3;
         }
         return 0;
     }
 
     function checkAdmin(address _admin) internal view returns (bool) {
-        for (uint256 i = 0; i < 5; i++) {
+        for (uint256 i = 0; i < SPEC.admins.length; i++) {
             if (_admin == SPEC.admins[i]) {
                 return true;
             }
@@ -206,7 +205,7 @@ contract SpecKart is SpecRead {
     using SafeMath for uint256;
     address TOKEN;
     constructor(address[] memory _admins, address _token) public {
-    require(_admins.length.mod(2) != 0, "Number of admins should be Odd");
+    // require(_admins.length.mod(2) != 0, "Number of admins should be Odd");
         SPEC.admins = _admins;
         SPEC.P_ID = 100;
         SPEC.D_ID = 1000;
@@ -255,10 +254,11 @@ contract SpecKart is SpecRead {
         SPEC.Product[SPEC.P_ID].imageId = _imageId;
         SPEC.Product[SPEC.P_ID].seller = msg.sender;
         SPEC.Product[SPEC.P_ID].disputePrice = _itemPrice.div(100);
-        ISpecToken(TOKEN).transfer(
-            TOKEN,
-            SPEC.Product[SPEC.P_ID].disputePrice.mul(_availableCount)
-        );
+        ISpecToken(TOKEN).sendTokens(SPEC.Product[SPEC.P_ID].disputePrice.mul(_availableCount), msg.sender);
+        // ISpecToken(TOKEN).transfer(
+        //     TOKEN,
+        //     SPEC.Product[SPEC.P_ID].disputePrice.mul(_availableCount), msg.sender
+        // );
         SPEC.P_ID++;
         emit addItem(_itemName, _itemBrand, SPEC.P_ID);
     }
@@ -307,7 +307,7 @@ contract SpecKart is SpecRead {
         SPEC.MarketOrder[SPEC.O_ID].totalPrice = _totalPrice*100;
         SPEC.Users[msg.sender].orders.push(SPEC.O_ID);
         SPEC.O_ID++;
-        ISpecToken(TOKEN).sendTokens(_totalPrice.add(disputeTotal));
+        ISpecToken(TOKEN).sendTokens(_totalPrice.add(disputeTotal), msg.sender);
         emit order(msg.sender, SPEC.O_ID);
     }
 
@@ -390,7 +390,7 @@ contract SpecKart is SpecRead {
         ISpecToken(TOKEN).collectTokens(
                 SPEC.Product[_p_Id].itemPrice.add(
                     SPEC.Product[_p_Id].disputePrice
-                )
+                ), msg.sender
         );
         SPEC.Product[_p_Id].availableCount += SPEC.MarketOrder[_o_Id]
             .prodCount[_p_Id];
@@ -482,16 +482,41 @@ contract SpecKart is SpecRead {
     //     return (SPEC.isVoted[_addr][_D_ID]);
     // }
     
+    function spkDetails()
+        external
+        view
+        returns (
+            string memory tokenName,
+            string memory tokenSymbol,
+            uint8 tokenDecimals,
+            uint256 tokenTotalSupply,
+            uint256 specTokenPrice,
+            address tokenOwner, 
+            address specTokenAddress, 
+            uint256 etherBal,
+            uint256 tokenBalance
+        )
+    {
+        return (
+            ISpecToken(TOKEN).spkDetail()
+        );
+    }
+
+function balanceOf() external view returns(uint) {
+    return (
+            ISpecToken(TOKEN).balance(msg.sender)
+        );
+}
     function purchaseToken() external payable {
         uint256 count = (msg.value).div(ISpecToken(TOKEN).specPrice());
         uint256 balance = (msg.value).sub(count.mul(ISpecToken(TOKEN).specPrice()));
         msg.sender.transfer(balance);
-        ISpecToken(TOKEN).buyToken(count);
+        ISpecToken(TOKEN).buyToken(count, msg.sender);
     }
 
     function sellToken(uint256 _count) external {
         uint256 amount = _count.mul(ISpecToken(TOKEN).specPrice());
         msg.sender.transfer(amount);
-        ISpecToken(TOKEN).burn(_count);
+        ISpecToken(TOKEN).burn(_count, msg.sender);
     }
 }
