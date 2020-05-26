@@ -18,29 +18,33 @@ export class SocketService {
     return new Promise( async ( resolve, reject ) => {
       console.log( `Log: SocketService -> listMessages -> this.url + '/messages',`, this.url + '/messages' )
       try {
-        resolve( this.http.get( this.url + '/messages', {
+        this.http.get( this.url + '/messages', {
           params: {
             room
           },
           observe: 'response'
-        } ).toPromise() )
+        } ).subscribe( ( res ) => {
+          resolve( res.body )
+        } )
       } catch ( error ) {
       }
     } )
   }
-  // listUsers = async ( room ) => {
-  //   return new Promise( async ( resolve, reject ) => {
-  //     try {
-  //       resolve( this.http.get( this.url + '/users', {
-  //         params: {
-  //           room
-  //         },
-  //         observe: 'response'
-  //       } ).toPromise() )
-  //     } catch ( error ) {
-  //     }
-  //   } )
-  // }
+  listUsers = async ( room ) => {
+    return new Promise( async ( resolve, reject ) => {
+      try {
+        this.http.get( this.url + '/users', {
+          params: {
+            room
+          },
+          observe: 'response'
+        } ).subscribe( ( res ) => {
+          resolve( res.body )
+        } )
+      } catch ( error ) {
+      }
+    } )
+  }
   leave = async ( user ) => {
     return new Promise( async ( resolve, reject ) => {
       try {
@@ -71,9 +75,9 @@ export class SocketService {
       }
     } )
   }
-  public sendMessage( message ) {
-    this.socket.emit( 'new-message', message )
-  }
+  // public sendMessage( message ) {
+  //   this.socket.emit( 'new-message', message )
+  // }
   public getMessages = () => {
     return Observable.create( ( observer ) => {
       this.socket.on( 'message', ( message ) => {

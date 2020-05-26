@@ -1,6 +1,6 @@
 const express = require('express'),
 	chatRouter = express.Router(),
-	{ client } = require('../lib/redis'),
+	client = require('../lib/redis'),
 	{
 		fetchMessages,
 		fetchActiveUsers,
@@ -8,8 +8,8 @@ const express = require('express'),
 		addActiveUser,
 		removeActiveUser,
 	} = require('../lib/functions')
-let fetchMessage = () => {
-	return fetchMessages().then(
+let fetchMessage = (room) => {
+	return fetchMessages(room).then(
 		(res) => {
 			return res
 		},
@@ -18,8 +18,8 @@ let fetchMessage = () => {
 		}
 	)
 }
-let fetchUsers = () => {
-	return fetchActiveUsers().then(
+let fetchUsers = (room) => {
+	return fetchActiveUsers(room).then(
 		(res) => {
 			return res
 		},
@@ -31,36 +31,38 @@ let fetchUsers = () => {
 const router = () => {
 	chatRouter.get('/messages', (req, res) => {
 		const { room } = req.query
-		console.log('Log: req.params', req.params)
-		console.log('Log: req.query', req.query)
-		fetchMessage().then((messages) => {
+		fetchMessage(room).then((messages) => {
+			console.log('Log: router -> messages', messages)
 			res.send(messages)
 		})
 	})
 	chatRouter.get('/users', (req, res) => {
-		fetchUsers().then((u) => {
+		const { room } = req.query
+		fetchUsers(room).then((u) => {
 			res.send(u)
 		})
 	})
 	chatRouter.post('/user', (req, res) => {
 		let users
-		let { user } = req.body
+		let { user, room } = req.body
+		console.log('Log: router -> room', room)
 		console.log('Log: user', user)
-		fetchUsers().then((u) => {
+		fetchUsers(room).then((u) => {
 			users = u
 			if (users.indexOf(user) === -1) {
-				addActiveUser(user).then(
+				addActiveUser(room, user).then(
 					() => {
 						client().then(
 							(client) => {
 								let msg = {
 									message: req.body.user + ' just joined the chat room',
 									user: 'system',
+									room,
 								}
 								client.publish('chatMessages', JSON.stringify(msg))
-								client.publish('activeUsers', JSON.stringify(fetchUsers()))
+								client.publish('activeUsers', JSON.stringify(fetchUsers(room)))
 
-								addMessage(JSON.stringify(msg)).then(
+								addMessage(room, JSON.stringify(msg)).then(
 									() => {
 										res.send({
 											status: 200,
@@ -88,15 +90,12 @@ const router = () => {
 	})
 	chatRouter.post('/deleteUser', async (req, res) => {
 		let users
-		let user = req.body.user
+		let { user, room } = req.body
 		console.log('Log: user', user)
-		fetchUsers().then(async (u) => {
+		fetchUsers(room).then(async (u) => {
 			users = u
 			if (users.indexOf(user) !== -1) {
-				console.log('Log: users]]================', users.indexOf(user))
-				console.log('Log: users]]================', users.includes(user))
-				console.log('Log: users', users)
-				removeActiveUser(user).then(
+				removeActiveUser(room, user).then(
 					() => {
 						client().then(
 							(client) => {
@@ -105,8 +104,8 @@ const router = () => {
 									user: 'system',
 								}
 								client.publish('chatMessages', JSON.stringify(msg))
-								client.publish('activeUsers', JSON.stringify(fetchUsers()))
-								addMessage(JSON.stringify(msg)).then(
+								client.publish('activeUsers', JSON.stringify(fetchUsers(room)))
+								addMessage(room, JSON.stringify(msg)).then(
 									() => {
 										res.send({
 											status: 200,
@@ -133,14 +132,16 @@ const router = () => {
 		})
 	})
 	chatRouter.post('/message', (req, res) => {
+		const { room } = req.body
 		let msg = {
 			message: req.body.msg,
 			user: req.body.user,
+			room,
 		}
 		client().then(
 			(client) => {
 				client.publish('chatMessages', JSON.stringify(msg))
-				addMessage(JSON.stringify(msg)).then(
+				addMessage(room, JSON.stringify(msg)).then(
 					() => {
 						res.send({
 							status: 200,

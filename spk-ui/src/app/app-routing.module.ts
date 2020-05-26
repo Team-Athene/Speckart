@@ -101,7 +101,11 @@ const routes: Routes = [
       {
         path: 'exchange',
         component: TokenMarketSellerComponent
-      }
+      },
+      {
+        path: 'chatroom',
+        component: ChatRoomComponent
+      },
     ]
   },
   {

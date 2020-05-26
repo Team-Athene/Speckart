@@ -1,4 +1,4 @@
-const { client } = require('../lib/redis')
+const client = require('../lib/redis')
 
 let fetchMessages = (room) => {
 	return new Promise((resolve, reject) => {
@@ -20,16 +20,17 @@ let fetchMessages = (room) => {
 		)
 	})
 }
-let addMessage = (message) => {
+let addMessage = (room, message) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
 				res
 					.multi()
-					.rpush('messages', message)
+					.rpush(`${room}_messages`, message)
 					.execAsync()
 					.then(
 						(res) => {
+							console.log('Log: addMessage -> res', res)
 							resolve(res)
 						},
 						(err) => {
@@ -44,13 +45,13 @@ let addMessage = (message) => {
 	})
 }
 
-let fetchActiveUsers = () => {
+let fetchActiveUsers = (room) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
-				res.smembersAsync('users').then(
+				res.smembersAsync(`${room}_users`).then(
 					(users) => {
-						console.log('Users ', users)
+						console.log(`${room}_users`, users)
 						resolve(users)
 					},
 					(err) => {
@@ -65,13 +66,13 @@ let fetchActiveUsers = () => {
 	})
 }
 
-let addActiveUser = (user) => {
+let addActiveUser = (room, user) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
 				res
 					.multi()
-					.sadd('users', user)
+					.sadd(`${room}_users`, user)
 					.execAsync()
 					.then(
 						(res) => {
@@ -93,7 +94,7 @@ let addActiveUser = (user) => {
 	})
 }
 
-let removeActiveUser = (user) => {
+let removeActiveUser = (room, user) => {
 	return new Promise(async (resolve, reject) => {
 		// const res = client()
 		// const resp = res.multi().srem('users', user)
@@ -102,7 +103,7 @@ let removeActiveUser = (user) => {
 			(res) => {
 				res
 					.multi()
-					.srem('users', user)
+					.srem(`${room}_users`, user)
 					.execAsync()
 					.then(
 						(res) => {
