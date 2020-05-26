@@ -22,12 +22,14 @@ export class UserDetailsComponent implements OnInit {
   address: string
   status: any
   userBalance: UserBalanceModel = new UserBalanceModelClass()
+  token: any;
   constructor(private api: ApiService, private web3service: Web3Service, private spec: SpkService, private route: Router) { }
 
   ngOnInit() {
     this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
       this.account = data.account
       this.spk = data.spk
+      this.token = data.token
     })
     this.onLoad()
   }
@@ -35,11 +37,11 @@ export class UserDetailsComponent implements OnInit {
     try {
       this.userBalance = {
         etherBal: await this.spec.getBalance(this.account),
-        tokenBal: (await this.spk.balanceOf(this.account).call({ from: this.account }) / (10 ** 2))
+        tokenBal: (await this.token.balance(this.account).call({ from: this.account }) / (10 ** 2))
       }
       const user = await this.spk.userDetails().call({ from: this.account })
       console.log("TCL: UserDetailsComponent -> onLoad -> user", user)
-      this.name = user.userName
+      this.name = await this.web3service.fromBytes( user.userName )
       this.contact = user.userContact
       if (user.userGender === 1) {
         this.gender = 'Male'
@@ -48,7 +50,7 @@ export class UserDetailsComponent implements OnInit {
       } else {
         this.gender = 'Others'
       }
-      this.email = user.userEmail
+      this.email = await this.web3service.fromBytes( user.userEmail )
       this.address = user.userAddr
     } catch (error) {
     }

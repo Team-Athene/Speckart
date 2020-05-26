@@ -77,12 +77,14 @@ export class ViewProductComponent implements OnInit {
         const temp = await this.spk.product2(i).call({ from: this.account })
         const temProduct: ProductModel = new ProductModelClass()
         temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
-        temProduct.itemPrice = temp1.itemPrice
+        temProduct.itemPrice = temp1.itemPrice / 100
         temProduct.imageId = await this.web3service.fromBytes(temp1.imageId)
         temProduct.itemCount = temp1.availableCount
         temProduct.itemColor = temp.itemColor
         temProduct.itemType = temp.itemType
-        temProduct.itemDetails = await this.web3service.fromBytes(temp.itemDetails)
+        temProduct.itemDetails = await this.web3service.fromBytes(
+          temp.itemDetails
+        )
         temProduct.itemBrand = await this.web3service.fromBytes(temp.itemBrand)
         temProduct.itemId = i
         console.log(

@@ -18,7 +18,7 @@ declare let web3: any
   providedIn: 'root'
 } )
 export class Web3Service {
-  constructor () { }
+  constructor() { }
 
   public Web3Details$: BehaviorSubject<Web3Model> = new BehaviorSubject<
     Web3Model
@@ -154,8 +154,8 @@ export class Web3Service {
     // const output = await web3.utils.padRight(web3.utils.asciiToHex(input), 34)
     return new Promise( async ( resolve, reject ) => {
       const output = await ethers.utils.parseBytes32String(input)
-    console.log("TCL: Web3Service -> toBytes -> output", output)
-    resolve(output)
+      console.log('TCL: Web3Service -> toBytes -> output', output)
+      resolve(output)
     } )
     // const output = await ethers.utils.parseBytes32String(input)
     // console.log("TCL: Web3Service -> toBytes -> output", output)

@@ -30,6 +30,7 @@ import { NgForm } from '@angular/forms'
 export class AccountSummeryComponent implements OnInit {
   account: string
   spk: any
+  token: any
   status: any
   view: number
   imgurl = "http://0.0.0.0:3000/";
@@ -66,6 +67,7 @@ export class AccountSummeryComponent implements OnInit {
     this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
       this.account = data.account
       this.spk = data.spk
+      this.token = data.token
     })
     this.onLoad()
   }
@@ -76,8 +78,8 @@ export class AccountSummeryComponent implements OnInit {
       this.userBalance = {
         etherBal: await this.spec.getBalance(this.account),
         tokenBal:
-          (await this.spk
-            .balanceOf(this.account)
+          (await this.token
+            .balance(this.account)
             .call({ from: this.account })) /
           10 ** 2,
       }
@@ -117,7 +119,7 @@ export class AccountSummeryComponent implements OnInit {
     console.log('TCL: ViewProductComponent -> onLoad -> temp', temp)
     const temProduct: ProductModel = new ProductModelClass()
     temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
-    temProduct.itemPrice = temp1.itemPrice
+    temProduct.itemPrice = temp1.itemPrice/100
     temProduct.imageId = await this.web3service.fromBytes(temp1.imageId)
     temProduct.itemCount = temp1.availableCount
     temProduct.itemColor = temp.itemColor
@@ -151,7 +153,7 @@ export class AccountSummeryComponent implements OnInit {
     console.log('TCL: ViewProductComponent -> onLoad -> temp', temp)
     const temProduct: ProductModel = new ProductModelClass()
     temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
-    temProduct.itemPrice = temp1.itemPrice
+    temProduct.itemPrice = temp1.itemPrice/100
     temProduct.imageId = await this.web3service.fromBytes(temp1.imageId)
     temProduct.itemCount = temp1.availableCount
     temProduct.itemColor = temp.itemColor
@@ -196,7 +198,7 @@ export class AccountSummeryComponent implements OnInit {
       }
     } catch (error) {}
   }
-  
+
   dispute = async ( form: NgForm, o_Id: number, p_Id: number ) => {
     const comment: string = await this.web3service.toBytes( form.value )
     const res = await this.spk

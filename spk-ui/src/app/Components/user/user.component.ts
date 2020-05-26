@@ -76,7 +76,7 @@ export class UserComponent implements OnInit {
         console.log( 'TCL: ViewProductComponent -> onLoad -> temp', temp )
         const temProduct: ProductModel = new ProductModelClass()
         temProduct.itemName = await this.web3service.fromBytes( temp1.itemName )
-        temProduct.itemPrice = ( temp1.itemPrice )
+        temProduct.itemPrice = ( temp1.itemPrice / 100)
         temProduct.imageId = await this.web3service.fromBytes( temp1.imageId )
         temProduct.itemCount = temp1.availableCount
         temProduct.itemColor = temp.itemColor
@@ -102,7 +102,7 @@ export class UserComponent implements OnInit {
         console.log( 'TCL: ViewProductComponent -> onLoad -> pop', pop )
         const popProduct: ProductModel = new ProductModelClass()
         popProduct.itemName = await this.web3service.fromBytes( pop1.itemName )
-        popProduct.itemPrice = ( pop1.itemPrice )
+        popProduct.itemPrice = ( pop1.itemPrice / 100)
         popProduct.imageId = await this.web3service.fromBytes( pop1.imageId )
         popProduct.itemCount = pop1.availableCount
         popProduct.itemColor = pop.itemColor
