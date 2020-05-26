@@ -21,6 +21,9 @@ import { TokenMarketAdminComponent } from './Components/admin/token-market-admin
 import { SellerDetailsComponent } from './Components/seller/seller-details/seller-details.component'
 import { SellerComponent } from './Components/seller/seller.component'
 import { SellerRouterComponent } from './Components/seller/seller-router/seller-router.component'
+import { AdminComponent } from './Components/admin/admin.component'
+import { AdminRouterComponent } from './Components/admin/admin-router/admin-router.component'
+import { TokenMarketSellerComponent } from './Components/seller/token-market-seller/token-market-seller.component'
 
 
 const routes: Routes = [
@@ -94,6 +97,20 @@ const routes: Routes = [
       {
         path: 'view-orders',
         component: ViewOrdersComponent
+      },
+      {
+        path: 'exchange',
+        component: TokenMarketSellerComponent
+      }
+    ]
+  },
+  {
+    path: 'admin',
+    component: AdminRouterComponent,
+    children: [
+      {
+        path: '',
+        component: AdminComponent
       },
       {
         path: 'exchange',

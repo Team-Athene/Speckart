@@ -8,7 +8,7 @@ import { ethers } from 'ethers'
 declare let require: any
 
 const Web3 = require( 'web3' )
-let SPKJSON
+let SPKJSON, TOKENJSON
 declare let window: any
 declare let ethereum: any
 declare let web3: any
@@ -25,12 +25,14 @@ export class Web3Service {
   >( {
     account: null,
     network: null,
-    spk: null
+    spk: null,
+    token: null
   } )
   private RefreshedAccount = interval( 1000 )
   public AccountSubscription: Subscription
   public async web3login() {
     SPKJSON = require( '../../../../build/SpecKart.json' )
+    TOKENJSON = require( '../../../../build/SpecToken.json' )
     return new Promise( async ( resolve, reject ) => {
       // check dapp browser
       if ( window.ethereum || window.web3 ) {
@@ -53,6 +55,10 @@ export class Web3Service {
         if ( typeof SPKJSON.networks[ Net ] === 'undefined' ) {
           reject( 'Contract Not Deployed on Network with Id:' + Net )
         }
+
+        if ( typeof TOKENJSON.networks[ Net ] === 'undefined' ) {
+          reject( 'TOKEN Contract Not Deployed on Network with Id:' + Net )
+        }
         // observe changes on  account and network
         this.AccountSubscription = this.RefreshedAccount.subscribe( async () => {
           let Account = await this.GetAccount()
@@ -65,10 +71,16 @@ export class Web3Service {
               SPKJSON.abi,
               SPKJSON.networks[ Network ].address
             )
+
+            const tokenInstance = new window.web3.eth.Contract(
+              TOKENJSON.abi,
+              TOKENJSON.networks[ Network ].address
+            )
             this.Web3Details$.next( {
               account: Account,
               network: Network,
-              spk: spkInstance.methods
+              spk: spkInstance.methods,
+              token: tokenInstance.methods
             } )
           }
           localStorage.setItem( 'isLogged', 'true' )
@@ -92,7 +104,8 @@ export class Web3Service {
     this.Web3Details$.next( {
       account: null,
       network: null,
-      spk: null
+      spk: null,
+      token: null
     } )
     localStorage.setItem( 'isLogged', 'false' )
     localStorage.clear()

@@ -50,7 +50,7 @@
                   <a>Home</a>
                 </li>
 
-                <li class="active" [routerLink]="['/seller/exchange']"><a>Token Market</a></li>
+                <li seller[routerLink]="['/seller/exchange']"><a>Token Market</a></li>
                 <li class="has-children ">
                   <a>Products  <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
@@ -70,7 +70,7 @@
             </nav>
           </div>
           <div class="icons">
-            <a [routerLink]="['/seller/userDetails']" class="icons-btn d-inline-block"><span class="fa fa-user"></span></a>
+            <a [routerLink]="['/seller/userDetails']" class="icons-btn d-inline-block" style="color: red;"><span class="fa fa-user"></span></a>
             <a (click)="logOut()" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
             <a class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
           </div>
@@ -81,7 +81,7 @@
     <div class="custom-border-bottom py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
+          <div class="col-md-12 mb-0"><a [routerLink]="['/seller']">Home</a> <span class="mx-2 mb-0">/</span> <strong
               class="text-black">User Details</strong></div>
         </div>
       </div>

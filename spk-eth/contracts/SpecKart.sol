@@ -430,21 +430,6 @@ contract SpecKart is SpecRead {
         }
     }
 
-    function purchaseToken() external payable {
-        uint256 count = (msg.value).div(ISpecToken(TOKEN).specPrice());
-        uint256 balance = (msg.value).sub(
-            count.mul(ISpecToken(TOKEN).specPrice())
-        );
-        msg.sender.transfer(balance);
-        ISpecToken(TOKEN).buyToken(count, msg.sender);
-    }
-
-    function sellToken(uint256 _count) external {
-        uint256 amount = _count.mul(ISpecToken(TOKEN).specPrice());
-        msg.sender.transfer(amount);
-        ISpecToken(TOKEN).burn(_count, msg.sender);
-    }
-
     function DisputeDetails(uint32 _D_ID)
         external
         view
@@ -463,5 +448,46 @@ contract SpecKart is SpecRead {
 
     function getDID() external view returns (uint32) {
         return IDispute(DISP).getDID();
+    }
+
+    function purchaseToken() external payable {
+        uint256 count = (msg.value).div(ISpecToken(TOKEN).specPrice());
+        uint256 balance = (msg.value).sub(
+            count.mul(ISpecToken(TOKEN).specPrice())
+        );
+        msg.sender.transfer(balance);
+        ISpecToken(TOKEN).buyToken(count, msg.sender);
+    }
+
+    function sellToken(uint256 _count) external {
+        uint256 amount = _count.mul(ISpecToken(TOKEN).specPrice());
+        msg.sender.transfer(amount);
+        ISpecToken(TOKEN).burn(_count, msg.sender);
+    }
+    
+    function spkDetails()
+        external
+        view
+        returns (
+            string memory tokenName,
+            string memory tokenSymbol,
+            uint8 tokenDecimals,
+            uint256 tokenTotalSupply,
+            uint256 specTokenPrice,
+            address tokenOwner, 
+            address specTokenAddress, 
+            uint256 etherBal,
+            uint256 tokenBalance
+        )
+    {
+        return (
+            ISpecToken(TOKEN).spkDetail()
+        );
+    }
+
+    function balanceOf() external view returns(uint) {
+        return (
+                ISpecToken(TOKEN).balance(msg.sender)
+            );
     }
 }

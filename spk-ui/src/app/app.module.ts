@@ -31,8 +31,7 @@ import { SellerRouterComponent } from './Components/seller/seller-router/seller-
 import { AdminComponent } from './Components/admin/admin.component'
 import { AdminRouterComponent } from './Components/admin/admin-router/admin-router.component'
 import { TokenMarketSellerComponent } from './Components/seller/token-market-seller/token-market-seller.component';
-import { DisputeVoteComponent } from './Components/admin/dispute-vote/dispute-vote.component';
-import { DisputeViewComponent } from './Components/admin/dispute-view/dispute-view.component'
+import { DisputeVoteComponent } from './Components/admin/dispute-vote/dispute-vote.component'
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
 @NgModule( {
   declarations: [
@@ -60,8 +59,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
     AdminComponent,
     AdminRouterComponent,
     TokenMarketSellerComponent,
-    DisputeVoteComponent,
-    DisputeViewComponent
+    DisputeVoteComponent
   ],
   imports: [
     BrowserModule,
