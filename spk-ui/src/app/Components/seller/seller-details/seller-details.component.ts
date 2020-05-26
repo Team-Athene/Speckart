@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { UserBalanceModel } from 'src/app/Models/spk.model';
-import { UserBalanceModelClass } from 'src/app/Models/Class/cart.class';
-import { ApiService } from 'src/app/Services/api/api.service';
-import { Web3Service } from 'src/app/Services/Web3/web3.service';
-import { SpkService } from 'src/app/Services/spk/spk.service';
-import { Router } from '@angular/router';
-import { Web3Model } from 'src/app/Models/web3.model';
+import { Component, OnInit } from '@angular/core'
+import { UserBalanceModel } from 'src/app/Models/spk.model'
+import { UserBalanceModelClass } from 'src/app/Models/Class/cart.class'
+import { ApiService } from 'src/app/Services/api/api.service'
+import { Web3Service } from 'src/app/Services/Web3/web3.service'
+import { SpkService } from 'src/app/Services/spk/spk.service'
+import { Router } from '@angular/router'
+import { Web3Model } from 'src/app/Models/web3.model'
 
 @Component({
   selector: 'app-seller-details',
@@ -15,6 +15,7 @@ import { Web3Model } from 'src/app/Models/web3.model';
 export class SellerDetailsComponent implements OnInit {
   account: string
   spk: any
+  token: any
   name: string
   contact: any
   gender: string
@@ -28,6 +29,7 @@ export class SellerDetailsComponent implements OnInit {
     this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
       this.account = data.account
       this.spk = data.spk
+      this.token = data.token
     })
     this.onLoad()
   }
@@ -35,10 +37,10 @@ export class SellerDetailsComponent implements OnInit {
     try {
       this.userBalance = {
         etherBal: await this.spec.getBalance(this.account),
-        tokenBal: (await this.spk.balanceOf(this.account).call({ from: this.account }) / (10 ** 2))
+        tokenBal: (await this.token.balance(this.account).call({ from: this.account }) / (10 ** 2))
       }
       const user = await this.spk.userDetails().call({ from: this.account })
-      console.log("TCL: SellerDetailsComponent -> onLoad -> user", user)
+      console.log('TCL: SellerDetailsComponent -> onLoad -> user', user)
       this.name = user.userName
       this.contact = user.userContact
       if (user.userGender === '1') {

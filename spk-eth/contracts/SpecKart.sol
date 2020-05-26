@@ -430,26 +430,6 @@ contract SpecKart is SpecRead {
         }
     }
 
-    function DisputeDetails(uint32 _D_ID)
-        external
-        view
-        returns (
-            uint32 orderId,
-            uint32 productId,
-            uint8 creatorType,
-            bytes32 comment,
-            uint32 bVote,
-            uint32 sVote,
-            bool isDisputeCleared
-        )
-    {
-        return (IDispute(DISP).getDispute(_D_ID));
-    }
-
-    function getDID() external view returns (uint32) {
-        return IDispute(DISP).getDID();
-    }
-
     function purchaseToken() external payable {
         uint256 count = (msg.value).div(ISpecToken(TOKEN).specPrice());
         uint256 balance = (msg.value).sub(
