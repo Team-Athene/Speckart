@@ -3,4 +3,5 @@ export interface Web3Model {
   network: string
   spk: any
   token: any
+  dispute: any
 }
