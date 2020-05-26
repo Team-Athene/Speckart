@@ -5,11 +5,11 @@ import { Web3Service } from 'src/app/Services/Web3/web3.service'
 import { Web3Model } from 'src/app/Models/web3.model'
 import { TokenModelClass, UserBalanceModelClass } from 'src/app/Models/Class/cart.class'
 
-@Component({
+@Component( {
   selector: 'app-token-market',
   templateUrl: './token-market.component.html',
-  styleUrls: ['./token-market.component.scss']
-})
+  styleUrls: [ './token-market.component.scss' ]
+} )
 export class TokenMarketComponent implements OnInit {
   buyCount: number = null
   sellCount: number = null
@@ -17,21 +17,21 @@ export class TokenMarketComponent implements OnInit {
   spk: any
   specToken: TokenModel = new TokenModelClass()
   userBalance: UserBalanceModel = new UserBalanceModelClass()
-  constructor(private spec: SpkService, private web3service: Web3Service) {
+  constructor ( private spec: SpkService, private web3service: Web3Service ) {
   }
 
   ngOnInit() {
-    this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
+    this.web3service.Web3Details$.subscribe( async ( data: Web3Model ) => {
       this.account = data.account
       this.spk = data.spk
-    })
+    } )
     this.load()
   }
   load = async () => {
-    const spkDetails: TokenModel = await this.spk.spkDetails().call({ from: this.account })
+    const spkDetails: TokenModel = await this.spk.spkDetails().call( { from: this.account } )
     this.userBalance = {
-      etherBal: await this.spec.getBalance(this.account),
-      tokenBal: (await this.spk.balanceOf().call({ from: this.account }) / (10 ** spkDetails.tokenDecimals))
+      etherBal: await this.spec.getBalance( this.account ),
+      tokenBal: ( await this.spk.balanceOf().call( { from: this.account } ) / ( 10 ** spkDetails.tokenDecimals ) )
     }
     this.specToken = {
       tokenName: spkDetails.tokenName,
@@ -39,27 +39,27 @@ export class TokenMarketComponent implements OnInit {
       tokenDecimals: spkDetails.tokenDecimals,
       specTokenAddress: spkDetails.specTokenAddress,
       tokenOwner: spkDetails.tokenOwner,
-      tokenTotalSupply: (spkDetails.tokenTotalSupply / (10 ** spkDetails.tokenDecimals)),
-      specTokenPrice: (this.spec.toEther(spkDetails.specTokenPrice) * (10 ** spkDetails.tokenDecimals)),
-      etherBal: this.spec.toEther(spkDetails.etherBal),
-      tokenBalance: (spkDetails.tokenBalance / (10 ** spkDetails.tokenDecimals))
+      tokenTotalSupply: ( spkDetails.tokenTotalSupply / ( 10 ** spkDetails.tokenDecimals ) ),
+      specTokenPrice: ( this.spec.toEther( spkDetails.specTokenPrice ) * ( 10 ** spkDetails.tokenDecimals ) ),
+      etherBal: this.spec.toEther( spkDetails.etherBal ),
+      tokenBalance: ( spkDetails.tokenBalance / ( 10 ** spkDetails.tokenDecimals ) )
     }
-    console.log("TCL: TokenMarketComponent -> load ->  this.specToken",  this.specToken)
+    console.log( "TCL: TokenMarketComponent -> load ->  this.specToken", this.specToken )
   }
   buy = async () => {
-    const ethAmount = this.spec.toWei(this.buyCount * this.specToken.specTokenPrice)
-    const buyers = await this.spk.purchaseToken().send({
+    const ethAmount = this.spec.toWei( this.buyCount * this.specToken.specTokenPrice )
+    const buyers = await this.spk.purchaseToken().send( {
       from: this.account,
-      gas: 77982,
+      gas: 177982,
       value: ethAmount
-    })
+    } )
     this.load()
   }
   sell = async () => {
-    const sellers = await this.spk.sellToken(this.sellCount * 100).send({
+    const sellers = await this.spk.sellToken( this.sellCount * 100 ).send( {
       from: this.account,
       gas: 177982
-    })
+    } )
     this.load()
   }
 }

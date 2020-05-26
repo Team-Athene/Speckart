@@ -1,8 +1,8 @@
 const express = require('express'),
 	ProductData = require('../model/ProductData'),
-	client = require('./redis-client'),
+	client = require('../middleware/redis-client'),
 	userRouter = express.Router(),
-	redisearch = require('./redis-search')
+	redisearch = require('../middleware/redis-search')
 
 const router = () => {
 	userRouter.get('/view/:id', async (req, res, next) => {

@@ -24,7 +24,7 @@ export class ChatRoomComponent implements OnInit {
   constructor ( private web3service: Web3Service, private route: Router, private chat: SocketService ) { }
 
   ngOnInit() {
-    this.name = prompt( 'Whats your Name ?' )
+    this.name = sessionStorage.getItem( 'name' )
     this.chatLoad()
     // this.chat.getUsers()
     //   .subscribe( ( userList: string ) => {
@@ -36,22 +36,22 @@ export class ChatRoomComponent implements OnInit {
     // } )
   }
   chatLoad = async () => {
-    const newUser = await this.chat.NewUser( { user: this.name } )
-    this.usersList = await this.chat.listUsers() as []
-    console.log( 'Log: ChatRoomComponent -> ngOnInit -> this.chat.listUsers()', this.usersList )
-    const temp = await this.chat.listMessages() as any[]
-    this.msgsList = temp.map( x => {
-      let t = JSON.parse( x )
-      return t
-    } )
-    console.log( 'Log: ChatRoomComponent -> chatLoad -> newUser', newUser )
-    await this.chat.getMessages()
-      .subscribe( async ( message: string ) => {
-        this.usersList = await this.chat.listUsers() as []
-        this.newMsg = message
-        this.msgsList.push( this.newMsg )
-        console.log( 'Log: ChatRoomComponent -> chatLoad -> this.newMsg', this.newMsg )
-      } )
+    // const newUser = await this.chat.NewUser( { user: this.name } )
+    // this.usersList = await this.chat.listUsers( 'dennsbsdis' ) as []
+    // console.log( 'Log: ChatRoomComponent -> ngOnInit -> this.chat.listUsers()', this.usersList )
+    const temp = await this.chat.listMessages( 'dennsbsdis' ) as any[]
+    // this.msgsList = temp.map( x => {
+    //   let t = JSON.parse( x )
+    //   return t
+    // } )
+    // console.log( 'Log: ChatRoomComponent -> chatLoad -> newUser', newUser )
+    // await this.chat.getMessages()
+    //   .subscribe( async ( message: string ) => {
+    //     this.usersList = await this.chat.listUsers() as []
+    //     this.newMsg = message
+    //     this.msgsList.push( this.newMsg )
+    //     console.log( 'Log: ChatRoomComponent -> chatLoad -> this.newMsg', this.newMsg )
+    //   } )
   }
   loadChat = async () => {
 
@@ -64,9 +64,10 @@ export class ChatRoomComponent implements OnInit {
   leaveRoom = async () => {
     console.log( 'Log: ChatRoomComponent -> leaveRoom -> this.name ', this.name )
     await this.chat.leave( { user: this.name } )
+    this.name = ''
     await this.chat.getMessages()
       .subscribe( async ( message: string ) => {
-        this.usersList = await this.chat.listUsers() as []
+        // this.usersList = await this.chat.listUsers() as []
         this.newMsg = message
         this.msgsList.push( this.newMsg )
         console.log( 'Log: ChatRoomComponent -> chatLoad -> this.newMsg', this.newMsg )

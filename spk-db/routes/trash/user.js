@@ -1,9 +1,9 @@
 'use strict'
 import express from 'express'
-import ProductData from '../model/ProductData'
-import upload from '../middleware/multer'
-import client from '../lib/redis-search'
-import redisClient from './redis-client'
+import ProductData from '../../model/ProductData'
+import upload from '../../middleware/multer'
+import client from '../../lib/redis-search'
+import redisClient from '../../middleware/redis-client'
 const router = express.Router()
 
 export const viewById = router.get('/view/:id', async (req, res, next) => {

@@ -1,15 +1,17 @@
-'use strict'
+// 'use strict'
 
-import express from 'express'
-import bodyParser from 'body-parser'
-import socket from 'socket.io'
-import path from 'path'
-import { client } from './lib/redis'
+const express = require('express')
+const path = require('path')
+const bodyParser = require('body-parser')
+const socket = require('socket.io')
+const client = require('./lib/redis')
 
 const PORT = 3000
 
 const app = express()
-
+const adminRouter = require('./routes/adminRoutes')()
+const userRouter = require('./routes/userRoutes')()
+const chatRouter = require('./routes/chatRoutes')()
 // view engine setup
 app.set('view engine', 'ejs')
 app.use(express.static('./public'))
@@ -39,7 +41,10 @@ client().then(
 		res.subscribe('activeUsers')
 
 		// App routes
-		app.use('/api', require('./routes/api'))
+		app.use('/api/admin', adminRouter)
+		app.use('/api/user', userRouter)
+		app.use('/api/chat', chatRouter)
+		// app.use('/api', require('./routes/api'))
 		//Start the server
 		const server = app.listen(PORT, () => {
 			console.log('Server Started')

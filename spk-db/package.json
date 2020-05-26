@@ -2,11 +2,11 @@
   "name": "mongo",
   "version": "1.0.0",
   "description": "Example for mongo",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "babel-node": "babel-node --presets=env",
-    "start": "nodemon --exec npm run babel-node -- server.js",
-    "start2": "nodemon server.js"
+    "start2": "nodemon --exec npm run babel-node -- server.js",
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",

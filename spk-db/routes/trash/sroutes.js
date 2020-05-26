@@ -1,8 +1,8 @@
 'use strict'
 
 import express from 'express'
-import { client } from '../lib/redis'
-import * as helper from '../lib/functions'
+import { client } from '../../lib/redis'
+import * as helper from '../../lib/functions'
 
 const router = express.Router()
 
@@ -37,7 +37,10 @@ export let chatRoom = router.get('/chat/:username', (req, res) => {
 })
 
 export let messages = router.get('/messages', (req, res) => {
-	fetchMessages().then((messages) => {
+	const { room } = req.query
+	console.log('Log: req.params', req.params)
+	console.log('Log: req.query', req.query)
+	fetchMessages(room).then((messages) => {
 		res.send(messages)
 	})
 })
