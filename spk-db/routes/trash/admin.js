@@ -1,12 +1,15 @@
-const express = require('express'),
-	ProductData = require('../model/ProductData'),
-	adminRouter = express.Router(),
-	upload = require('../middleware/multer'),
-	client = require('../middleware/redis-search'),
-	redisClient = require('../middleware/redis-client')
+'use strict'
+import express from 'express'
+import ProductData from '../../model/ProductData'
+import upload from '../../middleware/multer'
+const client = require('../../lib/redis-search')
+import redisClient from '../../middleware/redis-client'
+const router = express.Router()
 
-const router = () => {
-	adminRouter.post('/add', upload.array('product'), async (req, res, next) => {
+export const add = router.post(
+	'/admin/add',
+	upload.array('product'),
+	async (req, res, next) => {
 		const files = req.files
 		const { product } = req.body
 		const {
@@ -67,17 +70,18 @@ const router = () => {
 		await redisClient.lpush('itemBrand', itemBrand.toUpperCase())
 		await redisClient.zadd('itemCount', 0, itemId)
 		const c = await client.getDoc(itemId)
-		// console.log('TCL: router -> c', c)
-	})
-	adminRouter.post('/added', async (req, res, next) => {
+		console.log('TCL: router -> c', c)
+	}
+)
+export const added = router.post('/added', async (req, res, next) => {
+	try {
 		// await redisClient.zadd("itemCount", 80, 'itemId7')
 		const len = await redisClient.zcard('itemCount')
 		console.log('TCL: router -> len', len)
 		await redisClient.zincrby('itemCount', 300, 'itemId1')
 		const a = await redisClient.zrevrange('itemCount', 0, 5)
 		console.log('TCL: router -> a', a)
-	})
-
-	return adminRouter
-}
-module.exports = router
+	} catch (error) {
+		console.log('Log: error', error)
+	}
+})

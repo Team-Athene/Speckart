@@ -1,14 +1,12 @@
-'use strict'
+const { client } = require('../lib/redis')
 
-import { client } from '../lib/redis'
-
-export let fetchMessages = () => {
+let fetchMessages = (room) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
-				res.lrangeAsync('messages', 0, -1).then(
+				res.lrangeAsync(`${room}_messages`, 0, -1).then(
 					(messages) => {
-						console.log('messages', messages)
+						console.log(`${room}_messages`, messages)
 						resolve(messages)
 					},
 					(err) => {
@@ -22,7 +20,7 @@ export let fetchMessages = () => {
 		)
 	})
 }
-export let addMessage = (message) => {
+let addMessage = (message) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
@@ -46,7 +44,7 @@ export let addMessage = (message) => {
 	})
 }
 
-export let fetchActiveUsers = () => {
+let fetchActiveUsers = () => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
@@ -67,7 +65,7 @@ export let fetchActiveUsers = () => {
 	})
 }
 
-export let addActiveUser = (user) => {
+let addActiveUser = (user) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
@@ -95,7 +93,7 @@ export let addActiveUser = (user) => {
 	})
 }
 
-export let removeActiveUser = (user) => {
+let removeActiveUser = (user) => {
 	return new Promise(async (resolve, reject) => {
 		// const res = client()
 		// const resp = res.multi().srem('users', user)
@@ -124,4 +122,11 @@ export let removeActiveUser = (user) => {
 			}
 		)
 	})
+}
+module.exports = {
+	fetchActiveUsers,
+	addActiveUser,
+	removeActiveUser,
+	addMessage,
+	fetchMessages,
 }
