@@ -20,6 +20,7 @@ import {
 } from 'src/app/Models/Class/cart.class'
 import { SpkService } from 'src/app/Services/spk/spk.service'
 import { Router } from '@angular/router'
+import { NgForm } from '@angular/forms'
 
 @Component({
   selector: 'app-account-summery',
@@ -195,17 +196,16 @@ export class AccountSummeryComponent implements OnInit {
       }
     } catch (error) {}
   }
-  dispute = async (o_Id, p_Id) => {
-    try {
-      const data = await this.spk
-        .confirmOrder(o_Id, p_Id)
-        .send({ from: this.account })
-      console.log('TCL: AccountSummeryComponent -> dispute -> data', data)
-      if (data.status) {
-        alert('Order Cancelled')
-        this.onLoad()
-      }
-    } catch (error) {}
+  
+  dispute = async ( form: NgForm, o_Id: number, p_Id: number ) => {
+    const comment: string = await this.web3service.toBytes( form.value )
+    const res = await this.spk
+      .DisputeCreation(o_Id, p_Id, comment)
+      .send({ from: this.account, gas: 5000000 })
+    if (res.status) {
+      alert('Dispute Initiated')
+      this.onLoad()
+    }
   }
   clearProduct = async () => {
     this.productList = new ProductModelClass();

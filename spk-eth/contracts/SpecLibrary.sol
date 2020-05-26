@@ -1,8 +1,11 @@
+// SPDX-License-Identifier: SPECKART
 pragma solidity ^0.6.8;
+
 
 library SpecEnums {
     enum UserType {noUser, buyer, seller}
 }
+
 
 library SpecLibrary {
     using SpecEnums for SpecEnums.UserType;
@@ -41,27 +44,13 @@ library SpecLibrary {
         mapping(uint32 => bool) confirmDelivery;
         mapping(uint32 => bool) isCancelled;
     }
-    struct DisputeStruct {
-        uint32 orderId;
-        uint32 productId;
-        uint8 creatorType;
-        // bytes32 comment;
-        uint32 bVote;
-        uint32 sVote;
-        uint32 count;
-        mapping(uint32 => mapping(uint32 => address payable)) votedAdmin;
-        bool isDisputeCleared;
-    }
     struct SpecModel {
         uint32 P_ID;
         uint32 D_ID;
         uint32 O_ID;
-        address[] admins;
         mapping(address => User) Users;
         mapping(uint32 => Item) Product;
         mapping(uint32 => Order) MarketOrder;
-        mapping(uint32 => DisputeStruct) Dispute;
-        mapping(address => mapping(uint32 => bool)) isVoted;
         mapping(address => uint32[]) orderList;
         mapping(address => mapping(uint32 => uint32[])) prodList;
     }

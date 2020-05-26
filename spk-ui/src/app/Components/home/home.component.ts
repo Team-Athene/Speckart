@@ -14,8 +14,8 @@ import { Web3Model } from 'src/app/Models/web3.model'
 export class HomeComponent implements OnInit {
   account: string
   spk: any
-  constructor ( private web3service: Web3Service, private route: Router, private api: ApiService,
-    // private socket: SocketService 
+  constructor( private web3service: Web3Service, private route: Router, private api: ApiService,
+    // private socket: SocketService
     ) { }
   ngOnInit() {
     // this.api.testapi()
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
         this.route.navigateByUrl( '/market' )
       } else
         if ( userType === '2' ) {
-          this.route.navigateByUrl( '/admin' )
+          this.route.navigateByUrl( '/seller' )
         } else {
           alert( 'Invalid User' )
         }

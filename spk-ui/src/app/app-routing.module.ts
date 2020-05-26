@@ -1,8 +1,6 @@
 import { MarketRouterComponent } from './Components/token-market/market-router/market-router.component'
-import { ViewProductComponent } from './Components/admin/view-product/view-product.component'
-import { AddProductComponent } from './Components/admin/add-product/add-product.component'
-import { AdminComponent } from './Components/admin/admin.component'
-import { AdminRouterComponent } from './Components/admin/admin-router/admin-router.component'
+import { ViewProductComponent } from './Components/seller/view-product/view-product.component'
+import { AddProductComponent } from './Components/seller/add-product/add-product.component'
 import { ViewCartComponent } from './Components/user/view-cart/view-cart.component'
 import { AccountSummeryComponent } from './Components/user/account-summery/account-summery.component'
 import { UserRouterComponent } from './Components/user/user-router/user-router.component'
@@ -13,14 +11,16 @@ import { HomeComponent } from './Components/home/home.component'
 import { UserComponent } from './Components/user/user.component'
 import { TokenMarketComponent } from './Components/token-market/token-market.component'
 import { LoginGuard } from './Guards/Login/login.guard'
-import { ViewOrdersComponent } from './Components/admin/view-orders/view-orders.component'
+import { ViewOrdersComponent } from './Components/seller/view-orders/view-orders.component'
 import { ShopComponent } from './Components/user/shop/shop.component'
 import { TokenMarketComponent_User } from './Components/user/token-market-user/token-market.component'
 import { UserDetailsComponent } from './Components/user/user-details/user-details.component'
 import { ChatRoomComponent } from './Components/user/chat-room/chat-room.component'
 import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-room-admin.component'
 import { TokenMarketAdminComponent } from './Components/admin/token-market-admin/token-market-admin.component'
-import { SellerDetailsComponent } from './Components/admin/seller-details/seller-details.component'
+import { SellerDetailsComponent } from './Components/seller/seller-details/seller-details.component'
+import { SellerComponent } from './Components/seller/seller.component'
+import { SellerRouterComponent } from './Components/seller/seller-router/seller-router.component'
 
 
 const routes: Routes = [
@@ -72,12 +72,12 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'admin',
-    component: AdminRouterComponent,
+    path: 'seller',
+    component: SellerRouterComponent,
     children: [
       {
         path: '',
-        component: AdminComponent
+        component: SellerComponent
       },
       {
         path: 'add-product',

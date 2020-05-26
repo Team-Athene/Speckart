@@ -1,8 +1,10 @@
+// SPDX-License-Identifier: SPECKART
 pragma solidity ^0.6.8;
-import './ISpecToken.sol';
-import './SafeMath.sol';
+import "./ISpecToken.sol";
+import "./SafeMath.sol";
 
-contract SpecToken is ISpecToken{
+
+contract SpecToken is ISpecToken {
     using SafeMath for uint256;
     mapping(address => uint256) balanceOf;
     string name;
@@ -29,14 +31,16 @@ contract SpecToken is ISpecToken{
     function balance(address _addr) external override view returns (uint256) {
         return balanceOf[_addr];
     }
+
     function specPrice() external override view returns (uint256) {
         return tokenPrice;
     }
 
-    function transfer(address _to, uint256 _count, address _addr)
-        external override
-        returns (bool success)
-    {
+    function transfer(
+        address _to,
+        uint256 _count,
+        address _addr
+    ) external override returns (bool success) {
         require(_count > 0, "Value must be greater than zero");
         require(_to != address(0), "Use burn() instead");
         require(balanceOf[_addr] >= _count, "insufficient funds");
@@ -46,10 +50,7 @@ contract SpecToken is ISpecToken{
         return true;
     }
 
-    function mint(address _to, uint256 _count)
-        internal
-        returns (bool success)
-    {
+    function mint(address _to, uint256 _count) internal returns (bool success) {
         require(_to != address(0), "Use burn() instead");
         totalSupply = totalSupply.add(_count);
         balanceOf[_to] = balanceOf[_to].add(_count);
@@ -58,7 +59,8 @@ contract SpecToken is ISpecToken{
     }
 
     function burn(uint256 _count, address _addr)
-        external override
+        external
+        override
         returns (bool success)
     {
         require(_count > 0, "Value must be greater than zero");
@@ -92,12 +94,11 @@ contract SpecToken is ISpecToken{
         balanceOf[_addr] = balanceOf[_addr].add(_count);
     }
 
-    function sentTokensToUser(address _user, uint256 _count) external override {
-        balanceOf[self] = balanceOf[self].sub(_count);
-        balanceOf[_user] = balanceOf[_user].add(_count);
-    }
-    
-    function spkDetail() external override view returns (
+    function spkDetail()
+        external
+        override
+        view
+        returns (
             string memory tokenName,
             string memory tokenSymbol,
             uint8 tokenDecimals,
@@ -122,4 +123,3 @@ contract SpecToken is ISpecToken{
         );
     }
 }
-

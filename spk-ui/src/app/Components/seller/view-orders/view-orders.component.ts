@@ -21,6 +21,7 @@ import {
   UserOrderModelClass,
 } from 'src/app/Models/Class/cart.class'
 import { Router } from '@angular/router'
+import { NgForm } from '@angular/forms'
 
 @Component({
   selector: 'app-view-orders',
@@ -255,6 +256,16 @@ export class ViewOrdersComponent implements OnInit {
       .send({ from: this.account, gas: 5000000 })
     if (res.status) {
       alert('Order Shipped')
+      this.onLoad()
+    }
+  }
+  dispute = async ( form: NgForm, prodId: number ) => {
+    const comment: string = await this.web3service.toBytes( form.value )
+    const res = await this.spk
+      .DisputeCreation(this.currentOrderId, prodId, comment)
+      .send({ from: this.account, gas: 5000000 })
+    if (res.status) {
+      alert('Dispute Initiated')
       this.onLoad()
     }
   }

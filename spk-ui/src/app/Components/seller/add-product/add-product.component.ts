@@ -1,5 +1,5 @@
-import { ProductModel } from './../../../Models/spk.model'
-import { ApiService } from './../../../Services/api/api.service'
+import { ProductModel } from '../../../Models/spk.model'
+import { ApiService } from '../../../Services/api/api.service'
 import { Component, OnInit } from '@angular/core'
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Web3Service } from 'src/app/Services/Web3/web3.service'
@@ -18,9 +18,9 @@ export class AddProductComponent implements OnInit {
   imagesFormData = new FormData()
   account: string
   spk: any
-  constructor ( private fb: FormBuilder, private api: ApiService,
-    private web3service: Web3Service,
-    private route: Router) { }
+  constructor( private fb: FormBuilder, private api: ApiService,
+               private web3service: Web3Service,
+               private route: Router) { }
   ngOnInit() {
     this.web3service.web3login()
     this.web3service.Web3Details$.subscribe( async ( data: Web3Model ) => {
@@ -70,7 +70,7 @@ export class AddProductComponent implements OnInit {
             await this.web3service.toBytes( pData.itemBrand ),
             pData.itemColor,
             await this.web3service.toBytes( pData.imageId )).send( { from: this.account, gas: 5000000 } )
-            console.log("TCL: AddProductComponent -> addProduct -> newProductRes", newProductRes)
+          console.log('TCL: AddProductComponent -> addProduct -> newProductRes', newProductRes)
         } else {
           alert( 'No Images Selected' )
         }
@@ -82,8 +82,8 @@ export class AddProductComponent implements OnInit {
     }
   }
   logOut = async () => {
-    sessionStorage.clear();
-    this.route.navigateByUrl("/");
-  };
+    sessionStorage.clear()
+    this.route.navigateByUrl('/')
+  }
 }
 

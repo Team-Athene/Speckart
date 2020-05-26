@@ -1,30 +1,21 @@
+// SPDX-License-Identifier: SPECKART
 pragma solidity ^0.6.8;
-import './ISpecToken.sol';
-import './SafeMath.sol';
-import './SpecLibrary.sol';
+import "./SafeMath.sol";
+import "./IDispute.sol";
+import "./ISpecToken.sol";
+import "./SpecLibrary.sol";
 
 
-
-contract SpecVariables {
+contract SpecRead {
     using SpecLibrary for SpecLibrary.SpecModel;
     SpecLibrary.SpecModel SPEC;
-}
 
-contract SpecRead is SpecVariables {
-    modifier onlyAdmin() {
-        require(checkAdmin(msg.sender) == true, "Not An Admin");
-        _;
-    }
     modifier onlySeller() {
         require(uint256(SPEC.Users[msg.sender].userType) == 2, "only seller");
         _;
     }
     modifier onlyBuyer() {
         require(uint256(SPEC.Users[msg.sender].userType) == 1, "only buyer");
-        _;
-    }
-    modifier newUser() {
-        require(checkUser() == 0, "Not A New User");
         _;
     }
 
@@ -176,41 +167,39 @@ contract SpecRead is SpecVariables {
         );
     }
 
-    function checkUser() public view returns (uint256 status) {
-        if (uint256(SPEC.Users[msg.sender].userType) == 2) {
-            return 2;
-        } else if (uint256(SPEC.Users[msg.sender].userType) == 1) {
-            return 1;
-        } else if (checkAdmin(msg.sender) == true) {
-            return 3;
-        }
-        return 0;
-    }
-
-    function checkAdmin(address _admin) internal view returns (bool) {
-        for (uint256 i = 0; i < SPEC.admins.length; i++) {
-            if (_admin == SPEC.admins[i]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     event SignUp(address indexed user, bytes32 name);
     event addItem(bytes32 user, bytes32 name, uint256 product_id);
     event order(address indexed user, uint256 id);
 }
 
+
 contract SpecKart is SpecRead {
     using SafeMath for uint256;
     address TOKEN;
-    constructor(address[] memory _admins, address _token) public {
-    // require(_admins.length.mod(2) != 0, "Number of admins should be Odd");
-        SPEC.admins = _admins;
+    address DISP;
+
+    constructor(address _token, address _dispute) public {
         SPEC.P_ID = 100;
         SPEC.D_ID = 1000;
         SPEC.O_ID = 10000;
         TOKEN = _token;
+        DISP = _dispute;
+    }
+
+    function checkUser() public view returns (uint256 status) {
+        if (uint256(SPEC.Users[msg.sender].userType) == 2) {
+            return 2;
+        } else if (uint256(SPEC.Users[msg.sender].userType) == 1) {
+            return 1;
+        } else if (IDispute(DISP).checkAdmin(msg.sender) == true) {
+            return 3;
+        }
+        return 0;
+    }
+
+    modifier newUser() {
+        require(checkUser() == 0, "Not A New User");
+        _;
     }
 
     function userSignUp(
@@ -254,11 +243,10 @@ contract SpecKart is SpecRead {
         SPEC.Product[SPEC.P_ID].imageId = _imageId;
         SPEC.Product[SPEC.P_ID].seller = msg.sender;
         SPEC.Product[SPEC.P_ID].disputePrice = _itemPrice.div(100);
-        ISpecToken(TOKEN).sendTokens(SPEC.Product[SPEC.P_ID].disputePrice.mul(_availableCount), msg.sender);
-        // ISpecToken(TOKEN).transfer(
-        //     TOKEN,
-        //     SPEC.Product[SPEC.P_ID].disputePrice.mul(_availableCount), msg.sender
-        // );
+        ISpecToken(TOKEN).sendTokens(
+            SPEC.Product[SPEC.P_ID].disputePrice.mul(_availableCount),
+            msg.sender
+        );
         SPEC.P_ID++;
         emit addItem(_itemName, _itemBrand, SPEC.P_ID);
     }
@@ -304,7 +292,7 @@ contract SpecKart is SpecRead {
         SPEC.MarketOrder[SPEC.O_ID].BuyerAddr = msg.sender;
         SPEC.MarketOrder[SPEC.O_ID].timeStamp = now;
         SPEC.MarketOrder[SPEC.O_ID].orderDetails = _orderDetails;
-        SPEC.MarketOrder[SPEC.O_ID].totalPrice = _totalPrice*100;
+        SPEC.MarketOrder[SPEC.O_ID].totalPrice = _totalPrice * 100;
         SPEC.Users[msg.sender].orders.push(SPEC.O_ID);
         SPEC.O_ID++;
         ISpecToken(TOKEN).sendTokens(_totalPrice.add(disputeTotal), msg.sender);
@@ -312,35 +300,34 @@ contract SpecKart is SpecRead {
     }
 
     function confirmOrder(uint32 _o_Id, uint32 _p_Id) external onlySeller {
-        require(SPEC.Product[_p_Id].seller == msg.sender);
+        require(SPEC.Product[_p_Id].seller == msg.sender, "Only Seller");
         require(
             SPEC.MarketOrder[_o_Id].isOrdered[_p_Id] == true &&
                 SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] == false &&
-                // SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] == false &&
-                // SPEC.MarketOrder[_o_Id].isShipped[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isRejected[_p_Id] == false &&
-                // SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
-                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false
+                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false,
+                "Conditions not satisfied"
         );
         SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] = true;
         emit order(msg.sender, _o_Id);
     }
 
     function rejectOrder(uint32 _o_Id, uint32 _p_Id) external onlySeller {
-        require(SPEC.Product[_p_Id].seller == msg.sender);
+        require(SPEC.Product[_p_Id].seller == msg.sender, "Only Seller");
         require(
             SPEC.MarketOrder[_o_Id].isOrdered[_p_Id] == true &&
                 SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] == false &&
-                // SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] == false &&
-                // SPEC.MarketOrder[_o_Id].isShipped[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isRejected[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
-                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false
+                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false,
+                "Conditions not satisfied"
         );
         SPEC.MarketOrder[_o_Id].isRejected[_p_Id] = true;
-        ISpecToken(TOKEN).sentTokensToUser(
-            SPEC.MarketOrder[_o_Id].BuyerAddr,
-            SPEC.Product[_p_Id].itemPrice.add(SPEC.Product[_p_Id].disputePrice)
+        ISpecToken(TOKEN).collectTokens(
+            (SPEC.Product[_p_Id].itemPrice).add(
+                SPEC.Product[_p_Id].disputePrice
+            ),
+            SPEC.MarketOrder[_o_Id].BuyerAddr
         );
         SPEC.Product[_p_Id].availableCount += SPEC.MarketOrder[_o_Id]
             .prodCount[_p_Id];
@@ -348,35 +335,31 @@ contract SpecKart is SpecRead {
     }
 
     function shipOrder(uint32 _o_Id, uint32 _p_Id) external onlySeller {
-        require(SPEC.Product[_p_Id].seller == msg.sender);
+        require(SPEC.Product[_p_Id].seller == msg.sender, "Only Seller");
         require(
-            // SPEC.MarketOrder[_o_Id].isOrdered[_p_Id] == true &&
-                SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] == true &&
+            SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] == true &&
                 SPEC.MarketOrder[_o_Id].isShipped[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isRejected[_p_Id] == false &&
-                // SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
-                // SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] == false &&
-                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false
+                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false,
+                "Conditions not satisfied"
         );
         SPEC.MarketOrder[_o_Id].isShipped[_p_Id] = true;
         emit order(msg.sender, _o_Id);
     }
 
     function confirmDelivery(uint32 _o_Id, uint32 _p_Id) external onlyBuyer {
-        require(SPEC.MarketOrder[_o_Id].BuyerAddr == msg.sender);
+        require(SPEC.MarketOrder[_o_Id].BuyerAddr == msg.sender, "Only Buyer");
         require(
-            // SPEC.MarketOrder[_o_Id].isOrdered[_p_Id] == true &&
-                // SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] == true &&
-                // SPEC.MarketOrder[_o_Id].isRejected[_p_Id] == false &&
-                SPEC.MarketOrder[_o_Id].isShipped[_p_Id] == true &&
+            SPEC.MarketOrder[_o_Id].isShipped[_p_Id] == true &&
                 SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] == false &&
-                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false
+                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false,
+                "Conditions not satisfied"
         );
         SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] = true;
-        ISpecToken(TOKEN).sentTokensToUser(
-            SPEC.Product[_p_Id].seller,
-            SPEC.Product[_p_Id].itemPrice.add(SPEC.Product[_p_Id].disputePrice)
+        ISpecToken(TOKEN).collectTokens(
+            SPEC.Product[_p_Id].itemPrice.add(SPEC.Product[_p_Id].disputePrice),
+            SPEC.Product[_p_Id].seller
         );
         emit order(msg.sender, _o_Id);
     }
@@ -388,128 +371,70 @@ contract SpecKart is SpecRead {
         );
         SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] = true;
         ISpecToken(TOKEN).collectTokens(
-                SPEC.Product[_p_Id].itemPrice.add(
-                    SPEC.Product[_p_Id].disputePrice
-                ), msg.sender
+            SPEC.Product[_p_Id].itemPrice.add(SPEC.Product[_p_Id].disputePrice),
+            msg.sender
         );
         SPEC.Product[_p_Id].availableCount += SPEC.MarketOrder[_o_Id]
             .prodCount[_p_Id];
         emit order(msg.sender, _o_Id);
     }
 
-    // function DisputeCreation(uint32 _o_Id, uint32 _p_Id) external {
-    //     require(
-    //         now > (3 minutes + SPEC.MarketOrder[_o_Id].timeStamp) &&
-    //             (now < (6 minutes + SPEC.MarketOrder[_o_Id].timeStamp)),
-    //         "inbetween 30 to 60 days only"
-    //     );
-    //     // require(uint256(user[msg.sender].userType) == 2, "Invalid User");
-    //     require(SPEC.Product[_p_Id].seller == msg.sender || SPEC.MarketOrder[_o_Id].BuyerAddr == msg.sender, "Must be a Buyer or Seller");
-    //     require(
-    //         SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
-    //             SPEC.MarketOrder[_o_Id].isShipped[_p_Id] == true &&
-    //             SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] == false,
-    //         "Product is either not Shipped or already Confirmed"
-    //     );
-    //     SPEC.D_ID++;
-    //     SPEC.Dispute[SPEC.D_ID].productId = _p_Id;
-    //     SPEC.Dispute[SPEC.D_ID].orderId = _o_Id;
-    //     SPEC.Dispute[SPEC.D_ID].creatorType = uint8(SPEC.Users[msg.sender].userType);
-    //     // SPEC.Dispute[SPEC.D_ID].comment = _comment;
-    //     SPEC.MarketOrder[_o_Id].isDispute[_p_Id] = true;
-    // }
-    
-    // function DisputeVoting(uint32 _D_ID, uint32 _vote) external {
-    //     require(checkAdmin(msg.sender) == true, "Not An Admin");
-    //     require(SPEC.isVoted[msg.sender][_D_ID] == false, "Admin has already Voted");
-    //     require(
-    //         SPEC.Dispute[_D_ID].isDisputeCleared == false,
-    //         "Dispute Already Cleared"
-    //     );
-    //     require(SPEC.Dispute[_D_ID].count <= SPEC.admins.length, "Maximum Vote Reached");
-    //     if (_vote == 2) {
-    //         SPEC.Dispute[_D_ID].bVote++;
-    //     }
-    //     if (_vote == 1) {
-    //         SPEC.Dispute[_D_ID].sVote++;
-    //     }
-    //     SPEC.Dispute[_D_ID].count++;
-    //     SPEC.Dispute[_D_ID].votedAdmin[SPEC.Dispute[_D_ID].count][_vote] = msg.sender;
-    //     SPEC.isVoted[msg.sender][_D_ID] = true;
-    //     if (SPEC.Dispute[_D_ID].count == SPEC.admins.length) {
-    //         if (SPEC.Dispute[_D_ID].bVote > SPEC.Dispute[_D_ID].sVote) {
-    //             // buyer wins
-    //             SPEC.MarketOrder[SPEC.Dispute[_D_ID].orderId].BuyerAddr.transfer(
-    //                 SPEC.Product[SPEC.Dispute[_D_ID].productId].itemPrice
-    //             );
-    //             SPEC.MarketOrder[SPEC.Dispute[_D_ID].orderId].BuyerAddr.transfer(
-    //                 SPEC.Product[SPEC.Dispute[_D_ID].productId].disputePrice
-    //             );
-    //             PayAdmin(_D_ID, 2);
-    //         } else {
-    //             // seller wins
-    //             SPEC.Product[SPEC.Dispute[_D_ID].productId].seller.transfer(
-    //                 SPEC.Product[SPEC.Dispute[_D_ID].productId].itemPrice
-    //             );
-    //             SPEC.Product[SPEC.Dispute[_D_ID].productId].seller.transfer(
-    //                 SPEC.Product[SPEC.Dispute[_D_ID].productId].disputePrice
-    //             );
-    //             SPEC.MarketOrder[SPEC.Dispute[_D_ID].orderId].confirmDelivery[SPEC.Dispute[_D_ID].productId] = true;
-    //             PayAdmin(_D_ID, 1);
-    //         }
-    //         SPEC.Dispute[_D_ID].isDisputeCleared = true;
-    //     }
-    // }
-
-    // function PayAdmin(uint32 _D_ID, uint8 _vote) internal {
-    //     uint256 count;
-    //     if (_vote == 2) {
-    //         count = SPEC.Dispute[_D_ID].bVote;
-    //     }
-    //     if (_vote == 1) {
-    //         count = SPEC.Dispute[_D_ID].sVote;
-    //     }
-    //     for (uint32 i = 1; i <= 5; i++) {
-    //         if (SPEC.Dispute[_D_ID].votedAdmin[i][_vote] != address(0)) {
-    //             SPEC.Dispute[_D_ID].votedAdmin[i][_vote].transfer(
-    //                 SPEC.Product[SPEC.Dispute[_D_ID].productId].disputePrice
-    //             );
-    //         }
-    //     }
-    // }
-    
-    // function isVotedCheck(address _addr, uint32 _D_ID) external view returns (bool) {
-    //     return (SPEC.isVoted[_addr][_D_ID]);
-    // }
-    
-    function spkDetails()
-        external
-        view
-        returns (
-            string memory tokenName,
-            string memory tokenSymbol,
-            uint8 tokenDecimals,
-            uint256 tokenTotalSupply,
-            uint256 specTokenPrice,
-            address tokenOwner, 
-            address specTokenAddress, 
-            uint256 etherBal,
-            uint256 tokenBalance
-        )
-    {
-        return (
-            ISpecToken(TOKEN).spkDetail()
+    function DisputeCreation(
+        uint32 _o_Id,
+        uint32 _p_Id,
+        bytes32 _comment
+    ) external {
+        require(
+            now > (3 minutes + SPEC.MarketOrder[_o_Id].timeStamp) &&
+                (now < (6 minutes + SPEC.MarketOrder[_o_Id].timeStamp)),
+            "inbetween 30 to 60 days only"
         );
+        // require(uint256(user[msg.sender].userType) == 2, "Invalid User");
+        require(
+            SPEC.Product[_p_Id].seller == msg.sender ||
+                SPEC.MarketOrder[_o_Id].BuyerAddr == msg.sender,
+            "Must be a Buyer or Seller"
+        );
+        require(
+            SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
+                SPEC.MarketOrder[_o_Id].isShipped[_p_Id] == true &&
+                SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] == false,
+            "Product is either not Shipped or already Confirmed"
+        );
+        IDispute(DISP).Create(
+            _o_Id,
+            _p_Id,
+            uint8(SPEC.Users[msg.sender].userType),
+            _comment,
+            msg.sender
+        );
+        SPEC.MarketOrder[_o_Id].isDispute[_p_Id] = true;
     }
 
-function balanceOf() external view returns(uint) {
-    return (
-            ISpecToken(TOKEN).balance(msg.sender)
+    function DisputeVoting(uint32 _D_ID, uint32 _vote) external {
+        uint8 winner;
+        uint32 _p_Id = IDispute(DISP).getPID(_D_ID);
+        uint32 _o_Id = IDispute(DISP).getOID(_D_ID);
+
+        winner = IDispute(DISP).Vote(
+            msg.sender,
+            _D_ID,
+            _vote,
+            SPEC.Product[_p_Id].itemPrice,
+            SPEC.Product[_p_Id].seller,
+            SPEC.MarketOrder[_o_Id].BuyerAddr
         );
-}
+
+        if (winner == 2) {
+            SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] = true;
+        }
+    }
+
     function purchaseToken() external payable {
         uint256 count = (msg.value).div(ISpecToken(TOKEN).specPrice());
-        uint256 balance = (msg.value).sub(count.mul(ISpecToken(TOKEN).specPrice()));
+        uint256 balance = (msg.value).sub(
+            count.mul(ISpecToken(TOKEN).specPrice())
+        );
         msg.sender.transfer(balance);
         ISpecToken(TOKEN).buyToken(count, msg.sender);
     }
@@ -518,5 +443,25 @@ function balanceOf() external view returns(uint) {
         uint256 amount = _count.mul(ISpecToken(TOKEN).specPrice());
         msg.sender.transfer(amount);
         ISpecToken(TOKEN).burn(_count, msg.sender);
+    }
+
+    function DisputeDetails(uint32 _D_ID)
+        external
+        view
+        returns (
+            uint32 orderId,
+            uint32 productId,
+            uint8 creatorType,
+            bytes32 comment,
+            uint32 bVote,
+            uint32 sVote,
+            bool isDisputeCleared
+        )
+    {
+        return (IDispute(DISP).getDispute(_D_ID));
+    }
+
+    function getDID() external view returns (uint32) {
+        return IDispute(DISP).getDID();
     }
 }
