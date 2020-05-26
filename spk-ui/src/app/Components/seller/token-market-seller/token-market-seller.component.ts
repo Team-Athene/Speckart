@@ -19,6 +19,7 @@ export class TokenMarketSellerComponent implements OnInit {
   sellCount: number = null
   account: string
   spk: any
+  token: any
   specToken: TokenModel = new TokenModelClass()
   userBalance: UserBalanceModel = new UserBalanceModelClass()
   constructor(
@@ -31,17 +32,18 @@ export class TokenMarketSellerComponent implements OnInit {
     this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
       this.account = data.account
       this.spk = data.spk
+      this.token = data.token
     })
     this.load()
   }
   load = async () => {
-    const spkDetails: TokenModel = await this.spk
-      .spkDetails()
+    const spkDetails: TokenModel = await this.token
+      .spkDetail()
       .call({ from: this.account })
     this.userBalance = {
       etherBal: await this.spec.getBalance(this.account),
       tokenBal:
-        (await this.spk.balanceOf().call({ from: this.account })) /
+        (await this.token.balance(this.account).call({ from: this.account })) /
         10 ** spkDetails.tokenDecimals,
     }
     this.specToken = {

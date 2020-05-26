@@ -306,7 +306,7 @@ contract SpecKart is SpecRead {
                 SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isRejected[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false,
-                "Conditions not satisfied"
+            "Conditions not satisfied"
         );
         SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] = true;
         emit order(msg.sender, _o_Id);
@@ -320,7 +320,7 @@ contract SpecKart is SpecRead {
                 SPEC.MarketOrder[_o_Id].isRejected[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false,
-                "Conditions not satisfied"
+            "Conditions not satisfied"
         );
         SPEC.MarketOrder[_o_Id].isRejected[_p_Id] = true;
         ISpecToken(TOKEN).collectTokens(
@@ -341,7 +341,7 @@ contract SpecKart is SpecRead {
                 SPEC.MarketOrder[_o_Id].isShipped[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isRejected[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false,
-                "Conditions not satisfied"
+            "Conditions not satisfied"
         );
         SPEC.MarketOrder[_o_Id].isShipped[_p_Id] = true;
         emit order(msg.sender, _o_Id);
@@ -354,7 +354,7 @@ contract SpecKart is SpecRead {
                 SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false,
-                "Conditions not satisfied"
+            "Conditions not satisfied"
         );
         SPEC.MarketOrder[_o_Id].confirmDelivery[_p_Id] = true;
         ISpecToken(TOKEN).collectTokens(
@@ -463,31 +463,5 @@ contract SpecKart is SpecRead {
         uint256 amount = _count.mul(ISpecToken(TOKEN).specPrice());
         msg.sender.transfer(amount);
         ISpecToken(TOKEN).burn(_count, msg.sender);
-    }
-    
-    function spkDetails()
-        external
-        view
-        returns (
-            string memory tokenName,
-            string memory tokenSymbol,
-            uint8 tokenDecimals,
-            uint256 tokenTotalSupply,
-            uint256 specTokenPrice,
-            address tokenOwner, 
-            address specTokenAddress, 
-            uint256 etherBal,
-            uint256 tokenBalance
-        )
-    {
-        return (
-            ISpecToken(TOKEN).spkDetail()
-        );
-    }
-
-    function balanceOf() external view returns(uint) {
-        return (
-                ISpecToken(TOKEN).balance(msg.sender)
-            );
     }
 }
