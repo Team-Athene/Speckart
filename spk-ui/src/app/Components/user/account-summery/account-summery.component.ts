@@ -181,7 +181,7 @@ export class AccountSummeryComponent implements OnInit {
         .confirmDelivery(o_Id, p_Id)
         .send({ from: this.account })
       if (data.status) {
-        alert('Order Cancelled')
+        alert('Order Delivery Confirmed')
         this.onLoad()
       }
     } catch (error) {}

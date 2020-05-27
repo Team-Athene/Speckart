@@ -150,7 +150,6 @@ export class AdminComponent implements OnInit {
 
   select = async (choice) => {
     this.status = choice
-    console.log('TCL: ViewOrdersComponent -> select -> this.status', this.status)
     switch (choice) {
       case 1:
         this.List = this.onDispute
