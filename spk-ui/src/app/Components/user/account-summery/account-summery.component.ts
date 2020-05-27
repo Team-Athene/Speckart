@@ -33,7 +33,7 @@ export class AccountSummeryComponent implements OnInit {
   token: any
   status: any
   view: number
-  imgurl = "http://0.0.0.0:3000/";
+  imgurl = 'http://0.0.0.0:3000/'
   productList: ProductModel = new ProductModelClass()
   orderData: OrderModel[] = new Array(new OrderModelClass())
   orderStatus: OrderStatusModel = new OrderStatusModelClass()
@@ -119,7 +119,7 @@ export class AccountSummeryComponent implements OnInit {
     console.log('TCL: ViewProductComponent -> onLoad -> temp', temp)
     const temProduct: ProductModel = new ProductModelClass()
     temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
-    temProduct.itemPrice = temp1.itemPrice/100
+    temProduct.itemPrice = temp1.itemPrice / 100
     temProduct.imageId = await this.web3service.fromBytes(temp1.imageId)
     temProduct.itemCount = temp1.availableCount
     temProduct.itemColor = temp.itemColor
@@ -153,7 +153,7 @@ export class AccountSummeryComponent implements OnInit {
     console.log('TCL: ViewProductComponent -> onLoad -> temp', temp)
     const temProduct: ProductModel = new ProductModelClass()
     temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
-    temProduct.itemPrice = temp1.itemPrice/100
+    temProduct.itemPrice = temp1.itemPrice / 100
     temProduct.imageId = await this.web3service.fromBytes(temp1.imageId)
     temProduct.itemCount = temp1.availableCount
     temProduct.itemColor = temp.itemColor
@@ -172,7 +172,7 @@ export class AccountSummeryComponent implements OnInit {
     })
     this.productList = temProduct
 
-    this.onLoad();
+    this.onLoad()
   }
   cancelOrder = async (o_Id, p_Id) => {
     try {
@@ -198,20 +198,18 @@ export class AccountSummeryComponent implements OnInit {
       }
     } catch (error) {}
   }
-
-  dispute = async ( form: NgForm, o_Id: number, p_Id: number ) => {
-    const comment: string = await this.web3service.toBytes( form.value )
-    const res = await this.spk
-      .DisputeCreation(o_Id, p_Id, comment)
-      .send({ from: this.account, gas: 5000000 })
+  dispute = async ( form: NgForm, o_Id: number, prodId: number ) => {
+    const comment: string = await this.web3service.toBytes( form.value.comment )
+    console.log('TCL: ViewOrdersComponent -> dispute -> comment', comment)
+    const res = await this.spk.DisputeCreation(o_Id, prodId, comment).send({ from: this.account, gas: 5000000 })
     if (res.status) {
       alert('Dispute Initiated')
       this.onLoad()
     }
   }
   clearProduct = async () => {
-    this.productList = new ProductModelClass();
-  };
+    this.productList = new ProductModelClass()
+  }
   logOut = async () => {
     sessionStorage.clear()
     this.route.navigateByUrl('/')

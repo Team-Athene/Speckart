@@ -18,6 +18,8 @@ export class AdminComponent implements OnInit {
   spk: any
   token: any
   dispute: any
+  doneDispute: DisputeModel[] = new Array ( new DisputeModelClass() )
+  onDispute: DisputeModel[] = new Array ( new DisputeModelClass() )
 
   type = {
     1: 'Casual',
@@ -55,24 +57,35 @@ export class AdminComponent implements OnInit {
 
   load = async () => {
     try {
+      this.doneDispute = []
+      this.onDispute = []
       const D_ID: number = await this.dispute.getDID().call({ from: this.account })
-      for (let index = 10000; index < D_ID; index++) {
-        const getDispute: any = await this.dispute.getDispute().call({ from: this.account })
+      console.log('TCL: AdminComponent -> load -> D_ID', D_ID)
+      for (let index = 1001; index <= D_ID; index++) {
+        const getDispute: any = await this.dispute.getDispute(index).call({ from: this.account })
+        console.log('TCL: AdminComponent -> load -> getDispute', getDispute)
         const tempDispute: DisputeModel = new DisputeModelClass()
         tempDispute.disputeId = index
         tempDispute.orderId = getDispute.orderId
         tempDispute.productId = getDispute.productId
         tempDispute.creatorType = getDispute.creatorType
         tempDispute.comment = getDispute.comment
-        tempDispute.comment = getDispute.bVote
-        tempDispute.comment = getDispute.sVote
+        tempDispute.bVote = getDispute.bVote
+        tempDispute.sVote = getDispute.sVote
         tempDispute.isDisputeCleared = getDispute.isDisputeCleared
-        const order: any = await this.dispute.marketOrder(tempDispute.orderId).call({ from: this.account })
-        tempDispute.Order.Buyer = order.BuyerAddr
-        tempDispute.Order.timeStamp = order.timeStamp
+
+        const order: any = await this.spk.marketOrder(tempDispute.orderId).call({ from: this.account })
+        console.log('TCL: AdminComponent -> load -> order', order)
+        const temOrder: any = {
+          Buyer: order.BuyerAddr,
+          timeStamp: order.timeStamp
+        }
+        tempDispute.Order = temOrder
 
         const temp1 = await this.spk.product1(tempDispute.productId).call({ from: this.account })
+        console.log('TCL: AdminComponent -> load -> temp1', temp1)
         const temp2 = await this.spk.product2(tempDispute.productId).call({ from: this.account })
+        console.log('TCL: AdminComponent -> load -> temp2', temp2)
         const temProduct: ProductModel = new ProductModelClass()
         temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
         temProduct.itemPrice = (temp1.itemPrice / 100)
@@ -92,13 +105,36 @@ export class AdminComponent implements OnInit {
         imgs.forEach((img: ImageDataModel, i: any) => {
           temProduct.imageData[i] = img
         })
-        
+        tempDispute.Product = temProduct
+
+        if (tempDispute.isDisputeCleared === true) {
+          this.doneDispute.push(tempDispute)
+        } else {
+          this.onDispute.push(tempDispute)
+        }
       }
+      console.log('TCL: AdminComponent -> load -> this.doneDispute', this.doneDispute)
+      console.log('TCL: AdminComponent -> load -> this.onDispute', this.onDispute)
 
     } catch (error) {
 
     }
   }
+
+  vote = async ( D_ID: number, vote: number ) => {
+    try {
+      // 1 if seller & 2 for buyer
+      const disputeVote: any = await this.spk.DisputeVoting(D_ID, vote).send({ from: this.account })
+      console.log('TCL: AccountSummeryComponent -> cancelOrder -> data', disputeVote)
+      if (disputeVote.status) {
+        alert('Order Cancelled')
+        this.load()
+      }
+    } catch (error) {
+
+    }
+  }
+
 
   logOut = async () => {
     sessionStorage.clear()

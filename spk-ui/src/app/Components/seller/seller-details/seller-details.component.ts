@@ -41,8 +41,8 @@ export class SellerDetailsComponent implements OnInit {
       }
       const user = await this.spk.userDetails().call({ from: this.account })
       console.log('TCL: SellerDetailsComponent -> onLoad -> user', user)
-      this.name = user.userName
-      this.contact = user.userContact
+      this.name = await this.web3service.fromBytes( user.userName )
+      this.contact = await this.web3service.fromBytes( user.userContact )
       if (user.userGender === '1') {
         this.gender = 'Male'
       } else if (user.userGender === '2') {

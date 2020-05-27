@@ -182,6 +182,8 @@ contract SpecKart is SpecRead {
         SPEC.P_ID = 100;
         SPEC.D_ID = 1000;
         SPEC.O_ID = 10000;
+        SPEC.MIN_TIME = 3 minutes;
+        SPEC.MAX_TIME = 6 minutes;
         TOKEN = _token;
         DISP = _dispute;
     }
@@ -385,8 +387,7 @@ contract SpecKart is SpecRead {
         bytes32 _comment
     ) external {
         require(
-            now > (3 minutes + SPEC.MarketOrder[_o_Id].timeStamp) &&
-                (now < (6 minutes + SPEC.MarketOrder[_o_Id].timeStamp)),
+            now > (SPEC.MIN_TIME + SPEC.MarketOrder[_o_Id].timeStamp),
             "inbetween 30 to 60 days only"
         );
         // require(uint256(user[msg.sender].userType) == 2, "Invalid User");

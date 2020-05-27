@@ -48,6 +48,8 @@ library SpecLibrary {
         uint32 P_ID;
         uint32 D_ID;
         uint32 O_ID;
+        uint256 MIN_TIME;
+        uint256 MAX_TIME;
         mapping(address => User) Users;
         mapping(uint32 => Item) Product;
         mapping(uint32 => Order) MarketOrder;

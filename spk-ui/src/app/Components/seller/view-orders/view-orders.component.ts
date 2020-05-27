@@ -33,7 +33,6 @@ export class ViewOrdersComponent implements OnInit {
   spk: any
   imgurl = 'http://0.0.0.0:3000/'
   currentOrder: OrderModel = new OrderModelClass()
-  orders: OrderModel[]
   choice: number
   currentOrderId: number
 
@@ -74,17 +73,32 @@ export class ViewOrdersComponent implements OnInit {
     this.onLoad()
   }
   onLoad = async () => {
+    // this.ordered = []
+    // this.cancelled = []
+    // this.disputed = []
+    // this.rejected = []
+    // this.delivered = []
+    // this.shipped = []
+    // this.confirmed = []
+
     this.status = 0
-    this.orders = new Array(new OrderModelClass())
-    delete this.orders[0]
 
     const array = await this.spk
       .Orders(this.account)
       .call({ from: this.account })
-    console.log('TCL: OrderDetailsComponent -> onLoad -> array', array)
     const orderList = [...new Set(array)]
+    // this.ordered = []
+    // this.cancelled = []
+    // this.disputed = []
+    // this.rejected = []
+    // this.delivered = []
+    // this.shipped = []
+    // this.confirmed = []
     console.log('TCL: OrderDetailsComponent -> onLoad -> orderList', orderList)
-    orderList.forEach(async (element) => {
+    // orderList.forEach(async (element) =>
+    for (const element of orderList) {
+    // for (let i = 0; i < orderList.length; i++) {
+    //   const element: any = orderList[i]
       const productsList = await this.spk
         .productsList(this.account, element)
         .call({ from: this.account })
@@ -99,7 +113,9 @@ export class ViewOrdersComponent implements OnInit {
         'TCL: OrderDetailsComponent -> onLoad -> marketOrder',
         marketOrder
       )
-      productsList.forEach(async (prod) => {
+      // productsList.forEach(async (prod) => {
+
+      for (const prod of productsList) {
         const productOrder = await this.spk
           .productOrder(element, prod)
           .call({ from: this.account })
@@ -136,12 +152,12 @@ export class ViewOrdersComponent implements OnInit {
           ordered = await this.productReturn(marketOrder, prod, element)
           this.ordered.push(ordered)
         }
-      })
+      }
       this.orderList = this.ordered
-    })
+    }
   }
   productReturn = async (marketOrder, prod, o_ID) => {
-    let order: OrderListModel = new OrderListModelClass()
+    const order: OrderListModel = new OrderListModelClass()
 
     const date = new Date(parseInt(marketOrder.timeStamp, 10) * 1000)
     order.orderId = o_ID
@@ -157,18 +173,19 @@ export class ViewOrdersComponent implements OnInit {
       address: user.userAddr
     }
 
-    let temProduct: ProductModel = await this.spk
-      .product1(prod)
-      .call({ from: this.account })
+    const temProduct: ProductModel = new ProductModelClass()
+    const temp1 = await this.spk.product1(prod).call({ from: this.account })
     const temp = await this.spk.product2(prod).call({ from: this.account })
     temProduct.itemColor = temp.itemColor
     temProduct.itemType = temp.itemType
     temProduct.itemDetails = await this.web3service.fromBytes( temp.itemDetails )
     temProduct.itemBrand = await this.web3service.fromBytes( temp.itemBrand )
     temProduct.itemId = prod
-    temProduct.itemName = await this.web3service.fromBytes( temProduct.itemName )
-    temProduct.imageId = await this.web3service.fromBytes( temProduct.imageId)
-    console.log("TCL: ViewOrdersComponent -> productReturn -> temProduct", temProduct)
+    temProduct.itemCount = temp1.availableCount
+    temProduct.itemPrice = temp1.itemPrice / 100
+    temProduct.itemName = await this.web3service.fromBytes( temp1.itemName )
+    temProduct.imageId = await this.web3service.fromBytes( temp1.imageId)
+    console.log('TCL: ViewOrdersComponent -> productReturn -> temProduct', temProduct)
     const imgs: any = await this.api.viewProducts( temProduct.imageId )
     const a = temProduct.itemColor,
       b = temProduct.itemType
@@ -183,11 +200,11 @@ export class ViewOrdersComponent implements OnInit {
   }
   select = async (choice) => {
     this.status = choice
-    console.log("TCL: ViewOrdersComponent -> select -> this.status", this.status)
+    console.log('TCL: ViewOrdersComponent -> select -> this.status', this.status)
     switch (choice) {
       case 0:
         this.orderList = this.ordered
-        console.log("TCL: ViewOrdersComponent -> select -> this.orderList", this.orderList)
+        console.log('TCL: ViewOrdersComponent -> select -> this.orderList', this.orderList)
         break
       case 1:
         this.orderList = this.confirmed
@@ -244,7 +261,7 @@ export class ViewOrdersComponent implements OnInit {
     const res = await this.spk
       .rejectOrder(this.currentOrderId, prodId)
       .send({ from: this.account, gas: 5000000 })
-      console.log("TCL: ViewOrdersComponent -> reject -> res", res)
+    console.log('TCL: ViewOrdersComponent -> reject -> res', res)
     if (res.status) {
       alert('Order Rejected')
       this.onLoad()
@@ -260,10 +277,9 @@ export class ViewOrdersComponent implements OnInit {
     }
   }
   dispute = async ( form: NgForm, prodId: number ) => {
-    const comment: string = await this.web3service.toBytes( form.value )
-    const res = await this.spk
-      .DisputeCreation(this.currentOrderId, prodId, comment)
-      .send({ from: this.account, gas: 5000000 })
+    const comment: string = await this.web3service.toBytes( form.value.comment )
+    console.log('TCL: ViewOrdersComponent -> dispute -> comment', comment)
+    const res = await this.spk.DisputeCreation(this.currentOrderId, prodId, comment).send({ from: this.account, gas: 5000000 })
     if (res.status) {
       alert('Dispute Initiated')
       this.onLoad()
