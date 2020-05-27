@@ -16,7 +16,6 @@ import { ShopComponent } from './Components/user/shop/shop.component'
 import { TokenMarketComponent_User } from './Components/user/token-market-user/token-market.component'
 import { UserDetailsComponent } from './Components/user/user-details/user-details.component'
 import { ChatRoomComponent } from './Components/user/chat-room/chat-room.component'
-import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-room-admin.component'
 import { TokenMarketAdminComponent } from './Components/admin/token-market-admin/token-market-admin.component'
 import { SellerDetailsComponent } from './Components/seller/seller-details/seller-details.component'
 import { SellerComponent } from './Components/seller/seller.component'
@@ -63,14 +62,6 @@ const routes: Routes = [
       {
         path: 'userDetails',
         component: UserDetailsComponent
-      },
-      {
-        path: 'chatroom',
-        component: ChatRoomComponent
-      },
-      {
-        path: 'adminChat',
-        component: ChatRoomAdminComponent
       }
     ]
   },
@@ -102,10 +93,7 @@ const routes: Routes = [
         path: 'exchange',
         component: TokenMarketSellerComponent
       },
-      {
-        path: 'chatroom',
-        component: ChatRoomComponent
-      },
+
     ]
   },
   {
@@ -132,7 +120,11 @@ const routes: Routes = [
         component: TokenMarketComponent
       }
     ]
-  }
+  },
+  {
+    path: 'chatroom',
+    component: ChatRoomComponent
+  },
 ]
 
 

@@ -21,7 +21,6 @@ import { ShopComponent } from './Components/user/shop/shop.component'
 import { TokenMarketComponent_User } from './Components/user/token-market-user/token-market.component'
 import { UserDetailsComponent } from './Components/user/user-details/user-details.component'
 import { ChatRoomComponent } from './Components/user/chat-room/chat-room.component'
-import { ChatRoomAdminComponent } from './Components/user/chat-room-admin/chat-room-admin.component'
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io'
 import { TokenMarketAdminComponent } from './Components/admin/token-market-admin/token-market-admin.component'
@@ -30,7 +29,7 @@ import { SellerComponent } from './Components/seller/seller.component'
 import { SellerRouterComponent } from './Components/seller/seller-router/seller-router.component'
 import { AdminComponent } from './Components/admin/admin.component'
 import { AdminRouterComponent } from './Components/admin/admin-router/admin-router.component'
-import { TokenMarketSellerComponent } from './Components/seller/token-market-seller/token-market-seller.component';
+import { TokenMarketSellerComponent } from './Components/seller/token-market-seller/token-market-seller.component'
 import { DisputeVoteComponent } from './Components/admin/dispute-vote/dispute-vote.component'
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
 @NgModule( {
@@ -51,7 +50,6 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} }
     ShopComponent,
     UserDetailsComponent,
     ChatRoomComponent,
-    ChatRoomAdminComponent,
     TokenMarketAdminComponent,
     SellerDetailsComponent,
     SellerComponent,
