@@ -39,11 +39,14 @@ export class ChatRoomComponent implements OnInit {
   }
   chatLoad = async () => {
     console.log( 'Log: ChatRoomComponent -> chatLoad -> this.name', this.name )
-    if ( this.name === null ) {
-      const newUser = await this.chat.NewUser( { user: 'Guest', room: this.room } )
-    } else {
-      const newUser = await this.chat.NewUser( { user: this.name, room: this.room } )
-    }
+    if ( this.who === 'admin' ) {
+      const newUser = await this.chat.NewUser( { user: 'admin', room: this.room } )
+    } else
+      if ( this.name === null ) {
+        const newUser = await this.chat.NewUser( { user: 'Guest', room: this.room } )
+      } else {
+        const newUser = await this.chat.NewUser( { user: this.name, room: this.room } )
+      }
     this.usersList = await this.chat.listUsers( this.room ) as []
     const temp = await this.chat.listMessages( this.room ) as any[]
     this.msgsList = temp.map( x => {
