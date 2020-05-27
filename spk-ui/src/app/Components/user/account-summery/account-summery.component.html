@@ -141,6 +141,7 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
+                      <th class="product-name">No</th>
                       <th class="product-name">Order ID</th>
                       <th class="product-remove">View Details</th>
                     </tr>
@@ -153,6 +154,9 @@
                     >
                       <td class="product-name">
                         <h2 class="h5">Order {{ i + 1 }}</h2>
+                      </td>
+                      <td class="product-name">
+                        <h2 class="h5"> {{ order.orderId }}</h2>
                       </td>
                       <td>
                         <a

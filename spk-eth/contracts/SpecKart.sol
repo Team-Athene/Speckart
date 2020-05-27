@@ -23,10 +23,6 @@ contract SpecRead {
         return SPEC.P_ID;
     }
 
-    function totalDisputeID() external view returns (uint256) {
-        return SPEC.D_ID;
-    }
-
     function currentOrderID() external view returns (uint256) {
         return SPEC.O_ID;
     }
@@ -180,7 +176,6 @@ contract SpecKart is SpecRead {
 
     constructor(address _token, address _dispute) public {
         SPEC.P_ID = 100;
-        SPEC.D_ID = 1000;
         SPEC.O_ID = 10000;
         SPEC.MIN_TIME = 3 minutes;
         SPEC.MAX_TIME = 6 minutes;
