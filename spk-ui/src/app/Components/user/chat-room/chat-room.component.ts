@@ -34,11 +34,16 @@ export class ChatRoomComponent implements OnInit {
       } )
 
     console.log( 'Log: ChatRoomComponent -> ngOnInit -> this.room', this.room )
+
     this.name = sessionStorage.getItem( 'name' )
     this.chatLoad()
   }
   chatLoad = async () => {
-    const newUser = await this.chat.NewUser( { user: this.name, room: this.room } )
+    if ( this.name === undefined ) {
+      const newUser = await this.chat.NewUser( { user: 'Guest', room: this.room } )
+    } else {
+      const newUser = await this.chat.NewUser( { user: this.name, room: this.room } )
+    }
     this.usersList = await this.chat.listUsers( this.room ) as []
     const temp = await this.chat.listMessages( this.room ) as any[]
     this.msgsList = temp.map( x => {
@@ -47,11 +52,13 @@ export class ChatRoomComponent implements OnInit {
         return t
       }
     } )
+    console.log( 'Log: ChatRoomComponent -> chatLoad -> this.msgsList', this.msgsList )
     await this.chat.getMessages()
       .subscribe( async ( message: string ) => {
         this.usersList = await this.chat.listUsers( this.room ) as []
         this.newMsg = message
         this.msgsList.push( this.newMsg )
+        console.log( 'Log: ChatRoomComponent -> chatLoad -> this.msgsList', this.msgsList )
       } )
   }
   loadChat = async () => {
