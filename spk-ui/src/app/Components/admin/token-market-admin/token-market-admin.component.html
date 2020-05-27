@@ -30,11 +30,8 @@
                 <li class="has-children ">
                   <a>Chat Room <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
-                    <li [routerLink]="['/chatroom']" [queryParams]="{ room:'userChatRoom',who:'admin'}"><a>With
+                    <li [routerLink]="['/chatroom']" [queryParams]="{ room:'adminChatRoom',who:'admin'}"><a>With
                         Users</a>
-                    </li>
-                    <li [routerLink]="['/chatroom']" [queryParams]="{room:'adminChatRoom',who:'admin'}"><a>With
-                        Admin</a>
                     </li>
                   </ul>
                 </li>
