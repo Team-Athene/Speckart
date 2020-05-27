@@ -355,20 +355,8 @@
                   </table>
                   <br />
                   <div class="row">
-                    <div
-                      *ngIf="
-                        orderStatus.isCancelled == false &&
-                        orderStatus.isConfirmed == false &&
-                        orderStatus.isRejected == false
-                      "
-                      class="col-md-4"
-                    >
-                      <button
-                        class="btn btn-outline-primary btn-sm btn-block"
-                        (click)="
-                          cancelOrder(currentOrder.orderId, orderStatus.itemId)
-                        "
-                      >
+                    <div class="col-md-4" *ngIf="orderStatus.isCancelled == false && orderStatus.isConfirmed == false && orderStatus.isRejected == false">
+                      <button class="btn btn-outline-primary btn-sm btn-block" (click)="cancelOrder(currentOrder.orderId, orderStatus.itemId)">
                         Cancel Order
                       </button>
                     </div>
@@ -394,14 +382,15 @@
                     </div>
 
                     <div
-                      class="col-md-4"
+                      class="col-md-8"
                       *ngIf="
                         orderStatus.isShipped == true &&
-                        orderStatus.confirmDelivery == false
+                        orderStatus.confirmDelivery == false&&
+                        orderStatus.isDispute == false
                       "
                     >
                       <form
-                        class="form-detail"
+                        class="row form-detail"
                         (ngSubmit)="
                           dispute(
                             myForm,
@@ -411,23 +400,21 @@
                         "
                         #myForm="ngForm"
                       >
-                        <div class="col-md-12">
-                          <label for="c_lname" class="text-black"
-                            >Comment <span class="text-danger">*</span></label
-                          >
+                        <div class="col-md-6">
                           <input
+                          style="width: 100%;height: 100%;"
                             type="text"
                             name="comment"
                             id="comment"
                             class="input-text"
-                            placeholder="Your comment"
+                            placeholder="Your comment on Dispute"
                             required
                             ngModel
                           />
                         </div>
                         <button
                           type="submit"
-                          class="btn btn-primary btn-lg btn-block"
+                          class="col-md-6 btn btn-primary btn-lg btn-block"
                         >
                           <span class="fa fa-shopping-cart"></span> Initiate
                           Dispute
