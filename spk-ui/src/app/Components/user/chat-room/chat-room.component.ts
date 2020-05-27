@@ -33,13 +33,13 @@ export class ChatRoomComponent implements OnInit {
         this.who = params.who
       } )
 
-    console.log( 'Log: ChatRoomComponent -> ngOnInit -> this.room', this.room )
 
     this.name = sessionStorage.getItem( 'name' )
     this.chatLoad()
   }
   chatLoad = async () => {
-    if ( this.name === undefined ) {
+    console.log( 'Log: ChatRoomComponent -> chatLoad -> this.name', this.name )
+    if ( this.name === null ) {
       const newUser = await this.chat.NewUser( { user: 'Guest', room: this.room } )
     } else {
       const newUser = await this.chat.NewUser( { user: this.name, room: this.room } )
@@ -52,20 +52,17 @@ export class ChatRoomComponent implements OnInit {
         return t
       }
     } )
-    console.log( 'Log: ChatRoomComponent -> chatLoad -> this.msgsList', this.msgsList )
     await this.chat.getMessages()
       .subscribe( async ( message: string ) => {
         this.usersList = await this.chat.listUsers( this.room ) as []
         this.newMsg = message
         this.msgsList.push( this.newMsg )
-        console.log( 'Log: ChatRoomComponent -> chatLoad -> this.msgsList', this.msgsList )
       } )
   }
   loadChat = async () => {
 
   }
   createMsg = async () => {
-    console.log( this.msg )
     this.chat.NewMessage( { user: this.name, msg: this.msg, room: this.room } )
     this.msg = ''
   }
