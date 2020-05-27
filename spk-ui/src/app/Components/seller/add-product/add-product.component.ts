@@ -51,7 +51,6 @@ export class AddProductComponent implements OnInit {
     try {
       this.imagesFormData.delete( 'product' )
       const pData: ProductModel = this.productForm.value
-      console.log( 'Log: AddProductComponent -> addProduct -> pData', pData )
       Object.keys( pData ).forEach( ( key ) => ( pData[ key ] == null ) && delete pData[ key ] )
       if ( Object.keys( pData ).length === 7 ) {
         if ( this.uploaded.length > 0 ) {
@@ -70,7 +69,6 @@ export class AddProductComponent implements OnInit {
             await this.web3service.toBytes( pData.itemBrand ),
             pData.itemColor,
             await this.web3service.toBytes( pData.imageId )).send( { from: this.account, gas: 5000000 } )
-          console.log('TCL: AddProductComponent -> addProduct -> newProductRes', newProductRes)
         } else {
           alert( 'No Images Selected' )
         }

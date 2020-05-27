@@ -46,7 +46,6 @@ export class TokenMarketComponent implements OnInit {
       etherBal: this.spec.toEther( spkDetails.etherBal ),
       tokenBalance: ( spkDetails.tokenBalance / ( 10 ** spkDetails.tokenDecimals ) )
     }
-    console.log( "TCL: TokenMarketComponent -> load ->  this.specToken", this.specToken )
   }
   buy = async () => {
     const ethAmount = this.spec.toWei( this.buyCount * this.specToken.specTokenPrice )

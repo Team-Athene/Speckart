@@ -21,6 +21,7 @@ import {
 import { SpkService } from 'src/app/Services/spk/spk.service'
 import { Router } from '@angular/router'
 import { NgForm } from '@angular/forms'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-account-summery',
@@ -33,7 +34,7 @@ export class AccountSummeryComponent implements OnInit {
   token: any
   status: any
   view: number
-  imgurl = 'http://0.0.0.0:3000/'
+  imgurl = environment.imgurl
   productList: ProductModel = new ProductModelClass()
   orderData: OrderModel[] = new Array(new OrderModelClass())
   orderStatus: OrderStatusModel = new OrderStatusModelClass()
@@ -93,7 +94,6 @@ export class AccountSummeryComponent implements OnInit {
         const data = await this.spk
           .marketOrder(iterator)
           .call({ from: this.account })
-        console.log('TCL: AccountSummeryComponent -> onLoad -> data', data)
         order.orderId = n
         order.orderDetails = JSON.parse(data.orderDetails)
         order.totalPrice = data.totalPrice
@@ -115,8 +115,6 @@ export class AccountSummeryComponent implements OnInit {
   prodView = async (p_Id) => {
     const temp1 = await this.spk.product1(p_Id).call({ from: this.account })
     const temp = await this.spk.product2(p_Id).call({ from: this.account })
-    console.log('TCL: ViewProductComponent -> onLoad -> temp1', temp1)
-    console.log('TCL: ViewProductComponent -> onLoad -> temp', temp)
     const temProduct: ProductModel = new ProductModelClass()
     temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
     temProduct.itemPrice = temp1.itemPrice / 100
@@ -143,14 +141,8 @@ export class AccountSummeryComponent implements OnInit {
       .productOrder(orderId, itemId)
       .call({ from: this.account })
     this.orderStatus.itemId = itemId
-    console.log(
-      'TCL: AccountSummeryComponent -> statusView -> this.orderStatus',
-      this.orderStatus
-    )
     const temp1 = await this.spk.product1(itemId).call({ from: this.account })
     const temp = await this.spk.product2(itemId).call({ from: this.account })
-    console.log('TCL: ViewProductComponent -> onLoad -> temp1', temp1)
-    console.log('TCL: ViewProductComponent -> onLoad -> temp', temp)
     const temProduct: ProductModel = new ProductModelClass()
     temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
     temProduct.itemPrice = temp1.itemPrice / 100
@@ -179,7 +171,6 @@ export class AccountSummeryComponent implements OnInit {
       const data = await this.spk
         .cancelOrder(o_Id, p_Id)
         .send({ from: this.account })
-      console.log('TCL: AccountSummeryComponent -> cancelOrder -> data', data)
       if (data.status) {
         alert('Order Cancelled')
         this.onLoad()
@@ -191,7 +182,6 @@ export class AccountSummeryComponent implements OnInit {
       const data = await this.spk
         .confirmDelivery(o_Id, p_Id)
         .send({ from: this.account })
-      console.log('TCL: AccountSummeryComponent -> confirmOrder -> data', data)
       if (data.status) {
         alert('Order Cancelled')
         this.onLoad()
@@ -200,7 +190,6 @@ export class AccountSummeryComponent implements OnInit {
   }
   dispute = async ( form: NgForm, o_Id: number, prodId: number ) => {
     const comment: string = await this.web3service.toBytes( form.value.comment )
-    console.log('TCL: ViewOrdersComponent -> dispute -> comment', comment)
     const res = await this.spk.DisputeCreation(o_Id, prodId, comment).send({ from: this.account, gas: 5000000 })
     if (res.status) {
       alert('Dispute Initiated')
