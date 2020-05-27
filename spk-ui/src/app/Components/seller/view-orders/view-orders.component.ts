@@ -165,12 +165,13 @@ export class ViewOrdersComponent implements OnInit {
     const temProduct: ProductModel = new ProductModelClass()
     const temp1 = await this.spk.product1(prod).call({ from: this.account })
     const temp = await this.spk.product2(prod).call({ from: this.account })
+    const count: number =  await this.spk.productCount(o_ID, prod).call({ from: this.account })
     temProduct.itemColor = temp.itemColor
     temProduct.itemType = temp.itemType
     temProduct.itemDetails = await this.web3service.fromBytes( temp.itemDetails )
     temProduct.itemBrand = await this.web3service.fromBytes( temp.itemBrand )
     temProduct.itemId = prod
-    temProduct.itemCount = temp1.availableCount
+    temProduct.itemCount = count
     temProduct.itemPrice = temp1.itemPrice / 100
     temProduct.itemName = await this.web3service.fromBytes( temp1.itemName )
     temProduct.imageId = await this.web3service.fromBytes( temp1.imageId)

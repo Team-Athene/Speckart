@@ -95,11 +95,12 @@ export class AdminComponent implements OnInit {
         console.log('TCL: AdminComponent -> load -> temp1', temp1)
         const temp2 = await this.spk.product2(tempDispute.productId).call({ from: this.account })
         console.log('TCL: AdminComponent -> load -> temp2', temp2)
+        const count: number =  await this.spk.productCount(tempDispute.orderId, tempDispute.productId).call({ from: this.account })
         const temProduct: ProductModel = new ProductModelClass()
         temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
         temProduct.itemPrice = (temp1.itemPrice / 100)
         temProduct.imageId = await this.web3service.fromBytes(temp1.imageId)
-        temProduct.itemCount = temp1.availableCount
+        temProduct.itemCount = count
         temProduct.itemColor = temp2.itemColor
         temProduct.itemType = temp2.itemType
         temProduct.itemDetails = await this.web3service.fromBytes(temp2.itemDetails)
@@ -144,7 +145,7 @@ export class AdminComponent implements OnInit {
       const disputeVote: any = await this.spk.DisputeVoting(D_ID, vote).send({ from: this.account })
       console.log('TCL: AccountSummeryComponent -> cancelOrder -> data', disputeVote)
       if (disputeVote.status) {
-        alert('Order Cancelled')
+        alert('Voting Successful')
         this.load()
       }
     } catch (error) {

@@ -335,8 +335,7 @@ contract SpecKart is SpecRead {
             ),
             SPEC.MarketOrder[_o_Id].BuyerAddr
         );
-        SPEC.Product[_p_Id].availableCount += SPEC.MarketOrder[_o_Id]
-            .prodCount[_p_Id];
+        SPEC.Product[_p_Id].availableCount += SPEC.prodTotal[_o_Id][_p_Id];
         emit order(msg.sender, _o_Id);
     }
 
@@ -367,6 +366,10 @@ contract SpecKart is SpecRead {
             SPEC.Product[_p_Id].itemPrice.add(SPEC.Product[_p_Id].disputePrice),
             SPEC.Product[_p_Id].seller
         );
+        ISpecToken(TOKEN).collectTokens(
+            SPEC.Product[_p_Id].disputePrice,
+            SPEC.MarketOrder[_o_Id].BuyerAddr
+        );
         emit order(msg.sender, _o_Id);
     }
 
@@ -380,8 +383,7 @@ contract SpecKart is SpecRead {
             SPEC.Product[_p_Id].itemPrice.add(SPEC.Product[_p_Id].disputePrice),
             msg.sender
         );
-        SPEC.Product[_p_Id].availableCount += SPEC.MarketOrder[_o_Id]
-            .prodCount[_p_Id];
+        SPEC.Product[_p_Id].availableCount += SPEC.prodTotal[_o_Id][_p_Id];
         emit order(msg.sender, _o_Id);
     }
 

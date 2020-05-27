@@ -104,7 +104,7 @@
                     <th class="product-name">Dispute ID</th>
                     <th class="view-product">Dispute Details</th>
                     <th class="view-product">Product Details</th>
-                    <th class="product-quantity">Vote</th>
+                    <th *ngIf="status == 1" class="product-quantity">Vote</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -123,7 +123,7 @@
                       <a (click)="disputeView(i)" data-toggle="modal" data-target="#product_view"
                         class="btn btn-primary height-auto btn-sm" style="color: white;">View Status</a>
                     </td>
-                    <td>
+                    <td *ngIf="status == 1">
                       <div class="row">
                         <div class="col-md-6">
                           <a (click)="vote(item.disputeId, 2)" class="btn btn-primary height-auto btn-sm"
@@ -247,6 +247,10 @@
                 <h6>
                   <dt>Product Type:</dt>
                   <span>{{ Product.itemType }}</span>
+                </h6>
+                <h6>
+                  <dt>Product Count:</dt>
+                  <span>{{ Product.itemCount }}</span>
                 </h6>
                 <h6>
                   <dt>Product Color:</dt>

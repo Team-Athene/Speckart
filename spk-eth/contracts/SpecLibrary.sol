@@ -35,7 +35,6 @@ library SpecLibrary {
         uint256 timeStamp;
         string orderDetails;
         uint256 totalPrice;
-        mapping(uint32 => uint32) prodCount;
         mapping(uint32 => bool) isOrdered;
         mapping(uint32 => bool) isConfirmed;
         mapping(uint32 => bool) isRejected;
