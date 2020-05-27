@@ -122,8 +122,8 @@ contract DisputeContract is IDispute {
         }
         for (uint32 i = 1; i <= admins.length; i++) {
             if (Dispute[_D_ID].votedAdmin[i][_vote] != address(0)) {
-                ISpecToken(TOKEN).sendTokens(
-                    _disputePrice,
+                ISpecToken(TOKEN).collectTokens(
+                    (_disputePrice.div(count)),
                     Dispute[_D_ID].votedAdmin[i][_vote]
                 );
             }

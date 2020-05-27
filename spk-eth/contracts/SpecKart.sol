@@ -81,6 +81,14 @@ contract SpecRead {
         );
     }
 
+    function productCount(uint32 _o_id, uint32 _p_id)
+        external
+        view
+        returns (uint32 count)
+    {
+        return (SPEC.prodTotal[_o_id][_p_id]);
+    }
+
     function userOrderDetails(address _addr)
         external
         view
