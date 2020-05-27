@@ -21,7 +21,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: $zindex-modal;
+  // z-index: $zindex-modal;
   display: none;
   overflow: hidden;
   // Prevent Chrome on Windows from adding a focus outline. For details, see
@@ -87,10 +87,11 @@
   right: 0;
   bottom: 0;
   left: 0;
+  display: none;
   // z-index: $zindex-modal-backdrop;
   background-color: $modal-backdrop-bg;
 
-  // Fade for backdrop
+  // // Fade for backdrop
   &.fade { opacity: 0; }
   &.show { opacity: $modal-backdrop-opacity; }
 }

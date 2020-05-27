@@ -250,7 +250,7 @@
                 <br />
                 <div class="row">
                   <div class="col-md-4"
-                    *ngIf="orderStatus.isCancelled == false && orderStatus.isConfirmed == false && orderStatus.isRejected == false">
+                    *ngIf="orderStatus.isCancelled == false && orderStatus.isConfirmed == false && orderStatus.isRejected == false && orderStatus.isDispute == false">
                     <button class="btn btn-outline-primary btn-sm btn-block"
                       (click)="cancelOrder(currentOrder.orderId, orderStatus.itemId)">
                       Cancel Order
