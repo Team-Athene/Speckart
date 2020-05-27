@@ -102,6 +102,7 @@ const router = () => {
 								let msg = {
 									message: req.body.user + ' just left the chat room',
 									user: 'system',
+									room,
 								}
 								client.publish('chatMessages', JSON.stringify(msg))
 								client.publish('activeUsers', JSON.stringify(fetchUsers(room)))
