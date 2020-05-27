@@ -46,23 +46,27 @@
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li  [routerLink]="['/seller']">
+                <li [routerLink]="['/seller']">
                   <a>Home</a>
                 </li>
 
                 <li [routerLink]="['/seller/exchange']"><a>Token Market</a></li>
-                <li class="has-children " >
-                  <a>Products  <i class="fa fa-caret-down"></i></a>
+                <li class="has-children ">
+                  <a>Products <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
                     <li class="active" [routerLink]="['/seller/add-product']"><a>Add Products</a></li>
                     <li [routerLink]="['/seller/view-products']"><a>View Products</a></li>
                   </ul>
                 </li>
                 <li class="has-children ">
-                  <a>Chat Room  <i class="fa fa-caret-down"></i></a>
+                  <a>Chat Room <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
-                    <li [routerLink]="['/seller/chatroom']"><a>With Users</a></li>
-                    <li [routerLink]="['/seller/sellerChat']"><a>With Admin</a></li>
+                    <li [routerLink]="['/chatroom']" [queryParams]="{ room:'userChatRoom',who:'seller'}"><a>With
+                        Users</a>
+                    </li>
+                    <li [routerLink]="['/chatroom']" [queryParams]="{room:'adminChatRoom',who:'seller'}"><a>With
+                        Admin</a>
+                    </li>
                   </ul>
                 </li>
                 <li [routerLink]="['/seller/view-orders']"><a>My Orders</a></li>
@@ -70,7 +74,8 @@
             </nav>
           </div>
           <div class="icons">
-            <a [routerLink]="['/seller/userDetails']" class="icons-btn d-inline-block"><span class="fa fa-user"></span></a>
+            <a [routerLink]="['/seller/userDetails']" class="icons-btn d-inline-block"><span
+                class="fa fa-user"></span></a>
             <a (click)="logOut()" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
             <a class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
           </div>
@@ -87,140 +92,143 @@
       </div>
     </div>
     <div class="site-section">
-      <div class="container" align = "center">
-  <div class="form-v5-content">
-    <form class="form-detail" [formGroup]="productForm">
-      <h2>Enter the Product Details</h2>
-      <div class="form-row">
-        <label for="name">Product Name</label>
-        <input type="text" name="name" id="name" formControlName="itemName" class="input-text"
-          placeholder="Product Name">
-      </div>
-      <div class="form-row">
-        <label for="name">Product Brand</label>
-        <input type="text" name="itemBrand" id="itemBrand" formControlName="itemBrand" class="input-text"
-          placeholder="Product Brand">
-      </div>
-      <div class="form-row">
-        <label for="type">Product Type</label>
-        <select formControlName="itemType" class="input-text form-control" name="itemType" style="width: 95%;">
-          <option value="1">Casual</option>
-          <option value="2">Formal</option>
-          <option value="3">Sunglass</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label for="type">Product Color</label>
-        <select formControlName="itemColor" class="input-text form-control" name="itemColor" style="width: 95%;">
-          <option value="1">Red</option>
-          <option value="2">Blue</option>
-          <option value="3">Black</option>
-          <option value="4">White</option>
-          <option value="5">Green</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label for="price">Product Price</label>
-        <input type="number" name="price" id="price" formControlName="itemPrice" class="input-text"
-          placeholder="Product Price">
-      </div>
-      <div class="form-row">
-        <label for="price">Product Quantity</label>
-        <input type="number" name="itemCount" id="count" formControlName="itemCount" class="input-text"
-          placeholder="Product Quantity">
-      </div>
-      <div class="form-row">
-        <label for="details">Details</label>
-        <input type="textarea" name="details" id="details" formControlName="itemDetails" class="input-text"
-          placeholder="Product Details">
-      </div>
+      <div class="container" align="center">
+        <div class="form-v5-content">
+          <form class="form-detail" [formGroup]="productForm">
+            <h2>Enter the Product Details</h2>
+            <div class="form-row">
+              <label for="name">Product Name</label>
+              <input type="text" name="name" id="name" formControlName="itemName" class="input-text"
+                placeholder="Product Name">
+            </div>
+            <div class="form-row">
+              <label for="name">Product Brand</label>
+              <input type="text" name="itemBrand" id="itemBrand" formControlName="itemBrand" class="input-text"
+                placeholder="Product Brand">
+            </div>
+            <div class="form-row">
+              <label for="type">Product Type</label>
+              <select formControlName="itemType" class="input-text form-control" name="itemType" style="width: 95%;">
+                <option value="1">Casual</option>
+                <option value="2">Formal</option>
+                <option value="3">Sunglass</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="type">Product Color</label>
+              <select formControlName="itemColor" class="input-text form-control" name="itemColor" style="width: 95%;">
+                <option value="1">Red</option>
+                <option value="2">Blue</option>
+                <option value="3">Black</option>
+                <option value="4">White</option>
+                <option value="5">Green</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="price">Product Price</label>
+              <input type="number" name="price" id="price" formControlName="itemPrice" class="input-text"
+                placeholder="Product Price">
+            </div>
+            <div class="form-row">
+              <label for="price">Product Quantity</label>
+              <input type="number" name="itemCount" id="count" formControlName="itemCount" class="input-text"
+                placeholder="Product Quantity">
+            </div>
+            <div class="form-row">
+              <label for="details">Details</label>
+              <input type="textarea" name="details" id="details" formControlName="itemDetails" class="input-text"
+                placeholder="Product Details">
+            </div>
 
-      <div *ngFor="let img of uploaded let i = index">
-        <p for="details">{{img.name}}
-          <span (click)="removeImg(i)" class=" a fa fa-3x fa-trash-o"> </span>
-        </p>
-      </div>
+            <div *ngFor="let img of uploaded let i = index">
+              <p for="details">{{img.name}}
+                <span (click)="removeImg(i)" class=" a fa fa-3x fa-trash-o"> </span>
+              </p>
+            </div>
 
-      <div class="form-row">
-        <input (change)="onFileChanged($event)" accept="image/*" type="file" enctype="multipart/form-data"
-          class="input-text" id="image" name="image">
+            <div class="form-row">
+              <input (change)="onFileChanged($event)" accept="image/*" type="file" enctype="multipart/form-data"
+                class="input-text" id="image" name="image">
+            </div>
+            <div class="form-row-last">
+              <button name="addProduct" (click)="addProduct($event)" class="register"> Add Product</button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="form-row-last">
-        <button name="addProduct" (click)="addProduct($event)" class="register"> Add Product</button>
-      </div>
-    </form>
-  </div>
-</div>
-</div>
+    </div>
 
 
-<footer class="site-footer custom-border-top">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-        <h3 class="footer-heading mb-4">Promo</h3>
-        <a class="block-6">
-          <img src="../../../assets/userStyles/images/about_1.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
-          <h3 class="font-weight-light  mb-0">Finding Your Perfect Shades This Summer</h3>
-        </a>
-      </div>
-      <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
+    <footer class="site-footer custom-border-top">
+      <div class="container">
         <div class="row">
+          <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <h3 class="footer-heading mb-4">Promo</h3>
+            <a class="block-6">
+              <img src="../../../assets/userStyles/images/about_1.jpg" alt="Image placeholder"
+                class="img-fluid rounded mb-4">
+              <h3 class="font-weight-light  mb-0">Finding Your Perfect Shades This Summer</h3>
+            </a>
+          </div>
+          <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="footer-heading mb-4">Quick Links</h3>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a [routerLink]="['/market/shop']">Shop Now</a></li>
+                  <li><a [routerLink]="['/market/cart']">Shopping cart</a></li>
+                  <li><a [routerLink]="['/market/summary']">My Orders</a></li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a [routerLink]="['/market/exchange']">Token Market</a></li>
+                  <li><a [routerLink]="['/chatroom']" [queryParams]="{ room:'userChatRoom',who:'seller'}">Chat Room</a>
+                  </li>
+                  <li><a [routerLink]="['/market/userDetails']">My Account</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="block-5 mb-5">
+              <h3 class="footer-heading mb-4">Contact Info</h3>
+              <ul class="list-unstyled">
+                <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
+                <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
+                <li class="email">emailaddress@domain.com</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
           <div class="col-md-12">
-            <h3 class="footer-heading mb-4">Quick Links</h3>
+            <p>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              Copyright &copy;
+              <script>document.write( new Date().getFullYear() );</script> All rights reserved to SpecKart
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
           </div>
-          <div class="col-md-6 col-lg-6">
-            <ul class="list-unstyled">
-              <li><a [routerLink]="['/market/shop']">Shop Now</a></li>
-              <li><a [routerLink]="['/market/cart']">Shopping cart</a></li>
-              <li><a  [routerLink]="['/market/summary']">My Orders</a></li>
-            </ul>
-          </div>
-          <div class="col-md-6 col-lg-6">
-            <ul class="list-unstyled">
-              <li><a [routerLink]="['/market/exchange']">Token Market</a></li>
-              <li><a [routerLink]="['/market/chatroom']">Chat Room</a></li>
-              <li><a [routerLink]="['/market/userDetails']">My Account</a></li>
-            </ul>
-          </div>
+
         </div>
       </div>
-
-      <div class="col-md-6 col-lg-3">
-        <div class="block-5 mb-5">
-          <h3 class="footer-heading mb-4">Contact Info</h3>
-          <ul class="list-unstyled">
-            <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
-            <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
-            <li class="email">emailaddress@domain.com</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-    <div class="row pt-5 mt-5 text-center">
-      <div class="col-md-12">
-        <p>
-        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved to SpecKart
-        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-        </p>
-      </div>
-
-    </div>
+    </footer>
   </div>
-</footer>
-</div>
 
-<script src="../../../assets/userStyles/js/jquery-3.3.1.min.js"></script>
-<script src="../../../assets/userStyles/js/jquery-ui.js"></script>
-<script src="../../../assets/userStyles/js/popper.min.js"></script>
-<script src="../../../assets/userStyles/js/bootstrap.min.js"></script>
-<script src="../../../assets/userStyles/js/owl.carousel.min.js"></script>
-<script src="../../../assets/userStyles/js/jquery.magnific-popup.min.js"></script>
-<script src="../../../assets/userStyles/js/aos.js"></script>
+  <script src="../../../assets/userStyles/js/jquery-3.3.1.min.js"></script>
+  <script src="../../../assets/userStyles/js/jquery-ui.js"></script>
+  <script src="../../../assets/userStyles/js/popper.min.js"></script>
+  <script src="../../../assets/userStyles/js/bootstrap.min.js"></script>
+  <script src="../../../assets/userStyles/js/owl.carousel.min.js"></script>
+  <script src="../../../assets/userStyles/js/jquery.magnific-popup.min.js"></script>
+  <script src="../../../assets/userStyles/js/aos.js"></script>
 
-<script src="../../../assets/userStyles/js/main.js"></script>
+  <script src="../../../assets/userStyles/js/main.js"></script>
 
 </body>
 

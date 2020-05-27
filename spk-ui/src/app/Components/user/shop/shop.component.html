@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>ShopMax &mdash; Colorlib e-Commerce Template</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+<head>
+  <title>ShopMax &mdash; Colorlib e-Commerce Template</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="../../../assets/userStyles/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../assets/userStyles/css/magnific-popup.css">
-    <link rel="stylesheet" href="../../../assets/userStyles/css/jquery-ui.css">
-    <link rel="stylesheet" href="../../../assets/userStyles/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../../../assets/userStyles/css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+
+  <link rel="stylesheet" href="../../../assets/userStyles/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../../assets/userStyles/css/magnific-popup.css">
+  <link rel="stylesheet" href="../../../assets/userStyles/css/jquery-ui.css">
+  <link rel="stylesheet" href="../../../assets/userStyles/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../../../assets/userStyles/css/owl.theme.default.min.css">
 
 
-    <link rel="stylesheet" href="../../../assets/userStyles/css/aos.css">
+  <link rel="stylesheet" href="../../../assets/userStyles/css/aos.css">
 
-    <link rel="stylesheet" href="../../../assets/userStyles/css/style.css">
+  <link rel="stylesheet" href="../../../assets/userStyles/css/style.css">
 
-  </head>
-  <body>
+</head>
+
+<body>
 
   <div class="site-wrap">
 
@@ -45,17 +47,21 @@
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li  [routerLink]="['/market']">
+                <li [routerLink]="['/market']">
                   <a>Home</a>
                 </li>
 
                 <li [routerLink]="['/market/shop']" class="active"><a>Shop</a></li>
                 <li [routerLink]="['/market/exchange']"><a>Token Market</a></li>
                 <li class="has-children ">
-                  <a>Chat Room  <i class="fa fa-caret-down"></i></a>
+                  <a>Chat Room <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
-                    <li [routerLink]="['/market/chatroom']"><a>With Users</a></li>
-                    <li [routerLink]="['/market/adminChat']"><a>With Admin</a></li>
+                    <li [routerLink]="['/chatroom']" [queryParams]="{ room:'userChatRoom',who:'user'}"><a>With
+                        Users</a>
+                    </li>
+                    <li [routerLink]="['/chatroom']" [queryParams]="{room:'adminChatRoom',who:'user'}"><a>With
+                        Admin</a>
+                    </li>
                   </ul>
                 </li>
                 <li [routerLink]="['/market/summary']"><a>My Orders</a></li>
@@ -63,9 +69,10 @@
             </nav>
           </div>
           <div class="icons">
-            <a [routerLink]="['/market/userDetails']" class="icons-btn d-inline-block"><span class="fa fa-user"></span></a>
+            <a [routerLink]="['/market/userDetails']" class="icons-btn d-inline-block"><span
+                class="fa fa-user"></span></a>
             <a [routerLink]="['/market/cart']" class="icons-btn d-inline-block bag">
-              <span ><i class="fa fa-shopping-cart"></i></span>
+              <span><i class="fa fa-shopping-cart"></i></span>
             </a>
             <a (click)="logOut()" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
             <a class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
@@ -79,9 +86,9 @@
         <div class="row">
           <div class="col-md-6 ml-auto order-md-2 align-self-start">
             <div class="site-block-cover-content">
-            <h2 class="sub-title">#New Summer Collection 2020</h2>
-            <h1>Arrivals Sales</h1>
-            <p><a  [routerLink]="['/market/shop']" class="btn btn-black rounded-0">Shop Now</a></p>
+              <h2 class="sub-title">#New Summer Collection 2020</h2>
+              <h1>Arrivals Sales</h1>
+              <p><a [routerLink]="['/market/shop']" class="btn btn-black rounded-0">Shop Now</a></p>
             </div>
           </div>
           <div class="col-md-6 order-1 align-self-end">
@@ -94,7 +101,8 @@
     <div class="custom-border-bottom py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a [routerLink]="['/market']" >Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+          <div class="col-md-12 mb-0"><a [routerLink]="['/market']">Home</a> <span class="mx-2 mb-0">/</span> <strong
+              class="text-black">Shop</strong></div>
         </div>
       </div>
     </div>
@@ -162,11 +170,11 @@
                 </h6><br>
                 <h3 class="cost"><span class="fa fa-coins"></span> {{productDetail.itemPrice}} SPC </h3>
 
-              <div class="space-ten"></div>
-              <div class="btn-ground">
-                <button type="button" class="btn btn-primary btn-lg btn-block" (click)="addToCart(productDetail)"><span
-                    class="fa fa-shopping-cart"></span> Add To Cart</button>
-              </div>
+                <div class="space-ten"></div>
+                <div class="btn-ground">
+                  <button type="button" class="btn btn-primary btn-lg btn-block"
+                    (click)="addToCart(productDetail)"><span class="fa fa-shopping-cart"></span> Add To Cart</button>
+                </div>
               </div>
             </div>
           </div>
@@ -182,13 +190,16 @@
 
             <div class="row align">
               <div class="col-md-12 mb-5">
-                <div class="float-md-left"><h2 class="text-black h5">Shop All</h2></div>
+                <div class="float-md-left">
+                  <h2 class="text-black h5">Shop All</h2>
+                </div>
                 <div class="d-flex">
                   <div class="dropdown mr-1 ml-md-auto">
 
                   </div>
                   <div class="btn-group">
-                    <button type="button" class="btn btn-white btn-sm dropdown-toggle px-4" id="dropdownMenuReference" data-toggle="dropdown">Sort By</button>
+                    <button type="button" class="btn btn-white btn-sm dropdown-toggle px-4" id="dropdownMenuReference"
+                      data-toggle="dropdown">Sort By</button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
                       <a class="dropdown-item" href="#">Popularity</a>
                       <div class="dropdown-divider"></div>
@@ -204,8 +215,8 @@
             </div>
             <div class="row mb-5">
               <div class="col-lg-6 col-md-6 item-entry mb-4" *ngFor="let product of products">
-                <a  data-toggle="modal" (click)="detailView(product)"
-                data-target="#product_view" class="product-item md-height bg-gray d-block">
+                <a data-toggle="modal" (click)="detailView(product)" data-target="#product_view"
+                  class="product-item md-height bg-gray d-block">
                   <img src="{{imgurl + product.imageData[0].path}}" alt="1" class="img-fluid">
                   <!-- <img src="../../../assets/userStyles/images/prod_2.png" alt="Image" class="img-fluid"> -->
                 </a>
@@ -230,15 +241,20 @@
             </div>
           </div>
 
-          <div class="col-md-3 order-2 mb-5 mb-md-0"><div class="border p-4 rounded mb-4">
-            <h3 class="mb-3 h6 text-uppercase text-black d-block" style="cursor: pointer;" (click)="load()"><a class="">Clear All Filters</a></h3>
-          </div>
+          <div class="col-md-3 order-2 mb-5 mb-md-0">
+            <div class="border p-4 rounded mb-4">
+              <h3 class="mb-3 h6 text-uppercase text-black d-block" style="cursor: pointer;" (click)="load()"><a
+                  class="">Clear All Filters</a></h3>
+            </div>
             <div class="border p-4 rounded mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
               <ul class="list-unstyled mb-0" style="margin-left: 25px;">
-                <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemType',1)"><a class="d-flex"><span>Casual</span></a></li>
-                <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemType',2)"><a class="d-flex"><span>Formal</span></a></li>
-                <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemType',3)"><a class="d-flex"><span>Sunglass</span></a></li>
+                <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemType',1)"><a
+                    class="d-flex"><span>Casual</span></a></li>
+                <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemType',2)"><a
+                    class="d-flex"><span>Formal</span></a></li>
+                <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemType',3)"><a
+                    class="d-flex"><span>Sunglass</span></a></li>
               </ul>
             </div>
 
@@ -247,8 +263,8 @@
                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Brand</h3>
                 <div class="">
                   <div class="container">
-                    <select class = "dropdown-toggle px-4" (change)="search('itemBrand', $event)">
-                      <option *ngFor="let item of brand" value="{{item}}" > {{item}} </option>
+                    <select class="dropdown-toggle px-4" (change)="search('itemBrand', $event)">
+                      <option *ngFor="let item of brand" value="{{item}}"> {{item}} </option>
                     </select>
                   </div>
                 </div>
@@ -257,30 +273,44 @@
               <div class="mb-4">
                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
                 <ul class="list-unstyled mb-0" style="margin-left: 25px;">
-                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemPrice','[0 100]')"><a class="d-flex"><span>Price < 100 </span></a></li>
-                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemPrice','[100 300]')"><a class="d-flex"><span>Price > 100 & < 300 </span></a></li>
-                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemPrice','[300 +inf]')"><a class="d-flex"><span>Price > 300 </span></a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemPrice','[0 100]')">
+                    <a class="d-flex"><span>Price < 100 </span></a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;"
+                    (click)="search('itemPrice','[100 300]')"><a class="d-flex"><span>Price > 100 & < 300 </span></a>
+                  </li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;"
+                    (click)="search('itemPrice','[300 +inf]')"><a class="d-flex"><span>Price > 300 </span></a></li>
                 </ul>
               </div>
 
               <div class="mb-4">
                 <h3 class="mb-3 h6 text-uppercase text-black d-block">Color</h3>
                 <ul class="list-unstyled mb-0" style="margin-left: 25px;">
-                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',1)"><a class="d-flex color-item align-items-center" >
-                    <span class="bg-danger color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Red</span>
-                  </a></li>
-                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',2)"><a class="d-flex color-item align-items-center" >
-                    <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Blue</span>
-                  </a></li>
-                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',3)"><a class="d-flex color-item align-items-center" >
-                    <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Black</span>
-                  </a></li>
-                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',4)"><a class="d-flex color-item align-items-center" >
-                    <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span class="text-black">White</span>
-                  </a></li>
-                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',5)"><a class="d-flex color-item align-items-center" >
-                    <span class="bg-success color d-inline-block rounded-circle mr-2"></span> <span class="text-black">Green</span>
-                  </a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',1)"><a
+                      class="d-flex color-item align-items-center">
+                      <span class="bg-danger color d-inline-block rounded-circle mr-2"></span> <span
+                        class="text-black">Red</span>
+                    </a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',2)"><a
+                      class="d-flex color-item align-items-center">
+                      <span class="bg-info color d-inline-block rounded-circle mr-2"></span> <span
+                        class="text-black">Blue</span>
+                    </a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',3)"><a
+                      class="d-flex color-item align-items-center">
+                      <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span
+                        class="text-black">Black</span>
+                    </a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',4)"><a
+                      class="d-flex color-item align-items-center">
+                      <span class="bg-primary color d-inline-block rounded-circle mr-2"></span> <span
+                        class="text-black">White</span>
+                    </a></li>
+                  <li class="mb-1 text-black ml-auto" style="cursor: pointer;" (click)="search('itemColor',5)"><a
+                      class="d-flex color-item align-items-center">
+                      <span class="bg-success color d-inline-block rounded-circle mr-2"></span> <span
+                        class="text-black">Green</span>
+                    </a></li>
                 </ul>
 
               </div>
@@ -299,7 +329,8 @@
           <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
             <h3 class="footer-heading mb-4">Promo</h3>
             <a class="block-6">
-              <img src="../../../assets/userStyles/images/about_1.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
+              <img src="../../../assets/userStyles/images/about_1.jpg" alt="Image placeholder"
+                class="img-fluid rounded mb-4">
               <h3 class="font-weight-light  mb-0">Finding Your Perfect Shades This Summer</h3>
             </a>
           </div>
@@ -312,14 +343,15 @@
                 <ul class="list-unstyled">
                   <li><a [routerLink]="['/market/shop']">Shop Now</a></li>
                   <li><a [routerLink]="['/market/cart']">Shopping cart</a></li>
-                  <li><a  [routerLink]="['/market/summary']">My Orders</a></li>
+                  <li><a [routerLink]="['/market/summary']">My Orders</a></li>
                 </ul>
               </div>
               <div class="col-md-6 col-lg-6">
                 <ul class="list-unstyled">
                   <li><a [routerLink]="['/market/exchange']">Token Market</a></li>
-                  <li><a [routerLink]="['/market/chatroom']">Chat Room</a></li>
-                  <li><a [routerLink]="['/market/userDetails']">My Account</a></li>
+                  <li><a [routerLink]="['/chatroom']" [queryParams]="{ room:'userChatRoom',who:'user'}">Chat Room</a>
+                  </li>
+                  <li><a [routerLink]=" ['/market/userDetails']">My Account</a></li>
                 </ul>
               </div>
             </div>
@@ -340,9 +372,10 @@
         <div class="row pt-5 mt-5 text-center">
           <div class="col-md-12">
             <p>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved to SpecKart
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              Copyright &copy;
+              <script>document.write( new Date().getFullYear() );</script> All rights reserved to SpecKart
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
           </div>
 
@@ -361,5 +394,6 @@
 
   <script src="../../../assets/userStyles/js/main.js"></script>
 
-  </body>
+</body>
+
 </html>
