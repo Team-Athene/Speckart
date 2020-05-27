@@ -1,44 +1,44 @@
-import { ProductModelClass } from "./../../Models/Class/cart.class"
-import { Component, OnInit } from "@angular/core"
-import { Web3Service } from "src/app/Services/Web3/web3.service"
-import { Web3Model } from "src/app/Models/web3.model"
+import { ProductModelClass } from './../../Models/Class/cart.class'
+import { Component, OnInit } from '@angular/core'
+import { Web3Service } from 'src/app/Services/Web3/web3.service'
+import { Web3Model } from 'src/app/Models/web3.model'
 import {
   ProductModel,
   ImageDataModel,
   Cart,
   CartProduct,
-} from "src/app/Models/spk.model"
-import { ApiService } from "src/app/Services/api/api.service"
-import { Router } from "@angular/router"
+} from 'src/app/Models/spk.model'
+import { ApiService } from 'src/app/Services/api/api.service'
+import { Router } from '@angular/router'
 import { environment } from 'src/environments/environment'
 
 @Component( {
-  selector: "app-user",
-  templateUrl: "./user.component.html",
-  styleUrls: [ "./user.component.scss" ],
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: [ './user.component.scss' ],
 } )
 export class UserComponent implements OnInit {
   account: string
   spk: any
   imgurl = environment.imgurl
-  recentProducts: ProductModel[] = [];
-  popularProducts: ProductModel[] = [];
-  productDetail: ProductModel = new ProductModelClass();
-  cart: Cart = { productData: [], cartTotal: 0 };
+  recentProducts: ProductModel[] = []
+  popularProducts: ProductModel[] = []
+  productDetail: ProductModel = new ProductModelClass()
+  cart: Cart = { productData: [], cartTotal: 0 }
   type = {
-    1: "Casual",
-    2: "Formal",
-    3: "Sunglass",
-  };
+    1: 'Casual',
+    2: 'Formal',
+    3: 'Sunglass',
+  }
   color = {
-    1: "Red",
-    2: "Blue",
-    3: "Black",
-    4: "White",
-    5: "Green",
-  };
+    1: 'Red',
+    2: 'Blue',
+    3: 'Black',
+    4: 'White',
+    5: 'Green',
+  }
 
-  constructor (
+  constructor(
     private api: ApiService,
     private web3service: Web3Service,
     private route: Router
@@ -68,7 +68,7 @@ export class UserComponent implements OnInit {
       } else {
         this.cart = JSON.parse( cartApi )
       }
-      for ( let i = 0;i < getRecentView.length;i++ ) {
+      for ( let i = 0; i < getRecentView.length; i++ ) {
         const temp1 = await this.spk.product1( getRecentView[ i ] ).call( { from: this.account } )
         const temp = await this.spk.product2( getRecentView[ i ] ).call( { from: this.account } )
         const temProduct: ProductModel = new ProductModelClass()
@@ -92,7 +92,7 @@ export class UserComponent implements OnInit {
         } )
         this.recentProducts.push( temProduct )
       }
-      for ( let i = 0;i < popular.length;i++ ) {
+      for ( let i = 0; i < popular.length; i++ ) {
         const pop1 = await this.spk.product1( popular[ i ] ).call( { from: this.account } )
         const pop = await this.spk.product2( popular[ i ] ).call( { from: this.account } )
         const popProduct: ProductModel = new ProductModelClass()
@@ -117,7 +117,7 @@ export class UserComponent implements OnInit {
         this.popularProducts.push( popProduct )
       }
     } catch ( error ) { }
-  };
+  }
 
   detailView = async ( product: ProductModel ) => {
     this.productDetail = product
@@ -126,7 +126,7 @@ export class UserComponent implements OnInit {
       address: this.account,
     } )
     this.onLoad()
-  };
+  }
   addToCart = async ( product: ProductModel ) => {
     const itemCart: CartProduct = {
       itemId: null,
@@ -152,7 +152,7 @@ export class UserComponent implements OnInit {
     const len = this.cart.productData.length
 
     let flag = 0
-    for ( let i = 0;i < len;i++ ) {
+    for ( let i = 0; i < len; i++ ) {
       if ( this.cart.productData[ i ].itemId === product.itemId ) {
         flag = 1
         this.cart.productData[ i ].itemCount++
@@ -168,14 +168,14 @@ export class UserComponent implements OnInit {
       cart: JSON.stringify( this.cart ),
       address: this.account,
     } )
-    alert( "Your item is added to the cart" )
+    alert( 'Your item is added to the cart' )
     // sessionStorage.setItem('cart', JSON.stringify(this.cart))
-  };
+  }
   clearProduct = async () => {
     this.productDetail = new ProductModelClass()
-  };
+  }
   logOut = async () => {
     sessionStorage.clear()
-    this.route.navigateByUrl( "/" )
-  };
+    this.route.navigateByUrl( '/' )
+  }
 }

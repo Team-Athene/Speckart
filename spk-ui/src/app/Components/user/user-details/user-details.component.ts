@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { OrderModel, UserBalanceModel } from 'src/app/Models/spk.model';
-import { OrderModelClass, UserBalanceModelClass } from 'src/app/Models/Class/cart.class';
-import { ApiService } from 'src/app/Services/api/api.service';
-import { Web3Service } from 'src/app/Services/Web3/web3.service';
-import { SpkService } from 'src/app/Services/spk/spk.service';
-import { Router } from '@angular/router';
-import { Web3Model } from 'src/app/Models/web3.model';
+import { Component, OnInit } from '@angular/core'
+import { OrderModel, UserBalanceModel } from 'src/app/Models/spk.model'
+import { OrderModelClass, UserBalanceModelClass } from 'src/app/Models/Class/cart.class'
+import { ApiService } from 'src/app/Services/api/api.service'
+import { Web3Service } from 'src/app/Services/Web3/web3.service'
+import { SpkService } from 'src/app/Services/spk/spk.service'
+import { Router } from '@angular/router'
+import { Web3Model } from 'src/app/Models/web3.model'
 
 @Component({
   selector: 'app-user-details',
@@ -22,7 +22,7 @@ export class UserDetailsComponent implements OnInit {
   address: string
   status: any
   userBalance: UserBalanceModel = new UserBalanceModelClass()
-  token: any;
+  token: any
   constructor(private api: ApiService, private web3service: Web3Service, private spec: SpkService, private route: Router) { }
 
   ngOnInit() {

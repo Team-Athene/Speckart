@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   imgurl: 'http://0.0.0.0:3000/'
-};
+}
 
 /*
  * For easier debugging in development mode, you can import the following file
