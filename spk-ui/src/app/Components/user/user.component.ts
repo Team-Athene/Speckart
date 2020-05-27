@@ -10,6 +10,7 @@ import {
 } from "src/app/Models/spk.model"
 import { ApiService } from "src/app/Services/api/api.service"
 import { Router } from "@angular/router"
+import { environment } from 'src/environments/environment'
 
 @Component( {
   selector: "app-user",
@@ -19,7 +20,7 @@ import { Router } from "@angular/router"
 export class UserComponent implements OnInit {
   account: string
   spk: any
-  imgurl = "http://0.0.0.0:3000/";
+  imgurl = environment.imgurl
   recentProducts: ProductModel[] = [];
   popularProducts: ProductModel[] = [];
   productDetail: ProductModel = new ProductModelClass();
@@ -54,13 +55,11 @@ export class UserComponent implements OnInit {
     try {
       const user = await this.spk.userDetails().call( { from: this.account } )
       sessionStorage.setItem( 'name', await this.web3service.fromBytes( user.userName ) )
-      console.log( 'Log: UserComponent -> onLoad -> user', user )
       this.recentProducts = []
       this.popularProducts = []
       const apiResult: any = await this.api.getRecentView( this.account ),
         getRecentView: any = apiResult.recent,
         popular: any = apiResult.trend
-      console.log( "TCL: UserComponent -> onLoad -> apiResult", apiResult )
 
       const cartApiPre: any = await this.api.getCart( this.account )
       const cartApi: any = cartApiPre.cart
@@ -72,8 +71,6 @@ export class UserComponent implements OnInit {
       for ( let i = 0;i < getRecentView.length;i++ ) {
         const temp1 = await this.spk.product1( getRecentView[ i ] ).call( { from: this.account } )
         const temp = await this.spk.product2( getRecentView[ i ] ).call( { from: this.account } )
-        console.log( 'TCL: ViewProductComponent -> onLoad -> temp1', temp1 )
-        console.log( 'TCL: ViewProductComponent -> onLoad -> temp', temp )
         const temProduct: ProductModel = new ProductModelClass()
         temProduct.itemName = await this.web3service.fromBytes( temp1.itemName )
         temProduct.itemPrice = ( temp1.itemPrice / 100)
@@ -98,8 +95,6 @@ export class UserComponent implements OnInit {
       for ( let i = 0;i < popular.length;i++ ) {
         const pop1 = await this.spk.product1( popular[ i ] ).call( { from: this.account } )
         const pop = await this.spk.product2( popular[ i ] ).call( { from: this.account } )
-        console.log( 'TCL: ViewProductComponent -> onLoad -> pop1', pop1 )
-        console.log( 'TCL: ViewProductComponent -> onLoad -> pop', pop )
         const popProduct: ProductModel = new ProductModelClass()
         popProduct.itemName = await this.web3service.fromBytes( pop1.itemName )
         popProduct.itemPrice = ( pop1.itemPrice / 100)

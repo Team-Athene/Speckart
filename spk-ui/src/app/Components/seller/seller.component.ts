@@ -37,7 +37,6 @@ export class SellerComponent implements OnInit {
   load = async () => {
     const userDetails = await this.spk.userDetails().call( { from: this.account } )
     sessionStorage.setItem( 'name', await this.web3service.fromBytes( userDetails.userName ) )
-    console.log( 'Log: SellerComponent -> load -> userDetails', userDetails )
     const spkDetails: TokenModel = await this.token
       .spkDetail()
       .call( { from: this.account } )

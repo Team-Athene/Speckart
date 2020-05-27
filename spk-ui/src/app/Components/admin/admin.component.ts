@@ -6,6 +6,7 @@ import { Web3Model } from 'src/app/Models/web3.model'
 import { DisputeModelClass, ProductModelClass, OrderStatusModelClass } from 'src/app/Models/Class/cart.class'
 import { DisputeModel, ProductModel, ImageDataModel, OrderStatusModel } from 'src/app/Models/spk.model'
 import { ApiService } from 'src/app/Services/api/api.service'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-admin',
@@ -25,7 +26,7 @@ export class AdminComponent implements OnInit {
   Status: OrderStatusModel = new OrderStatusModelClass()
   doneDispute: DisputeModel[] = new Array ( new DisputeModelClass() )
   onDispute: DisputeModel[] = new Array ( new DisputeModelClass() )
-  imgurl = 'http://0.0.0.0:3000/'
+  imgurl = environment.imgurl
 
   type = {
     1: 'Casual',
@@ -69,10 +70,8 @@ export class AdminComponent implements OnInit {
       this.doneDispute = []
       this.onDispute = []
       const D_ID: number = await this.dispute.getDID().call({ from: this.account })
-      console.log('TCL: AdminComponent -> load -> D_ID', D_ID)
       for (let index = 1001; index <= D_ID; index++) {
         const getDispute: any = await this.dispute.getDispute(index).call({ from: this.account })
-        console.log('TCL: AdminComponent -> load -> getDispute', getDispute)
         const tempDispute: DisputeModel = new DisputeModelClass()
         tempDispute.disputeId = index
         tempDispute.orderId = getDispute.orderId
@@ -120,7 +119,6 @@ export class AdminComponent implements OnInit {
 
         const tempStatus: OrderStatusModel = await this.spk.productOrder(tempDispute.orderId, tempDispute.productId).call({ from: this.account })
         tempStatus.itemId = tempDispute.productId
-        console.log('TCL: AdminComponent -> load -> tempStatus', tempStatus)
 
         tempDispute.Status = tempStatus
 
@@ -131,8 +129,6 @@ export class AdminComponent implements OnInit {
         }
       }
       this.List = this.onDispute
-      console.log('TCL: AdminComponent -> load -> this.doneDispute', this.doneDispute)
-      console.log('TCL: AdminComponent -> load -> this.onDispute', this.onDispute)
 
     } catch (error) {
 
@@ -143,7 +139,6 @@ export class AdminComponent implements OnInit {
     try {
       // 1 if seller & 2 for buyer
       const disputeVote: any = await this.spk.DisputeVoting(D_ID, vote).send({ from: this.account })
-      console.log('TCL: AccountSummeryComponent -> cancelOrder -> data', disputeVote)
       if (disputeVote.status) {
         alert('Voting Successful')
         this.load()

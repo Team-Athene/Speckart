@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/Services/api/api.service'
 import { Web3Service } from 'src/app/Services/Web3/web3.service'
 import { Router } from '@angular/router'
 import { Web3Model } from 'src/app/Models/web3.model'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-shop',
@@ -19,7 +20,7 @@ import { Web3Model } from 'src/app/Models/web3.model'
 export class ShopComponent implements OnInit {
   account: string
   spk: any
-  imgurl = 'http://0.0.0.0:3000/'
+  imgurl = environment.imgurl
   prod: any = []
   brand: any = []
   products: ProductModel[] = []
@@ -75,8 +76,6 @@ export class ShopComponent implements OnInit {
       for (let i = 100; i < totalProducts; i++) {
         const temp1 = await this.spk.product1(i).call({ from: this.account })
         const temp = await this.spk.product2(i).call({ from: this.account })
-        console.log('TCL: ViewProductComponent -> onLoad -> temp1', temp1)
-        console.log('TCL: ViewProductComponent -> onLoad -> temp', temp)
         const temProduct: ProductModel = new ProductModelClass()
         temProduct.itemName = await this.web3service.fromBytes(temp1.itemName)
         temProduct.itemPrice = (temp1.itemPrice / 100)
@@ -155,8 +154,6 @@ export class ShopComponent implements OnInit {
     this.search('itemBrand', event.target.value)
   }
   search = async (key: any, value: any) => {
-    console.log('TCL: ShopComponent -> search -> value', value)
-    console.log('TCL: ShopComponent -> search -> key', key)
     let t: any[] = []
     if (key === 'itemBrand') {
       const temp = value.target.value

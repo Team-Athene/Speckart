@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/Services/api/api.service'
 import { Web3Service } from 'src/app/Services/Web3/web3.service'
 import { Router } from '@angular/router'
 import { Web3Model } from 'src/app/Models/web3.model'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-view-product',
@@ -19,7 +20,7 @@ import { Web3Model } from 'src/app/Models/web3.model'
 export class ViewProductComponent implements OnInit {
   account: string
   spk: any
-  imgurl = 'http://0.0.0.0:3000/'
+  imgurl = environment.imgurl
   prod: any = []
   brand: any = []
   products: ProductModel[] = []
@@ -87,10 +88,6 @@ export class ViewProductComponent implements OnInit {
         )
         temProduct.itemBrand = await this.web3service.fromBytes(temp.itemBrand)
         temProduct.itemId = i
-        console.log(
-          'TCL: ViewProductComponent -> onLoad -> temProduct',
-          temProduct
-        )
         const imgs: any = await this.api.viewProducts(temProduct.imageId)
         const a = temProduct.itemColor,
           b = temProduct.itemType

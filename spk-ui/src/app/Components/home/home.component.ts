@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
   checkUser = async () => {
     try {
       const userType = await this.spk.checkUser().call({ from: this.account })
-      console.log("TCL: HomeComponent -> checkUser -> userType", userType)
       if (userType === '1') {
         this.route.navigateByUrl('/market')
       } else if (userType === '2') {

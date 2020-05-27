@@ -22,6 +22,7 @@ import {
 } from 'src/app/Models/Class/cart.class'
 import { Router } from '@angular/router'
 import { NgForm } from '@angular/forms'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-view-orders',
@@ -31,7 +32,7 @@ import { NgForm } from '@angular/forms'
 export class ViewOrdersComponent implements OnInit {
   account: string
   spk: any
-  imgurl = 'http://0.0.0.0:3000/'
+  imgurl = environment.imgurl
   currentOrder: OrderModel = new OrderModelClass()
   choice: number
   currentOrderId: number
@@ -87,31 +88,18 @@ export class ViewOrdersComponent implements OnInit {
       .Orders(this.account)
       .call({ from: this.account })
     const orderList = [...new Set(array)]
-    console.log('TCL: OrderDetailsComponent -> onLoad -> orderList', orderList)
     for (const element of orderList) {
       const productsList = await this.spk
         .productsList(this.account, element)
         .call({ from: this.account })
-      console.log(
-        'TCL: OrderDetailsComponent -> onLoad -> productsList',
-        productsList
-      )
       const marketOrder = await this.spk
         .marketOrder(element)
         .call({ from: this.account })
-      console.log(
-        'TCL: OrderDetailsComponent -> onLoad -> marketOrder',
-        marketOrder
-      )
 
       for (const prod of productsList) {
         const productOrder = await this.spk
           .productOrder(element, prod)
           .call({ from: this.account })
-        console.log(
-          'TCL: OrderDetailsComponent -> onLoad -> productOrder',
-          productOrder
-        )
         if (productOrder.isCancelled === true) {
           let cancel: OrderListModel = new OrderListModelClass()
           cancel = await this.productReturn(marketOrder, prod, element)
@@ -175,7 +163,6 @@ export class ViewOrdersComponent implements OnInit {
     temProduct.itemPrice = temp1.itemPrice / 100
     temProduct.itemName = await this.web3service.fromBytes( temp1.itemName )
     temProduct.imageId = await this.web3service.fromBytes( temp1.imageId)
-    console.log('TCL: ViewOrdersComponent -> productReturn -> temProduct', temProduct)
     const imgs: any = await this.api.viewProducts( temProduct.imageId )
     const a = temProduct.itemColor,
       b = temProduct.itemType
@@ -190,11 +177,9 @@ export class ViewOrdersComponent implements OnInit {
   }
   select = async (choice) => {
     this.status = choice
-    console.log('TCL: ViewOrdersComponent -> select -> this.status', this.status)
     switch (choice) {
       case 0:
         this.orderList = this.ordered
-        console.log('TCL: ViewOrdersComponent -> select -> this.orderList', this.orderList)
         break
       case 1:
         this.orderList = this.confirmed
@@ -221,22 +206,12 @@ export class ViewOrdersComponent implements OnInit {
     }
   }
   prodView = async (choice: number, order: number, product: ProductModel) => {
-    console.log('TCL: ViewOrdersComponent -> prodView -> choice', choice)
     this.currentOrderId = order
     this.productModel = product
-    console.log(
-      'TCL: ViewOrdersComponent -> prodView -> this.productModel',
-      this.productModel
-    )
   }
   buyerView = async (choice: number, buyer: UserOrderModel) => {
-    console.log('TCL: ViewOrdersComponent -> buyerView -> choice', choice)
     this.buyerModel = new UserOrderModelClass()
     this.buyerModel = buyer
-    console.log(
-      'TCL: ViewOrdersComponent -> buyerView -> this.buyerModel ',
-      this.buyerModel
-    )
   }
   accept = async (prodId: number ) => {
     const res = await this.spk
@@ -251,7 +226,6 @@ export class ViewOrdersComponent implements OnInit {
     const res = await this.spk
       .rejectOrder(this.currentOrderId, prodId)
       .send({ from: this.account, gas: 5000000 })
-    console.log('TCL: ViewOrdersComponent -> reject -> res', res)
     if (res.status) {
       alert('Order Rejected')
       this.onLoad()
@@ -268,7 +242,6 @@ export class ViewOrdersComponent implements OnInit {
   }
   dispute = async ( form: NgForm, prodId: number ) => {
     const comment: string = await this.web3service.toBytes( form.value.comment )
-    console.log('TCL: ViewOrdersComponent -> dispute -> comment', comment)
     const res = await this.spk.DisputeCreation(this.currentOrderId, prodId, comment).send({ from: this.account, gas: 5000000 })
     if (res.status) {
       alert('Dispute Initiated')

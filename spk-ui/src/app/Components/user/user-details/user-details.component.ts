@@ -40,7 +40,6 @@ export class UserDetailsComponent implements OnInit {
         tokenBal: (await this.token.balance(this.account).call({ from: this.account }) / (10 ** 2))
       }
       const user = await this.spk.userDetails().call({ from: this.account })
-      console.log("TCL: UserDetailsComponent -> onLoad -> user", user)
       this.name = await this.web3service.fromBytes( user.userName )
       this.contact = user.userContact
       if (user.userGender === 1) {

@@ -5,6 +5,7 @@ import { Web3Service } from 'src/app/Services/Web3/web3.service'
 import { ApiService } from 'src/app/Services/api/api.service'
 import { Web3Model } from 'src/app/Models/web3.model'
 import { Router } from '@angular/router'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-view-cart',
@@ -19,7 +20,7 @@ export class ViewCartComponent implements OnInit {
   items: Cart = { productData: [], cartTotal: 0 }
   flag: any
   done: number
-  imgurl = 'http://0.0.0.0:3000/'
+  imgurl = environment.imgurl
   ngOnInit() {
     this.web3service.web3login()
     this.web3service.Web3Details$.subscribe(async (data: Web3Model) => {
@@ -58,9 +59,6 @@ export class ViewCartComponent implements OnInit {
         itemCount.push(element.itemCount)
         itemId.push({id: element.itemId, count: element.itemCount})
       })
-      console.log('TCL: ViewCartComponent -> payment -> count', count)
-      console.log('TCL: ViewCartComponent -> payment -> itemCount', itemCount)
-      console.log('TCL: ViewCartComponent -> payment -> id', id)
       const order = await this.spk.createOrder(details, id, itemCount, count).send({ from: this.account })
 
       if (order.status) {
