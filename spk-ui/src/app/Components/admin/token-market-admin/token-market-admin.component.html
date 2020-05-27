@@ -46,23 +46,25 @@
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li  [routerLink]="['/seller']">
+                <li [routerLink]="['/seller']">
                   <a>Home</a>
                 </li>
 
                 <li class="active" [routerLink]="['/seller/exchange']"><a>Token Market</a></li>
                 <li class="has-children ">
-                  <a>Products  <i class="fa fa-caret-down"></i></a>
+                  <a>Products <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
                     <li [routerLink]="['/seller/add-product']"><a>Add Products</a></li>
                     <li [routerLink]="['/seller/view-products']"><a>View Products</a></li>
                   </ul>
                 </li>
                 <li class="has-children ">
-                  <a>Chat Room  <i class="fa fa-caret-down"></i></a>
+                  <a>Chat Room <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
-                    <li [routerLink]="['/seller/chatroom']"><a>With Users</a></li>
-                    <li [routerLink]="['/seller/sellerChat']"><a>With Admin</a></li>
+                    <li [routerLink]="['/seller/chatroom']" [queryParams]="{ room:'userChatRoom'}"><a>With Users</a>
+                    </li>
+                    <li [routerLink]="['/seller/chatroom']" [queryParams]="{ room:'adminChatRoom'}"><a>With Admin</a>
+                    </li>
                   </ul>
                 </li>
                 <li [routerLink]="['/seller/view-orders']"><a>My Orders</a></li>
@@ -70,7 +72,8 @@
             </nav>
           </div>
           <div class="icons">
-            <a [routerLink]="['/seller/userDetails']" class="icons-btn d-inline-block"><span class="fa fa-user"></span></a>
+            <a [routerLink]="['/seller/userDetails']" class="icons-btn d-inline-block"><span
+                class="fa fa-user"></span></a>
             <a (click)="logOut()" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
             <a class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
           </div>
@@ -87,7 +90,8 @@
       </div>
     </div>
 
-    <div class="site-blocks-cover inner-page" style="background-image: url('../../../assets/userStyles/images/token.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center; height: 300px;">
+    <div class="site-blocks-cover inner-page"
+      style="background-image: url('../../../assets/userStyles/images/token.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center; height: 300px;">
       <div class="container">
         <div class="row">
 
@@ -100,44 +104,46 @@
       <div class="container">
         <div class="row ml-auto">
           <div class="col-md-6 p-4 border mb-3" align="center">
-            <span class="d-block text-primary h4 text-uppercase">Token Details</span><div class="col text-center">
-              <br><h6>
+            <span class="d-block text-primary h4 text-uppercase">Token Details</span>
+            <div class="col text-center">
+              <br>
+              <h6>
                 <p class="text">Token Name :
-                    {{specToken.tokenName}}</p>
-            </h6>
-            <h6>
-                  <p class="text">Token Price :
-                      {{specToken.specTokenPrice}} ETH</p>
+                  {{specToken.tokenName}}</p>
               </h6>
               <h6>
-                  <p class="text" >Total Supply :
-                      {{specToken.tokenTotalSupply}} {{specToken.tokenSymbol}}</p>
+                <p class="text">Token Price :
+                  {{specToken.specTokenPrice}} ETH</p>
+              </h6>
+              <h6>
+                <p class="text">Total Supply :
+                  {{specToken.tokenTotalSupply}} {{specToken.tokenSymbol}}</p>
               </h6>
 
               <h6>
-                  <p class="text">Ether Weight : {{specToken.etherBal}} ETH
-                  </p>
+                <p class="text">Ether Weight : {{specToken.etherBal}} ETH
+                </p>
               </h6>
               <h6>
-                  <p class="text" >Token Weight : {{specToken.tokenBalance}}
-                      {{specToken.tokenSymbol}}
-                  </p>
+                <p class="text">Token Weight : {{specToken.tokenBalance}}
+                  {{specToken.tokenSymbol}}
+                </p>
               </h6>
-          </div>
+            </div>
           </div>
           <div class="col-md-6 p-4 border mb-3" align="center">
             <span class="d-block text-primary h4 text-uppercase">USER DETAILS</span>
             <br> <br>
             <h6>
               <p class="text">Token Balance : {{userBalance.tokenBal}}
-                  {{specToken.tokenSymbol}}</p>
-          </h6>
+                {{specToken.tokenSymbol}}</p>
+            </h6>
 
-          <h6>
+            <h6>
               <p class="text">Ether Balance : {{userBalance.etherBal}}
-                  ETH</p>
-          </h6>
-        </div>
+                ETH</p>
+            </h6>
+          </div>
         </div>
         <div class="row ml-auto" align="center">
           <div class="col-md-6 p-4 border mb-3" align="center">
@@ -151,8 +157,8 @@
               </div>
             </div>
             <!-- <div class="form-group row"> -->
-              <dt class="text" style="font-size: 20px;">{{buyCount*specToken.specTokenPrice}} ETH
-              </dt>
+            <dt class="text" style="font-size: 20px;">{{buyCount*specToken.specTokenPrice}} ETH
+            </dt>
             <!-- </div> -->
 
             <br>
@@ -171,86 +177,88 @@
               <div class="col-md-12">
                 <label for="c_subject" class="text-black">Token Count </label>
                 <input type="number" min="0.01" pattern="^[0-9]" step="1" class="form-control form-control center"
-                        style="margin: 20px;width: 250px;" placeholder="Enter the Token Count to Sell"
-                        [(ngModel)]="sellCount">
+                  style="margin: 20px;width: 250px;" placeholder="Enter the Token Count to Sell"
+                  [(ngModel)]="sellCount">
               </div>
             </div>
             <!-- <div class="form-group row"> -->
-                    <dt class="text" style="font-size: 20px;"> {{sellCount*specToken.specTokenPrice}} ETH
-              </dt>
+            <dt class="text" style="font-size: 20px;"> {{sellCount*specToken.specTokenPrice}} ETH
+            </dt>
             <!-- </div> -->
             <br>
 
             <div class="form-group row">
               <div class="col-lg-12">
                 <button type="button" (click)="sell()" class="btn btn-primary btn-lg btn-block">Sell Tokens <span
-                  class="glyph fas fa-coins"></span></button>
-       </div>
-            </div>
-          </div>
-      </div>
-
-
-    </div>
-  </div>
-
-
-  <footer class="site-footer custom-border-top">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-          <h3 class="footer-heading mb-4">Promo</h3>
-          <a class="block-6">
-            <img src="../../../assets/userStyles/images/about_1.jpg" alt="Image placeholder" class="img-fluid rounded mb-4">
-            <h3 class="font-weight-light  mb-0">Finding Your Perfect Shades This Summer</h3>
-          </a>
-        </div>
-        <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
-          <div class="row">
-            <div class="col-md-12">
-              <h3 class="footer-heading mb-4">Quick Links</h3>
-            </div>
-            <div class="col-md-6 col-lg-6">
-              <ul class="list-unstyled">
-                <li><a [routerLink]="['/market/shop']">Shop Now</a></li>
-                <li><a [routerLink]="['/market/cart']">Shopping cart</a></li>
-                <li><a  [routerLink]="['/market/summary']">My Orders</a></li>
-              </ul>
-            </div>
-            <div class="col-md-6 col-lg-6">
-              <ul class="list-unstyled">
-                <li><a [routerLink]="['/market/exchange']">Token Market</a></li>
-                <li><a [routerLink]="['/market/chatroom']">Chat Room</a></li>
-                <li><a [routerLink]="['/market/userDetails']">My Account</a></li>
-              </ul>
+                    class="glyph fas fa-coins"></span></button>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-3">
-          <div class="block-5 mb-5">
-            <h3 class="footer-heading mb-4">Contact Info</h3>
-            <ul class="list-unstyled">
-              <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
-              <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
-              <li class="email">emailaddress@domain.com</li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-      <div class="row pt-5 mt-5 text-center">
-        <div class="col-md-12">
-          <p>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved to SpecKart
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          </p>
-        </div>
 
       </div>
     </div>
-  </footer>
+
+
+    <footer class="site-footer custom-border-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+            <h3 class="footer-heading mb-4">Promo</h3>
+            <a class="block-6">
+              <img src="../../../assets/userStyles/images/about_1.jpg" alt="Image placeholder"
+                class="img-fluid rounded mb-4">
+              <h3 class="font-weight-light  mb-0">Finding Your Perfect Shades This Summer</h3>
+            </a>
+          </div>
+          <div class="col-lg-5 ml-auto mb-5 mb-lg-0">
+            <div class="row">
+              <div class="col-md-12">
+                <h3 class="footer-heading mb-4">Quick Links</h3>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a [routerLink]="['/market/shop']">Shop Now</a></li>
+                  <li><a [routerLink]="['/market/cart']">Shopping cart</a></li>
+                  <li><a [routerLink]="['/market/summary']">My Orders</a></li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <ul class="list-unstyled">
+                  <li><a [routerLink]="['/market/exchange']">Token Market</a></li>
+                  <li><a [routerLink]="['/market/chatroom']">Chat Room</a></li>
+                  <li><a [routerLink]="['/market/userDetails']">My Account</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="block-5 mb-5">
+              <h3 class="footer-heading mb-4">Contact Info</h3>
+              <ul class="list-unstyled">
+                <li class="address">203 Fake St. Mountain View, San Francisco, California, USA</li>
+                <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
+                <li class="email">emailaddress@domain.com</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <p>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              Copyright &copy;
+              <script>document.write( new Date().getFullYear() );</script> All rights reserved to SpecKart
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </footer>
   </div>
 
   <script src="../../../assets/userStyles/js/jquery-3.3.1.min.js"></script>
