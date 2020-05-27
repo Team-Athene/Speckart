@@ -23,12 +23,14 @@ export class ChatRoomComponent implements OnInit {
   name: string
   newMsg: {}
   room: string
+  who: string
   constructor ( private web3service: Web3Service, private activeRoute: ActivatedRoute, private route: Router, private chat: SocketService ) { }
 
   ngOnInit() {
     this.activeRoute.queryParams
       .subscribe( params => {
         this.room = params.room
+        this.who = params.who
       } )
 
     console.log( 'Log: ChatRoomComponent -> ngOnInit -> this.room', this.room )
@@ -42,7 +44,6 @@ export class ChatRoomComponent implements OnInit {
     this.msgsList = temp.map( x => {
       let t = JSON.parse( x )
       if ( t.room === this.room ) {
-        console.log( 'Log: ChatRoomComponent -> chatLoad -> t', t )
         return t
       }
     } )
@@ -62,15 +63,25 @@ export class ChatRoomComponent implements OnInit {
     this.msg = ''
   }
   leaveRoom = async () => {
-    console.log( 'Log: ChatRoomComponent -> leaveRoom -> this.name ', this.name )
     await this.chat.leave( { user: this.name, room: this.room } )
     await this.chat.getMessages()
       .subscribe( async ( message: string ) => {
         this.usersList = await this.chat.listUsers( this.room ) as []
         this.newMsg = message
         this.msgsList.push( this.newMsg )
-        console.log( 'Log: ChatRoomComponent -> chatLoad -> this.newMsg', this.newMsg )
       } )
-    this.route.navigateByUrl( '/seller' )
+    switch ( this.who ) {
+      case 'seller':
+        this.route.navigateByUrl( '/seller' )
+        break
+      case 'user':
+        this.route.navigateByUrl( '/market' )
+        break
+      case 'admin':
+        this.route.navigateByUrl( '/admin' )
+        break
+      default:
+        break
+    }
   }
 }
