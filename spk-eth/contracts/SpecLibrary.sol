@@ -46,7 +46,6 @@ library SpecLibrary {
     }
     struct SpecModel {
         uint32 P_ID;
-        uint32 D_ID;
         uint32 O_ID;
         uint256 MIN_TIME;
         uint256 MAX_TIME;

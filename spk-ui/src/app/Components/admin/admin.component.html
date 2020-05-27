@@ -68,33 +68,277 @@
       </div>
     </div>
 
-    <div class="site-blocks-cover">
+    <div class="site-section">
       <div class="container">
-        <div class="row">
-          <div class="col-md-6 ml-auto order-md-2 align-self-start">
-            <div class="site-block-cover-content">
-            <h2 class="sub-title">#New Summer Collection 2020</h2>
-            <h1>Arrivals Sales</h1>
+        <div class="row mb-5">
+          <form class="col-md-12" method="post">
+            <div class="row align">
+              <div class="col-md-12 mb-5">
+                <div class="float-md-left">
+                  <h2 class="text-black h5"> Admin Page</h2>
+                </div>
+                <div class="d-flex">
+                  <div class="dropdown mr-1 ml-md-auto"></div>
+                  <div class="btn-group">
+                    <button
+                      type="button"
+                      class="btn btn-white btn-sm dropdown-toggle px-4"
+                      id="dropdownMenuReference"
+                      data-toggle="dropdown"
+                    >
+                      Dispute Status
+                    </button>
+                    <div
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuReference"
+                    >
+                      <a class="dropdown-item" (click)="select(1)"
+                        >On Dispute</a
+                      >
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" (click)="select(2)"
+                        >Completed</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+            <div class="site-blocks-table">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail">No</th>
+                    <th class="product-name">Dispute ID</th>
+                    <th class="view-product">Dispute Details</th>
+                    <th class="view-product">Product Details</th>
+                    <th class="product-quantity">Vote</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr></tr>
+                  <tr
+                    *ngFor="
+                      let item of List;
+                      let i = index
+                    "
+                    class="product-thumbnail"
+                  >
+                    <td>{{ i+1 }}</td>
+                    <td>{{ item.disputeId }}</td>
+                    <td>
+                      <a (click)="disputeView(i)"  data-toggle="modal" data-target="#dispute_view" class="btn btn-primary height-auto btn-sm" style="color: white;">View Status</a>
+                    </td>
+                    <td>
+                      <a (click)="disputeView(i)"  data-toggle="modal" data-target="#product_view" class="btn btn-primary height-auto btn-sm" style="color: white;">View Status</a>
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class = "col-md-6">
+                          <a (click)="vote(item.disputeId, 2)" class="btn btn-primary height-auto btn-sm" style="color: white;">Buyer</a>
+                        </div>
+                        <div class = "col-md-6">
+                          <a (click)="vote(item.disputeId, 1)" class="btn btn-primary height-auto btn-sm" style="color: white;">Seller</a>
+                        </div>
+                      </div>
+                     </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade product_view" id="dispute_view">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <a
+              href="#"
+              data-dismiss="modal"
+              class="class pull-right"
+              ><span class="fa fa-remove"></span
+            ></a>
+            <h4 class="modal-title">
+              <dt>Dispute Details</dt>
+            </h4>
           </div>
-          <div class="col-md-6 order-1 align-self-end">
-            <img src="../../../assets/userStyles/images/model_3.png" alt="Image" class="img-fluid">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 product_content">
+                <h6>
+                  <dt>Dispute ID:</dt>
+                  <span>{{ currentDispute.disputeId }}</span>
+                </h6>
+                <h6>
+                  <dt>Order ID:</dt>
+                  <span>{{ currentDispute.orderId }}</span>
+                </h6>
+                <h6>
+                  <dt>Product ID</dt>
+                  <span>{{ currentDispute.productId }}</span>
+                </h6>
+                <h6>
+                  <dt>Initiated By:</dt>
+                  <span>{{ userType[currentDispute.creatorType] }}</span>
+                </h6>
+                <h6>
+                  <dt>Comment by Initiator:</dt>
+                  <span>{{ currentDispute.comment }}</span>
+                </h6>
+                <h6>
+                  <dt>Buyer's Vote Count:</dt>
+                  <span>{{ currentDispute.bVote }}</span>
+                </h6>
+                <h6>
+                  <dt>Seller's Vote Count:</dt>
+                  <span>{{ currentDispute.sVote }}</span>
+                </h6>
+
+                <div class="space-ten"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="site-blocks-cover inner-page py-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 ml-auto order-md-2 align-self-start">
-            <div class="site-block-cover-content">
-            <h2 class="sub-title">#New Summer Collection 2020</h2>
-            <h1>New Shades</h1>
-            </div>
+    <div class="modal fade product_view" id="product_view">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <a
+              href="#"
+              data-dismiss="modal"
+              class="class pull-right"
+              ><span class="fa fa-remove"></span
+            ></a>
+            <h4 class="modal-title">
+              <dt>Product Details</dt>
+            </h4>
           </div>
-          <div class="col-md-6 order-1 align-self-end">
-            <img src="../../../assets/userStyles/images/model_6.png" alt="Image" class="img-fluid">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6 product_img">
+                <br /><br />
+                <div
+                  id="myCarouselMod"
+                  class="carousel slide"
+                  data-ride="carousel"
+                >
+                  <!-- Wrapper for slides -->
+                  <div
+                    id="myCarouselMod"
+                    class="carousel slide"
+                    data-ride="carousel"
+                  >
+                    <br />
+
+                    <!-- The slideshow -->
+                    <div class="carousel-inner">
+                      <div
+                        class="carousel-item"
+                        *ngFor="
+                          let img of Product.imageData;
+                          let i = index
+                        "
+                        [ngClass]="{ active: i === 0 }"
+                      >
+                        <img
+                          src="{{ imgurl + img.path }}"
+                          alt="1"
+                          class="center"
+                          style="width: 60%;"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a
+                      class="carousel-control-prev"
+                      href="#myCarouselMod"
+                      data-slide="prev"
+                    >
+                      <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a
+                      class="carousel-control-next"
+                      href="#myCarouselMod"
+                      data-slide="next"
+                    >
+                      <span
+                        class="carousel-control-next-icon"
+                        style="color: gray;"
+                      ></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 product_content">
+                <h6>
+                  <dt>Product Id:</dt>
+                  <span>{{ Product.itemId }}</span>
+                </h6>
+                <h6>
+                  <dt>Product Name:</dt>
+                  <span>{{ Product.itemName }}</span>
+                </h6>
+                <h6>
+                  <dt>Product Brand:</dt>
+                  <span>{{ Product.itemBrand }}</span>
+                </h6>
+                <h6>
+                  <dt>Product Type:</dt>
+                  <span>{{ Product.itemType }}</span>
+                </h6>
+                <h6>
+                  <dt>Product Color:</dt>
+                  <span>{{ Product.itemColor }}</span>
+                </h6>
+                <h6>
+                  <dt>Product Details:</dt>
+                  <span>{{ Product.itemDetails }}</span>
+                </h6>
+                <h3 class="cost">
+                  <span class="fa fa-coins"></span>
+                  {{ Product.itemPrice }} SPC
+                </h3>
+
+                <div class="space-ten"></div>
+              </div>
+            </div>
+
+            <div class="row mb-5">
+              <form class="col-md-12" method="post">
+                <!-- <div class="site-blocks-table"> -->
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="product-quantity">Cancelled</th>
+                      <th class="product-thumbnail">Confirmed</th>
+                      <th class="product-name">Rejected</th>
+                      <th class="product-price">Shipped</th>
+                      <th class="product-total">Delivered</th>
+                      <th class="view-product">Dispute</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr></tr>
+                    <tr class="product-thumbnail">
+                      <td>{{ confirm[Status.isCancelled] }}</td>
+                      <td>{{ confirm[Status.isConfirmed] }}</td>
+                      <td>{{ confirm[Status.isRejected] }}</td>
+                      <td>{{ confirm[Status.isShipped] }}</td>
+                      <td>{{ confirm[Status.confirmDelivery] }}</td>
+                      <td>{{ confirm[Status.isDispute] }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <br />
+              </form>
+            </div>
           </div>
         </div>
       </div>

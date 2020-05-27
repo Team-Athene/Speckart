@@ -40,37 +40,28 @@
         <div class="d-flex align-items-center justify-content-between">
           <div class="logo">
             <div class="site-logo">
-              <a [routerLink]="['/seller']" class="js-logo-clone">SPECKART</a>
+              <a [routerLink]="['/admin']" class="js-logo-clone">SPECKART</a>
             </div>
           </div>
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li  [routerLink]="['/seller']">
+                <li class="active"  [routerLink]="['/admin']">
                   <a>Home</a>
                 </li>
 
-                <li class="active" [routerLink]="['/seller/exchange']"><a>Token Market</a></li>
-                <li class="has-children ">
-                  <a>Products  <i class="fa fa-caret-down"></i></a>
-                  <ul class="dropdown">
-                    <li [routerLink]="['/seller/add-product']"><a>Add Products</a></li>
-                    <li [routerLink]="['/seller/view-products']"><a>View Products</a></li>
-                  </ul>
-                </li>
+                <li [routerLink]="['/admin/exchange']"><a>Token Market</a></li>
                 <li class="has-children ">
                   <a>Chat Room  <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
-                    <li [routerLink]="['/seller/chatroom']"><a>With Users</a></li>
-                    <li [routerLink]="['/seller/sellerChat']"><a>With Admin</a></li>
+                    <li [routerLink]="['/admin/chatroom']"><a>With Users</a></li>
+                    <li [routerLink]="['/admin/adminChat']"><a>With Admin</a></li>
                   </ul>
                 </li>
-                <li [routerLink]="['/seller/view-orders']"><a>My Orders</a></li>
               </ul>
             </nav>
           </div>
           <div class="icons">
-            <a [routerLink]="['/seller/userDetails']" class="icons-btn d-inline-block"><span class="fa fa-user"></span></a>
             <a (click)="logOut()" class="icons-btn d-inline-block"><span class="fa fa-lock"></span></a>
             <a class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
           </div>
@@ -81,7 +72,7 @@
     <div class="custom-border-bottom py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
+          <div class="col-md-12 mb-0"><a [routerLink]="['/admin']" >Home</a> <span class="mx-2 mb-0">/</span> <strong
               class="text-black">Token Market</strong></div>
         </div>
       </div>
