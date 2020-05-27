@@ -54,5 +54,6 @@ library SpecLibrary {
         mapping(uint32 => Order) MarketOrder;
         mapping(address => uint32[]) orderList;
         mapping(address => mapping(uint32 => uint32[])) prodList;
+        mapping(uint32 => mapping(uint32 => uint32)) prodTotal;
     }
 }

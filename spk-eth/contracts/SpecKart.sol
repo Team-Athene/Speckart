@@ -239,7 +239,7 @@ contract SpecKart is SpecRead {
         SPEC.Product[SPEC.P_ID].itemColor = _itemColor;
         SPEC.Product[SPEC.P_ID].imageId = _imageId;
         SPEC.Product[SPEC.P_ID].seller = msg.sender;
-        SPEC.Product[SPEC.P_ID].disputePrice = _itemPrice.div(100);
+        SPEC.Product[SPEC.P_ID].disputePrice = SPEC.Product[SPEC.P_ID].itemPrice.div(100);
         ISpecToken(TOKEN).sendTokens(
             SPEC.Product[SPEC.P_ID].disputePrice.mul(_availableCount),
             msg.sender
@@ -275,13 +275,14 @@ contract SpecKart is SpecRead {
                 "Insufficient Ethereum"
             );
         }
-        uint256 disputeTotal = 0;
+        uint256 total = 0;
         for (uint32 i = 0; i < _prodIds.length; i++) {
             SPEC.orderList[SPEC.Product[_prodIds[i]].seller].push(SPEC.O_ID);
             SPEC.prodList[SPEC.Product[_prodIds[i]].seller][SPEC.O_ID].push(
                 _prodIds[i]
             );
-            disputeTotal += SPEC.Product[_prodIds[i]].disputePrice;
+            SPEC.prodTotal[SPEC.O_ID][_prodIds[i]] = _prodCounts[i];
+            total += (SPEC.Product[_prodIds[i]].itemPrice.add(SPEC.Product[_prodIds[i]].disputePrice)).mul(_prodCounts[i]);
             SPEC.Product[_prodIds[i]].availableCount -= _prodCounts[i];
             SPEC.MarketOrder[SPEC.O_ID].isOrdered[_prodIds[i]] = true;
         }
@@ -289,10 +290,10 @@ contract SpecKart is SpecRead {
         SPEC.MarketOrder[SPEC.O_ID].BuyerAddr = msg.sender;
         SPEC.MarketOrder[SPEC.O_ID].timeStamp = now;
         SPEC.MarketOrder[SPEC.O_ID].orderDetails = _orderDetails;
-        SPEC.MarketOrder[SPEC.O_ID].totalPrice = _totalPrice * 100;
+        SPEC.MarketOrder[SPEC.O_ID].totalPrice = total;
         SPEC.Users[msg.sender].orders.push(SPEC.O_ID);
         SPEC.O_ID++;
-        ISpecToken(TOKEN).sendTokens(_totalPrice.add(disputeTotal), msg.sender);
+        ISpecToken(TOKEN).sendTokens(total, msg.sender);
         emit order(msg.sender, SPEC.O_ID);
     }
 
@@ -416,7 +417,7 @@ contract SpecKart is SpecRead {
             msg.sender,
             _D_ID,
             _vote,
-            SPEC.Product[_p_Id].itemPrice,
+            (uint256(SPEC.prodTotal[_o_Id][_p_Id])).mul(SPEC.Product[_p_Id].itemPrice),
             SPEC.Product[_p_Id].seller,
             SPEC.MarketOrder[_o_Id].BuyerAddr
         );

@@ -32,10 +32,10 @@ export class ViewCartComponent implements OnInit {
 
   onLoad = async () => {
     try {
-      this.flag = 0;
+      this.flag = 0
       const cartApiPre: any = await this.api.getCart( this.account )
       const cartApi: any = cartApiPre.cart
-      if(cartApi === null){
+      if (cartApi === null) {
         this.items = { productData: [], cartTotal: 0 }
       } else {
         this.items = JSON.parse(cartApi)
@@ -57,11 +57,15 @@ export class ViewCartComponent implements OnInit {
         id.push(element.itemId)
         itemCount.push(element.itemCount)
         itemId.push({id: element.itemId, count: element.itemCount})
-      });
+      })
+      console.log('TCL: ViewCartComponent -> payment -> count', count)
+      console.log('TCL: ViewCartComponent -> payment -> itemCount', itemCount)
+      console.log('TCL: ViewCartComponent -> payment -> id', id)
       const order = await this.spk.createOrder(details, id, itemCount, count).send({ from: this.account })
+
       if (order.status) {
         this.done = 1
-        await this.api.addCart({cart: '0', address: this.account, itemId: itemId})
+        await this.api.addCart({cart: '0', address: this.account, itemId})
         this.onLoad()
       }
     } catch (error) { }
@@ -75,7 +79,7 @@ export class ViewCartComponent implements OnInit {
     this.onLoad()
   }
   remove = async (index, count) => {
-    await this.cart.calculateCart(index, -1*(count), this.account)
+    await this.cart.calculateCart(index, -1 * (count), this.account)
     this.onLoad()
   }
   continue = async () => {

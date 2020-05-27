@@ -2,124 +2,178 @@
 pragma solidity ^0.6.8;
 import "./ISpecToken.sol";
 import "./SafeMath.sol";
+import "./IDispute.sol";
 
 
-contract SpecToken is ISpecToken {
+contract DisputeContract is IDispute {
     using SafeMath for uint256;
-    mapping(address => uint256) balanceOf;
-    string name;
-    string symbol;
-    uint8 decimals;
-    uint256 totalSupply;
-    uint256 tokenPrice;
-    address owner;
-    address self;
-    event Transfer(address indexed from, address indexed to, uint256 count);
-    event Burn(address indexed from, uint256 count);
+    struct DisputeStruct {
+        uint32 orderId;
+        uint32 productId;
+        uint8 creatorType;
+        bytes32 comment;
+        uint32 bVote;
+        uint32 sVote;
+        uint32 count;
+        mapping(uint32 => mapping(uint32 => address payable)) votedAdmin;
+        bool isDisputeCleared;
+    }
+    address[] admins;
+    address TOKEN;
+    uint32 D_ID;
+    mapping(uint32 => DisputeStruct) Dispute;
+    mapping(address => mapping(uint32 => bool)) isVoted;
 
-    constructor() public {
-        owner = msg.sender;
-        self = address(this);
-        balanceOf[owner] = 0;
-        totalSupply = 0;
-        name = "SpecToken";
-        symbol = "SPC";
-        decimals = 2;
-        tokenPrice = 0.000005 ether;
+    modifier onlyAdmin() {
+        require(checkAdmin(msg.sender) == true, "Not An Admin");
+        _;
     }
 
-    function balance(address _addr) external override view returns (uint256) {
-        return balanceOf[_addr];
+    constructor(address[] memory _admins, address _token) public {
+        // require(_admins.length.mod(2) != 0, "Number of admins should be Odd");
+        admins = _admins;
+        D_ID = 1000;
+        TOKEN = _token;
     }
 
-    function specPrice() external override view returns (uint256) {
-        return tokenPrice;
-    }
-
-    function transfer(
-        address _to,
-        uint256 _count,
-        address _addr
-    ) external override returns (bool success) {
-        require(_count > 0, "Value must be greater than zero");
-        require(_to != address(0), "Use burn() instead");
-        require(balanceOf[_addr] >= _count, "insufficient funds");
-        balanceOf[_addr] = balanceOf[_addr].sub(_count);
-        balanceOf[_to] = balanceOf[_to].add(_count);
-        emit Transfer(_addr, _to, _count);
-        return true;
-    }
-
-    function mint(address _to, uint256 _count) internal returns (bool success) {
-        require(_to != address(0), "Use burn() instead");
-        totalSupply = totalSupply.add(_count);
-        balanceOf[_to] = balanceOf[_to].add(_count);
-        emit Transfer(address(0), _to, _count);
-        return true;
-    }
-
-    function burn(uint256 _count, address _addr)
-        external
-        override
-        returns (bool success)
+    function isVotedCheck(address _addr, uint32 _D_ID)
+        internal
+        view
+        returns (bool)
     {
-        require(_count > 0, "Value must be greater than zero");
-        require(balanceOf[_addr] >= _count, "insufficient funds");
-        balanceOf[_addr] = balanceOf[_addr].sub(_count);
-        totalSupply = totalSupply.sub(_count);
-        emit Burn(_addr, _count);
-        return true;
+        return (isVoted[_addr][_D_ID]);
     }
 
-    fallback() external payable {
-        revert();
+    function Create(
+        uint32 _o_Id,
+        uint32 _p_Id,
+        uint8 _type,
+        bytes32 _comment,
+        address _address
+    ) external override {
+        require(checkAdmin(_address) == false, "An Admin");
+        D_ID++;
+        Dispute[D_ID].productId = _p_Id;
+        Dispute[D_ID].orderId = _o_Id;
+        Dispute[D_ID].creatorType = _type;
+        Dispute[D_ID].comment = _comment;
     }
 
-    receive() external payable {
-        revert();
+    function Vote(
+        address payable _addr,
+        uint32 _D_ID,
+        uint32 _vote,
+        uint256 _itemPrice,
+        address payable _seller,
+        address payable _buyer
+    ) external override returns (uint8) {
+        require(checkAdmin(_addr) == true, "Not An Admin");
+        require(isVoted[_addr][_D_ID] == false, "Admin has already Voted");
+        require(
+            Dispute[_D_ID].isDisputeCleared == false,
+            "Dispute Already Cleared"
+        );
+        require(Dispute[_D_ID].count <= admins.length, "Maximum Vote Reached");
+
+        if (_vote == 1) {
+            Dispute[_D_ID].sVote++;
+        } else if (_vote == 2) {
+            Dispute[_D_ID].bVote++;
+        }
+        Dispute[_D_ID].count++;
+        Dispute[_D_ID].votedAdmin[Dispute[_D_ID].count][_vote] = _addr;
+        isVoted[_addr][_D_ID] = true;
+        uint8 winner;
+        if (Dispute[_D_ID].count == admins.length) {
+            if (Dispute[_D_ID].bVote > Dispute[_D_ID].sVote) {
+                // buyer wins
+                ISpecToken(TOKEN).collectTokens(
+                    _itemPrice.add(_itemPrice.div(100)),
+                    _buyer
+                );
+                PayAdmin(_D_ID, 2, _itemPrice.div(100));
+                winner = 1;
+            } else {
+                // seller wins
+                ISpecToken(TOKEN).collectTokens(
+                    _itemPrice.add(_itemPrice.div(100)),
+                    _seller
+                );
+
+                PayAdmin(_D_ID, 1, _itemPrice.div(100));
+                winner = 2;
+            }
+            Dispute[_D_ID].isDisputeCleared = true;
+        }
+        return winner;
     }
 
-    function buyToken(uint256 _count, address _addr) external override {
-        mint(_addr, _count);
-        emit Transfer(address(0), _addr, _count);
+    function PayAdmin(
+        uint32 _D_ID,
+        uint8 _vote,
+        uint256 _disputePrice
+    ) internal {
+        uint256 count;
+        if (_vote == 2) {
+            count = Dispute[_D_ID].bVote;
+        }
+        if (_vote == 1) {
+            count = Dispute[_D_ID].sVote;
+        }
+        for (uint32 i = 1; i <= admins.length; i++) {
+            if (Dispute[_D_ID].votedAdmin[i][_vote] != address(0)) {
+                ISpecToken(TOKEN).sendTokens(
+                    _disputePrice,
+                    Dispute[_D_ID].votedAdmin[i][_vote]
+                );
+            }
+        }
+    }
+    
+    function checkAdmin(address _admin) public override view returns (bool) {
+        for (uint256 i = 0; i < admins.length; i++) {
+            if (_admin == admins[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    function sendTokens(uint256 _count, address _addr) external override {
-        balanceOf[self] = balanceOf[self].add(_count);
-        balanceOf[_addr] = balanceOf[_addr].sub(_count);
+    function getPID(uint32 _D_ID) external override view returns (uint32) {
+        return Dispute[_D_ID].productId;
     }
 
-    function collectTokens(uint256 _count, address _addr) external override {
-        balanceOf[self] = balanceOf[self].sub(_count);
-        balanceOf[_addr] = balanceOf[_addr].add(_count);
+    function getOID(uint32 _D_ID) external override view returns (uint32) {
+        return Dispute[_D_ID].orderId;
     }
 
-    function spkDetail()
+    function getDID() external override view returns (uint32) {
+        return D_ID;
+    }
+
+    function getDispute(uint32 _D_ID)
         external
         override
         view
         returns (
-            string memory tokenName,
-            string memory tokenSymbol,
-            uint8 tokenDecimals,
-            uint256 tokenTotalSupply,
-            uint256 specTokenPrice,
-            address tokenOwner,
-            address specTokenAddress,
-            uint256 etherBal,
-            uint256 tokenBalance
+            uint32 orderId,
+            uint32 productId,
+            uint8 creatorType,
+            bytes32 comment,
+            uint32 bVote,
+            uint32 sVote,
+            bool isDisputeCleared
         )
     {
         return (
-            name,
-            symbol,
-            decimals,
-            totalSupply,
-            tokenPrice,
-            owner,
-            self,
-            self.balance,
-            balanceOf[self]
+            Dispute[_D_ID].orderId,
+            Dispute[_D_ID].productId,
+            Dispute[_D_ID].creatorType,
+            Dispute[_D_ID].comment,
+            Dispute[_D_ID].bVote,
+            Dispute[_D_ID].sVote,
+            Dispute[_D_ID].isDisputeCleared
         );
     }
+
 }
