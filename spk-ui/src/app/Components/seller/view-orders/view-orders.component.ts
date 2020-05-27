@@ -73,13 +73,13 @@ export class ViewOrdersComponent implements OnInit {
     this.onLoad()
   }
   onLoad = async () => {
-    // this.ordered = []
-    // this.cancelled = []
-    // this.disputed = []
-    // this.rejected = []
-    // this.delivered = []
-    // this.shipped = []
-    // this.confirmed = []
+    this.ordered = []
+    this.cancelled = []
+    this.disputed = []
+    this.rejected = []
+    this.delivered = []
+    this.shipped = []
+    this.confirmed = []
 
     this.status = 0
 
@@ -87,18 +87,8 @@ export class ViewOrdersComponent implements OnInit {
       .Orders(this.account)
       .call({ from: this.account })
     const orderList = [...new Set(array)]
-    // this.ordered = []
-    // this.cancelled = []
-    // this.disputed = []
-    // this.rejected = []
-    // this.delivered = []
-    // this.shipped = []
-    // this.confirmed = []
     console.log('TCL: OrderDetailsComponent -> onLoad -> orderList', orderList)
-    // orderList.forEach(async (element) =>
     for (const element of orderList) {
-    // for (let i = 0; i < orderList.length; i++) {
-    //   const element: any = orderList[i]
       const productsList = await this.spk
         .productsList(this.account, element)
         .call({ from: this.account })
@@ -113,7 +103,6 @@ export class ViewOrdersComponent implements OnInit {
         'TCL: OrderDetailsComponent -> onLoad -> marketOrder',
         marketOrder
       )
-      // productsList.forEach(async (prod) => {
 
       for (const prod of productsList) {
         const productOrder = await this.spk

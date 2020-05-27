@@ -204,11 +204,11 @@
                           *ngFor="let item of orderList; let i = index"
                           class="product-thumbnail"
                         >
-                          <td *ngIf="i > 0">{{ i }}</td>
-                          <td *ngIf="i > 0">{{ item.orderId }}</td>
-                          <td *ngIf="i > 0">{{ item.prodID }}</td>
-                          <td *ngIf="i > 0">{{ item.timeStamp }} SPC</td>
-                          <td *ngIf="i > 0">
+                          <td>{{ i+1 }}</td>
+                          <td>{{ item.orderId }}</td>
+                          <td>{{ item.prodID }}</td>
+                          <td>{{ item.timeStamp }} SPC</td>
+                          <td>
                             <a
                               (click)="buyerView(status, item.buyerDetails)"
                               data-toggle="modal"
@@ -218,7 +218,7 @@
                               >View Status</a
                             >
                           </td>
-                          <td *ngIf="i > 0">
+                          <td>
                             <a
                               (click)="
                                 prodView(choice, item.orderId, item.prodDetails)
