@@ -59,52 +59,6 @@ contract DisputeContract is IDispute {
         Dispute[D_ID].comment = _comment;
     }
 
-    function checkAdmin(address _admin) public override view returns (bool) {
-        for (uint256 i = 0; i < admins.length; i++) {
-            if (_admin == admins[i]) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function getPID(uint32 _D_ID) external override view returns (uint32) {
-        return Dispute[_D_ID].productId;
-    }
-
-    function getOID(uint32 _D_ID) external override view returns (uint32) {
-        return Dispute[_D_ID].orderId;
-    }
-
-    function getDID() external override view returns (uint32) {
-        return D_ID;
-    }
-
-    function getDispute(uint32 _D_ID)
-        external
-        override
-        view
-        returns (
-            uint32 orderId,
-            uint32 productId,
-            uint8 creatorType,
-            bytes32 comment,
-            uint32 bVote,
-            uint32 sVote,
-            bool isDisputeCleared
-        )
-    {
-        return (
-            Dispute[_D_ID].orderId,
-            Dispute[_D_ID].productId,
-            Dispute[_D_ID].creatorType,
-            Dispute[_D_ID].comment,
-            Dispute[_D_ID].bVote,
-            Dispute[_D_ID].sVote,
-            Dispute[_D_ID].isDisputeCleared
-        );
-    }
-
     function Vote(
         address payable _addr,
         uint32 _D_ID,
@@ -175,4 +129,51 @@ contract DisputeContract is IDispute {
             }
         }
     }
+    
+    function checkAdmin(address _admin) public override view returns (bool) {
+        for (uint256 i = 0; i < admins.length; i++) {
+            if (_admin == admins[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function getPID(uint32 _D_ID) external override view returns (uint32) {
+        return Dispute[_D_ID].productId;
+    }
+
+    function getOID(uint32 _D_ID) external override view returns (uint32) {
+        return Dispute[_D_ID].orderId;
+    }
+
+    function getDID() external override view returns (uint32) {
+        return D_ID;
+    }
+
+    function getDispute(uint32 _D_ID)
+        external
+        override
+        view
+        returns (
+            uint32 orderId,
+            uint32 productId,
+            uint8 creatorType,
+            bytes32 comment,
+            uint32 bVote,
+            uint32 sVote,
+            bool isDisputeCleared
+        )
+    {
+        return (
+            Dispute[_D_ID].orderId,
+            Dispute[_D_ID].productId,
+            Dispute[_D_ID].creatorType,
+            Dispute[_D_ID].comment,
+            Dispute[_D_ID].bVote,
+            Dispute[_D_ID].sVote,
+            Dispute[_D_ID].isDisputeCleared
+        );
+    }
+
 }

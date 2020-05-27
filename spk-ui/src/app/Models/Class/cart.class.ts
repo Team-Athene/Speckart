@@ -1,4 +1,4 @@
-import { CartProduct, ProductModel, ImageDataModel, TokenModel, UserBalanceModel, OrderModel, OrderStatusModel, UserOrderModel } from '../spk.model'
+import { CartProduct, ProductModel, ImageDataModel, TokenModel, UserBalanceModel, OrderModel, OrderStatusModel, UserOrderModel, DisputeModel } from '../spk.model'
 
 export class CartProductClass implements CartProduct {
   itemId: number
@@ -69,4 +69,21 @@ export class UserOrderModelClass implements UserOrderModel{
   contact: number
   mail: string
   address: string
+}
+
+export class DisputeModelClass implements DisputeModel{
+  disputeId: number
+  orderId: number
+  productId: number
+  creatorType: any
+  comment: any
+  bVote: number
+  sVote: number
+  isDisputeCleared: boolean
+  Order: {
+    Buyer: string
+    timeStamp: number
+  }
+  Product: ProductModel
+  Status: OrderStatusModel
 }

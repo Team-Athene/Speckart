@@ -49,7 +49,7 @@
                   <a>Home</a>
                 </li>
 
-                <li seller[routerLink]="['/admin/exchange']"><a>Token Market</a></li>
+                <li [routerLink]="['/admin/exchange']"><a>Token Market</a></li>
                 <li class="has-children ">
                   <a>Chat Room  <i class="fa fa-caret-down"></i></a>
                   <ul class="dropdown">
@@ -57,7 +57,6 @@
                     <li [routerLink]="['/admin/adminChat']"><a>With Admin</a></li>
                   </ul>
                 </li>
-                <li [routerLink]="['/admin/view-orders']"><a>My Orders</a></li>
               </ul>
             </nav>
           </div>

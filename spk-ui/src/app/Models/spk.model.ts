@@ -84,4 +84,19 @@ export interface OrderStatusModel {
   itemId: number
 }
 
-
+export interface DisputeModel {
+  disputeId: number
+  orderId: number
+  productId: number
+  creatorType: any
+  comment: any
+  bVote: number
+  sVote: number
+  isDisputeCleared: boolean
+  Order: {
+    Buyer: string
+    timeStamp: number
+  }
+  Product: ProductModel
+  Status: OrderStatusModel
+}
