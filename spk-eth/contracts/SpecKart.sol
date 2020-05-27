@@ -186,7 +186,6 @@ contract SpecKart is SpecRead {
         SPEC.P_ID = 100;
         SPEC.O_ID = 10000;
         SPEC.MIN_TIME = 3 minutes;
-        SPEC.MAX_TIME = 6 minutes;
         TOKEN = _token;
         DISP = _dispute;
     }
@@ -259,8 +258,7 @@ contract SpecKart is SpecRead {
     function createOrder(
         string calldata _orderDetails,
         uint32[] calldata _prodIds,
-        uint32[] calldata _prodCounts,
-        uint256 _totalPrice
+        uint32[] calldata _prodCounts
     ) external onlyBuyer {
         for (uint32 i = 0; i < _prodIds.length; i++) {
             require(
@@ -321,21 +319,13 @@ contract SpecKart is SpecRead {
     function rejectOrder(uint32 _o_Id, uint32 _p_Id) external onlySeller {
         require(SPEC.Product[_p_Id].seller == msg.sender, "Only Seller");
         require(
-            SPEC.MarketOrder[_o_Id].isOrdered[_p_Id] == true &&
+                SPEC.MarketOrder[_o_Id].isOrdered[_p_Id] == true &&
                 SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isRejected[_p_Id] == false &&
                 SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
-                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false,
-            "Conditions not satisfied"
+                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false
         );
-        SPEC.MarketOrder[_o_Id].isRejected[_p_Id] = true;
-        ISpecToken(TOKEN).collectTokens(
-            (SPEC.Product[_p_Id].itemPrice).add(
-                SPEC.Product[_p_Id].disputePrice
-            ),
-            SPEC.MarketOrder[_o_Id].BuyerAddr
-        );
-        SPEC.Product[_p_Id].availableCount += SPEC.prodTotal[_o_Id][_p_Id];
+        cancel(_o_Id,_p_Id);
         emit order(msg.sender, _o_Id);
     }
 
@@ -375,17 +365,26 @@ contract SpecKart is SpecRead {
 
     function cancelOrder(uint32 _o_Id, uint32 _p_Id) external onlyBuyer {
         require(
-            SPEC.MarketOrder[_o_Id].BuyerAddr == msg.sender,
-            "Invalid User"
+                SPEC.MarketOrder[_o_Id].isOrdered[_p_Id] == true &&
+                SPEC.MarketOrder[_o_Id].BuyerAddr == msg.sender &&
+                SPEC.MarketOrder[_o_Id].isConfirmed[_p_Id] == false &&
+                SPEC.MarketOrder[_o_Id].isRejected[_p_Id] == false &&
+                SPEC.MarketOrder[_o_Id].isDispute[_p_Id] == false &&
+                SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] == false
         );
+        cancel(_o_Id,_p_Id);
+        emit order(msg.sender, _o_Id);
+    }
+    
+    function cancel(uint32 _o_Id, uint32 _p_Id) private {
         SPEC.MarketOrder[_o_Id].isCancelled[_p_Id] = true;
         ISpecToken(TOKEN).collectTokens(
             SPEC.Product[_p_Id].itemPrice.add(SPEC.Product[_p_Id].disputePrice),
             msg.sender
         );
         SPEC.Product[_p_Id].availableCount += SPEC.prodTotal[_o_Id][_p_Id];
-        emit order(msg.sender, _o_Id);
     }
+
 
     function DisputeCreation(
         uint32 _o_Id,
