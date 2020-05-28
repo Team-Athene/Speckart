@@ -67,6 +67,7 @@ export class AdminComponent implements OnInit {
 
   load = async () => {
     try {
+      this.status = 1
       this.doneDispute = []
       this.onDispute = []
       const D_ID: number = await this.dispute.getDID().call({ from: this.account })

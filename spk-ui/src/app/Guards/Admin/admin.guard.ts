@@ -25,7 +25,7 @@ export class AdminGuard implements CanActivate {
       from: this.web3var.account
     } )
     console.log( 'TCL: AdminGuard -> constructor -> userType', userType )
-    if ( userType === '2' ) {
+    if ( userType === '3' ) {
       localStorage.clear()
       return true
     } else {
