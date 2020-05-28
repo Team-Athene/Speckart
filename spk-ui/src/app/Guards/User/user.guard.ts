@@ -21,7 +21,7 @@ export class UserGuard implements CanActivate, CanActivateChild, CanLoad {
       await this.web3Service.web3login()
     }
     this.web3var = await this.web3Service.Web3Details$.value
-    const userType = await this.web3var.spk.checkUser().call( {
+    const userType: any = await this.web3var.spk.checkUser().call( {
       from: this.web3var.account
     } )
     console.log( 'TCL: UserGuard -> constructor -> userType', userType )
