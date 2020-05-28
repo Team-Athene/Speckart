@@ -5,6 +5,9 @@
 1. Dennis Sam
 2. Mekha Krishnan M
 
+## Video URL
+<url> : https://www.youtube.com/watch?v=HDqy9wLmFEU
+
 ## Inspiration
 The uses of Redis in an e-commerce application made us look more into the topic and we came up with an efficient solution to get the popular and recently searched items and the cart without even involving a call to the blockchain.
 
