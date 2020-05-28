@@ -40,7 +40,8 @@ export class ChatRoomComponent implements OnInit {
   chatLoad = async () => {
     console.log( 'Log: ChatRoomComponent -> chatLoad -> this.name', this.name )
     if ( this.who === 'admin' ) {
-      const newUser = await this.chat.NewUser( { user: 'admin', room: this.room } )
+      this.name = 'admin'
+      const newUser = await this.chat.NewUser( { user: this.name, room: this.room } )
     } else
       if ( this.name === null ) {
         const newUser = await this.chat.NewUser( { user: 'Guest', room: this.room } )
