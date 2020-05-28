@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { CanActivate, CanActivateChild, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router'
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router'
 import { Observable } from 'rxjs'
 import { Web3Model } from 'src/app/Models/web3.model'
 import { Web3Service } from 'src/app/Services/Web3/web3.service'
@@ -7,7 +7,7 @@ import { Web3Service } from 'src/app/Services/Web3/web3.service'
 @Injectable( {
   providedIn: 'root'
 } )
-export class UserGuard implements CanActivate, CanActivateChild, CanLoad {
+export class SellerGuard implements CanActivate {
   private web3var: Web3Model
   constructor ( private web3Service: Web3Service, private route: Router ) { }
   async canActivate( next: ActivatedRouteSnapshot ): Promise<boolean> {
@@ -24,24 +24,14 @@ export class UserGuard implements CanActivate, CanActivateChild, CanLoad {
     const userType = await this.web3var.spk.checkUser().call( {
       from: this.web3var.account
     } )
-    console.log( 'TCL: UserGuard -> constructor -> userType', userType )
-    if ( userType === '1' ) {
+    console.log( 'TCL: SellerGuard -> constructor -> userType', userType )
+    if ( userType === '2' ) {
       localStorage.clear()
       return true
     } else {
       localStorage.clear()
-      alert( 'Sorry !!! You are Not a User' )
+      alert( 'Sorry !!! You are Not a Selller' )
       this.route.navigateByUrl( '/' )
     }
-  }
-  canActivateChild(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true
-  }
-  canLoad(
-    route: Route,
-    segments: UrlSegment[] ): Observable<boolean> | Promise<boolean> | boolean {
-    return true
   }
 }

@@ -1,3 +1,6 @@
+import { AdminGuard } from './Guards/Admin/admin.guard'
+import { SellerGuard } from './Guards/Seller/seller.guard'
+import { UserGuard } from './Guards/User/user.guard'
 import { MarketRouterComponent } from './Components/token-market/market-router/market-router.component'
 import { ViewProductComponent } from './Components/seller/view-product/view-product.component'
 import { AddProductComponent } from './Components/seller/add-product/add-product.component'
@@ -23,6 +26,7 @@ import { SellerRouterComponent } from './Components/seller/seller-router/seller-
 import { AdminComponent } from './Components/admin/admin.component'
 import { AdminRouterComponent } from './Components/admin/admin-router/admin-router.component'
 import { TokenMarketSellerComponent } from './Components/seller/token-market-seller/token-market-seller.component'
+import { RegisterGuard } from './Guards/Register/register.guard'
 
 
 const routes: Routes = [
@@ -32,66 +36,80 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    canActivate: [ LoginGuard ],
+    canActivate: [ RegisterGuard ],
     component: RegisterComponent
   },
   {
     path: 'market',
     component: UserRouterComponent,
+    canActivate: [ LoginGuard ],
     children: [
       {
         path: '',
-        component: UserComponent
+        component: UserComponent,
+        canActivate: [ UserGuard ],
       },
       {
         path: 'summary',
-        component: AccountSummeryComponent
+        component: AccountSummeryComponent,
+        canActivate: [ UserGuard ],
       },
       {
         path: 'cart',
-        component: ViewCartComponent
+        component: ViewCartComponent,
+        canActivate: [ UserGuard ],
       },
       {
         path: 'shop',
-        component: ShopComponent
+        component: ShopComponent,
+        canActivate: [ UserGuard ],
       },
       {
         path: 'exchange',
-        component: TokenMarketComponent_User
+        component: TokenMarketComponent_User,
+        canActivate: [ UserGuard ],
       },
       {
         path: 'userDetails',
-        component: UserDetailsComponent
+        component: UserDetailsComponent,
+        canActivate: [ UserGuard ],
       }
     ]
   },
   {
     path: 'seller',
     component: SellerRouterComponent,
+    canActivate: [ LoginGuard ],
     children: [
       {
         path: '',
-        component: SellerComponent
+        component: SellerComponent,
+        canActivate: [ SellerGuard ],
       },
       {
         path: 'add-product',
-        component: AddProductComponent
+        component: AddProductComponent,
+        canActivate: [ SellerGuard ],
       },
       {
         path: 'userDetails',
-        component: SellerDetailsComponent
+        component: SellerDetailsComponent,
+        canActivate: [ SellerGuard ],
       },
       {
         path: 'view-products',
-        component: ViewProductComponent
+        component: ViewProductComponent,
+        canActivate: [ SellerGuard ],
       },
       {
         path: 'view-orders',
-        component: ViewOrdersComponent
+        component: ViewOrdersComponent,
+        canActivate: [ SellerGuard ],
       },
       {
         path: 'exchange',
-        component: TokenMarketSellerComponent
+        component: TokenMarketSellerComponent,
+        canActivate: [ SellerGuard ],
       },
 
     ]
@@ -99,14 +117,17 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminRouterComponent,
+    canActivate: [ LoginGuard ],
     children: [
       {
         path: '',
-        component: AdminComponent
+        component: AdminComponent,
+        canActivate: [ AdminGuard ],
       },
       {
         path: 'exchange',
-        component: TokenMarketAdminComponent
+        component: TokenMarketAdminComponent,
+        canActivate: [ AdminGuard ],
       }
     ]
   },
@@ -123,7 +144,8 @@ const routes: Routes = [
   },
   {
     path: 'chatroom',
-    component: ChatRoomComponent
+    component: ChatRoomComponent,
+    canActivate: [ LoginGuard ],
   },
 ]
 
