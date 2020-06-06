@@ -1,7 +1,16 @@
 // redis-client.js
 const redis = require('redis')
 const { promisify } = require('util')
-const client = redis.createClient(process.env.REDIS_URL)
+const redisPort = process.env.REDIS_PORT || 6379,
+	redisHost = process.env.REDIS_HOST || 'localhost',
+	redisPassword = process.env.REDIS_PASSWORD,
+	client = redis.createClient({
+		port: redisPort,
+		host: redisHost,
+		password: redisPassword,
+	})
+
+// const client = redis.createClient(process.env.REDIS_URL)
 console.log('Log: process.env.REDIS_URL', process.env.REDIS_URL)
 // const redisearch = require('redis-redisearch')
 // redisearch(redis)
