@@ -1,6 +1,6 @@
 const client = require('../lib/redis')
 
-let fetchMessages = (room) => {
+const fetchMessages = (room) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
@@ -19,7 +19,7 @@ let fetchMessages = (room) => {
 		)
 	})
 }
-let addMessage = (room, message) => {
+const addMessage = (room, message) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
@@ -43,7 +43,7 @@ let addMessage = (room, message) => {
 	})
 }
 
-let fetchActiveUsers = (room) => {
+const fetchActiveUsers = (room) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
@@ -63,7 +63,7 @@ let fetchActiveUsers = (room) => {
 	})
 }
 
-let addActiveUser = (room, user) => {
+const addActiveUser = (room, user) => {
 	return new Promise((resolve, reject) => {
 		client().then(
 			(res) => {
@@ -91,7 +91,7 @@ let addActiveUser = (room, user) => {
 	})
 }
 
-let removeActiveUser = (room, user) => {
+const removeActiveUser = (room, user) => {
 	return new Promise(async (resolve, reject) => {
 		client().then(
 			(res) => {
