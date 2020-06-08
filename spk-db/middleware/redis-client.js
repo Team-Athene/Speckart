@@ -9,12 +9,6 @@ const redisPort = process.env.REDIS_PORT || 6379,
 		host: redisHost,
 		password: redisPassword,
 	})
-
-// const client = redis.createClient(process.env.REDIS_URL)
-console.log('Log: process.env.REDIS_URL', process.env.REDIS_URL)
-// const redisearch = require('redis-redisearch')
-// redisearch(redis)
-
 client.on('connect', function () {
 	console.log('Redis Server Connected')
 })

@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
-const mongoUrl = 'mongodb://mongo:27017/spec-db'
-// const mongoUrl =
-// 	'mongodb+srv://mekhakm:asdf@mongocluster-4j0ep.mongodb.net/test?retryWrites=true&w=majority'
+const mongoUrl = process.env.MONGO_URL
 mongoose
 	.connect(mongoUrl, {
 		useNewUrlParser: true,

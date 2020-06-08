@@ -57,10 +57,8 @@ client().then(
 			console.log(socket.id)
 			res.on('message', (channel, message) => {
 				if (channel === 'chatMessages') {
-					console.log('Socket: message', message)
 					socket.emit('message', JSON.parse(message))
 				} else {
-					console.log('Socket: users', message)
 					socket.emit('users', JSON.parse(message))
 				}
 			})

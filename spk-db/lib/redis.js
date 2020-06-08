@@ -1,8 +1,5 @@
 const redis = require('redis')
 const promise = require('bluebird')
-// import env from 'node-env-file'
-// env('./.env')
-
 const REDIS_URL = process.env.REDIS_URL
 
 promise.promisifyAll(redis.RedisClient.prototype)
@@ -15,8 +12,6 @@ const client = () => {
 			reject('Redis Connection failed')
 		})
 		connector.on('connect', () => {
-			// console.log(connector)
-
 			resolve(connector)
 		})
 	})

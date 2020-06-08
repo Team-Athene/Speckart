@@ -32,7 +32,6 @@ const router = () => {
 	chatRouter.get('/messages', (req, res) => {
 		const { room } = req.query
 		fetchMessage(room).then((messages) => {
-			console.log('Log: router -> messages', messages)
 			res.send(messages)
 		})
 	})
@@ -45,8 +44,6 @@ const router = () => {
 	chatRouter.post('/user', (req, res) => {
 		let users
 		let { user, room } = req.body
-		console.log('Log: router -> room', room)
-		console.log('Log: user', user)
 		fetchUsers(room).then((u) => {
 			users = u
 			if (users.indexOf(user) === -1) {
@@ -61,7 +58,6 @@ const router = () => {
 								}
 								client.publish('chatMessages', JSON.stringify(msg))
 								client.publish('activeUsers', JSON.stringify(fetchUsers(room)))
-
 								addMessage(room, JSON.stringify(msg)).then(
 									() => {
 										res.send({

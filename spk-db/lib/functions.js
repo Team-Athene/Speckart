@@ -6,7 +6,6 @@ let fetchMessages = (room) => {
 			(res) => {
 				res.lrangeAsync(`${room}_messages`, 0, -1).then(
 					(messages) => {
-						console.log(`${room}_messages`, messages)
 						resolve(messages)
 					},
 					(err) => {
@@ -30,7 +29,6 @@ let addMessage = (room, message) => {
 					.execAsync()
 					.then(
 						(res) => {
-							console.log('Log: addMessage -> res', res)
 							resolve(res)
 						},
 						(err) => {
@@ -51,7 +49,6 @@ let fetchActiveUsers = (room) => {
 			(res) => {
 				res.smembersAsync(`${room}_users`).then(
 					(users) => {
-						console.log(`${room}_users`, users)
 						resolve(users)
 					},
 					(err) => {
@@ -96,9 +93,6 @@ let addActiveUser = (room, user) => {
 
 let removeActiveUser = (room, user) => {
 	return new Promise(async (resolve, reject) => {
-		// const res = client()
-		// const resp = res.multi().srem('users', user)
-		// console.log('Log: removeActiveUser -> resp', resp)
 		client().then(
 			(res) => {
 				res
@@ -107,7 +101,6 @@ let removeActiveUser = (room, user) => {
 					.execAsync()
 					.then(
 						(res) => {
-							console.log('Log: removeActiveUser -> res', res)
 							if (res[0] === 1) {
 								resolve('User removed')
 							}
